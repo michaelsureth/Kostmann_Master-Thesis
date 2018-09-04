@@ -1,18 +1,27 @@
 
 \documentclass[a4paper,11pt]{article}
+% Maths resource packages
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+% Packages to allow inclusion of graphics
+\usepackage{graphicx}
+% For creating hyperlinks in cross references
+\usepackage{hyperref}
+% Literature reference style
+\usepackage[authoryear]{natbib}
+\usepackage[bf]{caption}
 
-\usepackage{amsmath,amssymb,amsfonts,amsthm}    % Typical maths resource packages
-\usepackage{graphicx}                           % Packages to allow inclusion of graphics
-\usepackage{hyperref}                           % For creating hyperlinks in cross references
-\usepackage[authoryear]{natbib}                 % literature reference style
-\usepackage[bf]{caption2}
 
 
+% -----------------------------
+% --- user-defined commands ---
+% -----------------------------
 
+% insert Quantnet logo
+\newcommand{\quantnet}{\raisebox{-1pt}{\includegraphics[scale=0.05]{thesis/figures/qletlogo.pdf}}\,}
 
-% -------------------------------
-% --- some layout definitions ---
-% -------------------------------
+% --------------------------
+% --- layout definitions ---
+% --------------------------
 
 % define topline
 \usepackage[automark]{scrpage2}
@@ -37,40 +46,41 @@
 % define line line spacing = 1.5
 \renewcommand{\baselinestretch}{1.5}
 
-% define second level for `itemizing'
+% define second level for 'itemizing'
 \renewcommand{\labelitemii}{-}
 
 
 
-
 % --------------------------------------
 % --------------------------------------
 % --------------------------------------
-% --- the structure the tex document ---
-% ---  (this our recommendation) -------
+% --- the structure this tex document ---
 % frontmatter:
-%   - titlepage (mandatory),
+%   - titlepage,
 %   - acknowledgement,
 %   - abstract,
-%   - table of contents (mandatory),
-%   - list of abbreviations (not mandatory),
-%   - list of figures (not mandatory),
-%   - list of tables  (not mandatory) .
+%   - table of contents,
+%   - list of abbreviations,
+%   - list of figures,
+%   - list of tables.
 %
-% body of the thesis (the structure of the thesis body is not mandatory, but the list of literature is mandatory):
+% body of the thesis:
 %   - introduction,
 %   - methods,
 %   - data,
 %   - results,
 %   - conclusion,
-%   - literature (mandatory),
+%   - literature,
 %   - appendix (figures, tables).
 %
 % last page:
-%   - declaration of authorship (mandatory).
+%   - declaration of authorship.
 % --------------------------------------
 % --------------------------------------
 % --------------------------------------
+
+
+
 
 \begin{document}
 
@@ -79,7 +89,7 @@
 % -------------------------------
 
 \thispagestyle{empty}
-\input{titlepage}
+\input{thesis/01_titlepage.tex}
 
 
 
@@ -90,7 +100,7 @@
 \pagestyle{plain}
 \pagenumbering{roman}   % define page number in roman style
 \setcounter{page}{1}    % start page numbering
-\input{acknowledgement}
+\input{thesis/02_acknowledgement.tex}
 
 
 
@@ -98,7 +108,7 @@
 % --- frontmatter: Abstract ---
 % -----------------------------
 \newpage
-\input{abstract}
+\input{thesis/03_abstract.tex}
 
 
 
@@ -110,19 +120,19 @@
 \clearpage
 
 
-% ----------------------------------------------------
-% --- frontmatter: List of Figures (not mandatory) ---
-% ----------------------------------------------------
+% ------------------------------------
+% --- frontmatter: List of Figures ---
+% ------------------------------------
 \newpage
 \addcontentsline{toc}{section}{List of Abbreviations}
 \ohead[]{LIST OF ABBREVIATIONS}
-\input{abbreviations}
+\input{thesis/04_abbreviations.tex}
 
 
 
-% ----------------------------------------------------
-% --- frontmatter: List of Figures (not mandatory) ---
-% ----------------------------------------------------
+% ------------------------------------
+% --- frontmatter: List of Figures ---
+% ------------------------------------
 \newpage
 \addcontentsline{toc}{section}{List of Figures}
 \ohead[]{\rightmark}
@@ -130,9 +140,9 @@
 
 
 
-% ---------------------------------------------------
-% --- frontmatter: List of Tables (not mandatory) ---
-% ---------------------------------------------------
+% -----------------------------------
+% --- frontmatter: List of Tables ---
+% -----------------------------------
 \newpage
 \addcontentsline{toc}{section}{List of Tables}
 \listoftables
@@ -148,13 +158,15 @@
 \pagenumbering{arabic}  % page numbers in arabic style
 
 
-\input{intro}
-\input{methods}
+\input{thesis/05_intro.tex}
+\input{thesis/06_methods.tex}
+
 \newpage
-\input{data}
+\input{thesis/07_data.tex}
+
 \newpage
-\input{results}
-\input{conc}
+\input{thesis/08_results.tex}
+\input{thesis/09_conclusion.tex}
 
 
 
@@ -166,15 +178,15 @@
 % literature
 \newpage
 \addcontentsline{toc}{section}{References}
-\bibliography{literature}
+\bibliography{thesis/99_literature.bib}
 
-% figures (not mandatory)
+% figures
 \newpage
-\input{app_figures}
+\input{thesis/10_app_figures.tex}
 
-% tables (not mandatory)
+% tables
 \newpage
-\input{app_tables}
+\input{thesis/11_app_tables.tex}
 
 
 
@@ -184,7 +196,7 @@
 
 \newpage
 \thispagestyle{empty}
-\input{authorship}
+\input{thesis/12_authorship.tex}
 
 
 \end{document}
