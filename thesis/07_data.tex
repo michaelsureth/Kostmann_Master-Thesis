@@ -17,7 +17,7 @@
 
 \subsection{Obtainment}\label{Sec:Data;Subsec:Obtainment}
 
-
+The data used for the present research was provided by Discovergy GmbH and can be downloaded from www.research.discovergy.com. The data comes in 200 individual csv-files containing the meter readings of 200 smart meters installed and maintained by Discovergy GmbH
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%   Data description   %%%
@@ -25,6 +25,10 @@
 
 \subsection{Description}\label{Sec:Data;Subsec:Description}
 
+The dataset used in the proposed research is provided by Discovergy GmbH (www.discovergy.com). It contains data from 200 Smart Meter of 100 randomly chosen German consumers and prosumers each. Each of the 200 Smart Meter measurements are evenly spaced in 3-minute intervals with a length of 175.201 observations ranging from 01.01.2017 00:00:00 to 01.01.2018 00:00:00.
+Below, a preprocessed and correctly formatted sample of the data for consumer 56 (c056) and prosumer 89 (p089) containing 6 Smart Meter readings is shown.
+
+For each consumer/prosumer, three time series containing different Smart Meter measure-ments are provided: energy (consumption), power, and energy out (production). The first column time contains the time stamp of the measurement, the columns c056_energy and p089_energy contain the Smart Meter reading of energy consumption of the respective con-sumer/prosumer at the time stamp in the unit 10 -10 kWh. The columns c056_power and p089_power contain the power consumed at the time stamp in the unit 10 -3 W. The col-umns c056_energyOut and p089_energyOut contain the Smart Meter reading of energy production at the time stamp in the unit 10 -10 kWh. As the c056 is a consumer and not a prosumer, all energyOut values are zero. Note however, that also some prosumers’ ener-gyOut values may for all measurement points be zero for various reasons (e.g., their energy production never exceeded their energy consumption, which is why they never fed in any energy into the grid). 
 
 
 %%%%%%%%%%%
