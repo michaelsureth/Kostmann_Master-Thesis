@@ -11,6 +11,7 @@
 \usepackage[bf]{caption}
 % Code display
 \usepackage[outputdir=build]{minted}
+\usepackage{xcolor}
 
 
 % -----------------------------
@@ -52,6 +53,14 @@
 
 % define second level for 'itemizing'
 \renewcommand{\labelitemii}{-}
+
+% Minted configuration
+\definecolor{friendlybg}{HTML}{f0f0f0}
+\setminted[r]{style=friendly, bgcolor=friendlybg,
+breaklines, linenos}
+
+\setminted[java]{style=friendly, bgcolor=friendlybg,
+breaklines, linenos}
 
 
 
