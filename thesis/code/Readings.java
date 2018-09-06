@@ -21,7 +21,7 @@ public class Readings {
 	public static void main(String[] args) throws Exception {
 		
 		
-		int lineNumber = 0;
+	    int lineNumber = 0;
 		BufferedReader in = null;
 		try {
 			in = new BufferedReader(new FileReader(METER_ID_FILE_PATH));
@@ -50,7 +50,8 @@ public class Readings {
 							+ "resolution=three_minutes"), 200).getBody();
 					
 					jsonObject 
-					= jsonObject.concat(response.substring(1, response.length() -1)) + ",";
+					= jsonObject.concat(response.substring(1, response.length() -1)) 
+					+ ",";
 					
 					counter ++;
 					if (VERBOSE)

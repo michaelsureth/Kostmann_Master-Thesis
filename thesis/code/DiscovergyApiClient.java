@@ -55,7 +55,7 @@ public class DiscovergyApiClient {
 		this.clientId = clientId;
 		Map<String, String> consumerTokenEntries = getConsumerToken();
 		authenticationService 
-		= new ServiceBuilder(consumerTokenEntries.get("key")).apiSecret(consumerTokenEntries.get("secret")).build(api);
+		= new ServiceBuilder(consumerTokenEntries.get("key")) .apiSecret(consumerTokenEntries.get("secret")).build(api);
 		OAuth1RequestToken requestToken 
 		= authenticationService.getRequestToken();
 		String authorizationURL 
@@ -69,7 +69,7 @@ public class DiscovergyApiClient {
 		Properties properties = new Properties();
 		try (Reader reader 
 				= new InputStreamReader(new FileInputStream(file), 
-						UTF_8.newDecoder().onMalformedInput(REPORT).onUnmappableCharacter(REPORT))) {
+						UTF_8.newDecoder().onMalformedInput(REPORT) .onUnmappableCharacter(REPORT))) {
 			properties.load(reader);
 		} catch (IOException e) {
 			throw new IOException("Failed to read credentials from file " + file, e);
