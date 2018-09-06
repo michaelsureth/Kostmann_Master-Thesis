@@ -30,7 +30,8 @@ public class Readings {
 			while ((meterID = in.readLine()) != null) {
 				lineNumber ++;
 				if (VERBOSE)
-					System.out.println("Meter progress: Meter no. "+lineNumber+" requested");
+					System.out.println("Meter progress: Meter no. "
+										+lineNumber+" requested");
 				
 				String jsonObject = "{\""+meterID+"\":[";
 				
@@ -38,19 +39,23 @@ public class Readings {
 				int timeFrom = 1483225200;	 // 1483225200 = 2017-01-01
 				int timeTo = 1514764800;	 // 1514764800 = 2018-01-01
 				while ((timeFrom < timeTo)) {
-					DiscovergyApiClient apiClient = new DiscovergyApiClient("exampleApiClient");
-					String response = apiClient.executeRequest(apiClient.createRequest(Verb.GET, "/readings"
+					DiscovergyApiClient apiClient 
+					= new DiscovergyApiClient("exampleApiClient");
+					String response 
+					= apiClient.executeRequest(apiClient.createRequest(Verb.GET, "/readings"
 							+ "?meterId="+meterID+"&"
 							+ "fields=energy,power,energyOut&"
 							+ "from="+secToMilliSec(timeFrom)+"&"
 							+ "to="+secToMilliSec(timeFrom + 10 * 60 * 60 * 24)+"&"
 							+ "resolution=three_minutes"), 200).getBody();
 					
-					jsonObject = jsonObject.concat(response.substring(1, response.length() -1)) + ",";
+					jsonObject 
+					= jsonObject.concat(response.substring(1, response.length() -1)) + ",";
 					
 					counter ++;
 					if (VERBOSE)
-						System.out.println("Time intervall progress: "+counter+" out of 37 intervalls received");
+						System.out.println("Time intervall progress: "
+										   +counter+" out of 37 intervalls received");
 					timeFrom = timeFrom + 10 * 60 * 60 * 24;
 				}
 				jsonObject = jsonObject.substring(0, jsonObject.length() -1) + "]}";
