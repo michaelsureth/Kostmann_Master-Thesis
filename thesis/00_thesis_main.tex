@@ -1,5 +1,7 @@
 
 \documentclass[a4paper,11pt]{article}
+% Document line spacing
+\usepackage{setspace}
 % Maths resource packages
 \usepackage{amsmath,amssymb,amsfonts,amsthm}
 % Packages to allow inclusion of graphics
@@ -34,7 +36,7 @@
 \clearscrheadings
 \ohead{\headmark}
 
-% define citation style
+% define bibliography style
 \bibliographystyle{ecta}
 
 % define page size, margin size
@@ -48,7 +50,7 @@
 \evensidemargin3cm
 
 % define line spacing = 1.5
-\renewcommand{\baselinestretch}{1.5}
+\spacing{1.5}
 
 % define distance between text and footnote line
 \addtolength{\skip\footins}{2pc plus 5pt}
