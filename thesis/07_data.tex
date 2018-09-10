@@ -57,6 +57,7 @@ Below, a preprocessed and correctly formatted sample of the data for consumer 56
     {tables/consumer-00000056_glimpse.csv}{}%
     {\csvcolii & \csvcoliii & \csvcoliv}%
     \caption[Data excerpt of consumer 056]{Data excerpt of consumer 056. \quantnet}
+    \label{Tab:c056}
 \end{table}
 
 \begin{table}[ht]
@@ -74,23 +75,29 @@ Below, a preprocessed and correctly formatted sample of the data for consumer 56
     {tables/producer-00000089_glimpse.csv}{}%
     {\csvcolii & \csvcoliii & \csvcoliv}%
     \caption[Data excerpt of prosumer 089]{Data excerpt of consumer 089. \quantnet}
+    \label{Tab:p089}
 \end{table}
 
-The energy and energy out measurements are recorded in the unit $10^{-10}$ kWh. \texttt{energy} records the meter's energy consumption reading at time $t$ (i.e., for example, up until 2017-09-20 12:18:00, consumer 056 consumed \csvreader[
+The energy and energy out measurements are recorded in the unit $10^{-10}$ kWh. \texttt{energy} records the meter's energy consumption reading at time $t$ (e.g., in \ref{Tab:c056}, since the meter installation and up until 2017-09-20 12:18:00, consumer 056 consumed \csvreader[
 filter equal = {\thecsvinputline}{2}]%
 {tables/consumer-00000056_glimpse.csv}{}%
-{\csvcoliii}$\times 10^{-10}$ kWh since the meter installation) and \texttt{energyOut} records the meter's energy production reading (i.e., for example, up until 2017-09-20 12:18:00, prosumer 089 feed into the grid \csvreader[
+{\csvcoliii}$\times 10^{-10}$ kWh) and \texttt{energyOut} records the meter's energy production reading (e.g., in Table \ref{Tab:p089}, since the meter installation and up until 2017-09-20 12:18:00, prosumer 089 feed into the grid \csvreader[
 filter equal = {\thecsvinputline}{2}]%
 {tables/producer-00000089_glimpse.csv}{}%
-{\csvcoliii}$\times 10^{-10}$kWh since the meter installation). As consumer 056 is not a prosumer and has no energy production capacity installed, all energy out measurements must be zero. Note however, that although the data excerpt of prosumer 089 shown here has positive energy out values, there may be prosumers with all zero energy out recordings if their production capacity never exceeds their own consumption. In this case the prosumer never actually feeds energy into the grid and the meter records a energy out reading of zero at all measurement points.
-For all further computations, the first order differences of the energy consumption and production readings were calculated. These first order differences are equivalent to the energy consumption/production within each 3-minute interval between two meter recordings. The result of this computation leaves each time series with 175,200 observations.\footnote{One regular year (no leap year) comprises 175,200 3-minute intervals: $365\text{d} * 24\text{h/d} * \frac{60\text{m/h}}{3\text{m}} = 175,200$}
+{\csvcoliii}$\times 10^{-10}$kWh). As consumer 056 is not a prosumer and has no energy production capacity installed, all energy out readings must be zero. Note, however, that although the data excerpt of prosumer 089 shown here has positive energy out values, there may be prosumers with all zero energy out readings if their production capacity never exceeds their own consumption. In this case the prosumer never actually feeds energy into the grid and the meter records an energy out reading of zero at all measurement points.
+
+For all further computations, the first-order differences of the energy consumption and production readings were calculated. These first-order differences are equivalent to the energy consumption/production within each 3-minute interval between two meter recordings. The result of this computation leaves each time series with 175,200 observations.\footnote{One regular year (no leap year) comprises 175,200 3-minute intervals: $365\text{d} * 24\text{h/d} * \frac{60\text{m/h}}{3\text{m}} = 175,200$.}
 
 
 
 %%%%%%%%%%%
 \subsubsection{Consumer data sets}
 
-Figure \ref{Fig:energycons_c082} exemplary shows the energy consumption time series of consumer 082. For easier readability, the consumption has been converted from $10^{-10}$ kWh to kWh. As can be seen in the first panel, the consumption per 3-minute interval fluctuates between 0 and 0.361 kWh with a mean of 0.039 kWh and a median of 0.024 kWh.\footnote{For comparison, an average German single household consumes 2300 kWh per year. This is equivalent to 0.013 kWh per 3-minute interval.} Notably, there are two extended (in March and June) and three shorter periods (in July, September, and December) of clearly distinguishable low consumption and low fluctuations levels. The most likely explanations for these low stable energy consumption periods are holidays in which the household members are on vacation. This also emphasizes, that household members' behaviour is the biggest driver in energy consumption fluctuations and uncertainty of the time series. Interestingly, the time series also shows an increase in mean consumption starting with October 2017. This could be explained by colder outside temperatures, however, within the first quarter of 2017 no equivalent decrease in the mean energy consumption can be seen. Therefore, the reason for this increase might be due to newly acquired household appliances which are increasingly used as the household members spend more time indoors with the approaching winter.
+Figure \ref{Fig:energycons_c082} exemplary shows the energy consumption time series of consumer 082, which will discussed here for better understanding of the data at hand. For easier readability, the unit of consumption has been converted from $10^{-10}$ kWh to kWh. In the first panel, the consumption per 3-minute interval for all of 2017 is shown. The consumption per 3-minute interval fluctuates between 0 and 0.361 kWh with a mean of 0.039 kWh and a median of 0.024 kWh.\footnote{For comparison, an average German single household consumes 2300 kWh per year. This is equivalent to 0.013 kWh per 3-minute interval. Hence, it is reasonable to assume that consumer 082 is a multi-person household.}
+
+Notably, there are two extended (in March and June) and three shorter periods (in July, September, and December) of clearly distinguishable low consumption and low fluctuation levels. The most likely explanations for these low, stable energy consumption periods are holidays, in which the household members are on vacation and leave appliances that are on standby or always turned on as the only energy consumers . This exemplifies the fact, that household members' behaviour is the biggest driver of fluctuations in energy consumption and almost only cause for uncertainty in the time series.
+
+Interestingly, the consumption time series of consumer 082 shows an increase in mean consumption starting with October 2017. This could be explained by colder outside temperatures. However, within the first quarter of 2017, no equivalent decrease in the mean energy consumption can be seen. Therefore, the reason for this increase might be given by newly acquired household appliances which are increasingly used with the approaching winter as the household members spend more time indoors.
 
 \begin{figure}[ht]
  \centering
@@ -99,9 +106,9 @@ Figure \ref{Fig:energycons_c082} exemplary shows the energy consumption time ser
 \label{Fig:energycons_c082}
 \end{figure}
 
-The second panel zooms to just one month making daily fluctuation patterns already visible. In May there seem to be no abnormal consumption patterns. there are a few peaks in the first and third week of May that stand out, but no longer periods of very low energy consumption. More interesting seems to be the last panel which zooms in to just one day of energy consumption, i.e. May 13, 2017. This day was chosen for no particular reason other than that it is more or less in the middle of the month shown in the second panel. May 13, however, nicely exemplifies a usual pattern of energy consumption: There is only low energy consumption from midnight until about 7.30 a.m. which also fluctuates in a systematic and repeated way. Most probably, this "base" consumption is caused by appliances in standby and "always on" appliances, such as a fridge and/or freezer. At around 7.30 a.m. the household members get up and the energy consumption spikes for the next 30 minutes -- the light is turned on, the coffee machine runs, maybe the stove is turned on, and maybe a flow heater is used to shower with hot water. As the household members leave the house (May 13 is a Monday), the consumption slowly decreases again. In the evening at about 6.30 p.m. energy consumption starts to spike again, probably due to dinner preparations (microwave, stove). Not intuitively explainable is the spike which is visible just before midnight. This spike again highlight the extreme uncertainty contained in individual household energy consumption. It is mostly caused by human behavior, which can seem quite erratic by just looking at energy consumption patterns without context.
+The second panel zooms to just one month making daily fluctuation patterns already visible. In May there seem to be no abnormal consumption patterns. There are a few peaks in the first and third week of May that stand out, but no longer periods of very low energy consumption. More interestingly seems to be the last panel, which zooms in to just one day of energy consumption, i.e. May 13, 2017. This day was chosen for no particular reason other than that it is more or less in the middle of the month shown in the second panel. May 13, however, nicely exemplifies a usual pattern of energy consumption: There is low and rather stable energy consumption from midnight until about 7.30 a.m. which only fluctuates in a systematic and repeated way. Most probably, this "base" consumption is caused by appliances in standby and "always on" appliances, such as a fridge and/or freezer. At around 7.30 a.m., the household members probably wake up and the energy consumption spikes for the next 30 minutes -- the light is turned on, coffee is made, the stove is turned on, and maybe a flow heater is used to shower with hot water. As the household members leave the house (May 13 is a Monday), the consumption slowly decreases again. In the evening at about 6.30 p.m. energy consumption spikes again, probably caused by dinner preparations (and the usage of a microwave or stove). Not intuitively explainable, however, is the spike which is visible just before midnight. This spike, again, highlights the extreme uncertainty contained in individual household energy consumption. It is mostly caused by human behavior, which can seem quite erratic by just looking at energy consumption patterns without context.
 
-To get a better impression of the representativity of consumer 082's  energy consumption, it is compared to the other data sets available for this study. Figure \ref{Fig:total_consumption} shows the total energy consumption of all consumers in kWh for 2017. As can be seen, consumer 082 (labelled c082 in Figure \ref{Fig:total_consumption}) is at the lower end of the top quartile of the total energy consumption distribution across all consumers. Consumer 067, on the contrary, seems remarkable as total consumption here very close to zero. At the high end of total consumption is consumers 025 with almost five times the total consumption than the average consumer in this data sets.
+To get a better impression of the representativity of consumer 082's  energy consumption, it is compared to the other data sets available for this study. Figure \ref{Fig:total_consumption} shows the total energy consumption of all consumers in kWh for 2017. As can be seen, consumer 082 (labelled c082 in Figure \ref{Fig:total_consumption}) is at the lower end of the top quartile of the total energy consumption distribution across all consumers. The household's total energy consumption in 2017 was 6752.763 kWh. According to XXX, this number is higher than the average yearly energy consumption of a five-person household. Consumer 067, on the contrary, is remarkable as total consumption here is with only 40 kWh quite close to zero. At the high end of total consumption is consumers 025 with almost five times the total consumption of the average consumer in this data sets. Summary statistics for the total energy consumption in 2017 can be found in Appendix \ref{App:Tables:totalcons}.
 
 \begin{figure}[ht]
  \centering
@@ -123,6 +130,47 @@ Figure \ref{Fig:boxplots_consumption} offers another view on the consumers' ener
 \subsubsection{Prosumer data sets}
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%   Data sets excluded   %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Peculiarities in the data}
+
+The data sets were analyzed for peculiarities the time series patterns that seemed to be systematically different than the majority of data sets. One such peculiarity is the occurrence of zero values. In any household that does not produce its own energy (pure consumer household), energy consumption of 0 kWh, even only for a very short period of time, seems to be very unlikely (apart from the rare case of a power outage in the area or when the main switch of the household is turned off). Thus, it is not surprising that 93 \% of the data sets do not contain any 0 kWh measurements per 3-minute interval at all. Of the remaining 6 data sets, one contains just a single measurement of 0 kWh, which seems plausible. The other data set with a negligible amount of zero values is consumer 082 which was discussed in detail in section \ref{Sec:Data;Subsec:Description}. In Figure \ref{Fig:energycons_c082}, it is visible that although the consumption pattern does not change substantially, the lowest values of the daily fluctuations are lower in the second half of 2017 than in the first half. However, this seems still a plausible consumption pattern for a typical household. The other five data sets, however, contain between 34 and 54 \% of zero values. Examining the consumption time series more closely also reveals, that these households exhibit a systematically different consumption pattern that one would expect from a typical household.
+
+\begin{sidewaysfigure}[htbp]
+    \centering
+    \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
+    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/c013_cons.pdf}
+    \end{minipage}
+    \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
+    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/c035_cons.pdf}
+    \end{minipage}\\
+    
+    \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
+    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/c067_cons.pdf}
+    \end{minipage}
+    \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
+    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/c076_cons.pdf}
+    \end{minipage}
+    \caption[Energy consumption recordings for consumer with conspicuous consumption patterns]{Energy consumption recordings for consumer with conspicuous consumption patterns.}
+    \label{fig:energycons_peculiar}
+\end{sidewaysfigure}
+
+Figure \ref{fig:energycons_peculiar} shows the time series of the aforementioned four consumers with a high share of zero measurements. Consumer 013 and 035 both show a very similar pattern of daily energy consumption. Looking at the middle panel of the two upper graphs in Figure \ref{fig:energycons_peculiar}, the regularity of the consumption increases and decreases for each day is striking. The lower panel shows again, exemplary May 13. Energy consumption starts to almost linearly increasing at about 6 a.m. and decreases to 0 kWh at about 6 p.m. This also explains the 52.77 and 54.02 \% of zero values in those to data sets: almost exactly 12 hours per day (from midnight to 6 a.m. and from 6 p.m. to midnight) the consumption is zero, while it is positive in between. and  In the meantime the the energy consumption fluctuates but with a relatively high "base" consumption. Switching back to the middle panel, it is noticeable that there are some days in May with an even smoother energy consumption increase and decrease over the course of the day. As there is no further socio-demographic data available, we can only guess what the reason for such different consumption patterns are. The most likely explanation seems to be, that the consumption time series of consumer 013 and 035 belongs to a small business rather than to an household.
+
+The lower two graphs show the energy consumption time series of consumer 067 and consumer 075. Consumer 067 consumption pattern zoomed in to one month (middle panel) rather looks like an electrocardiogram (ECG) than what one would expect from a household energy consumption time series. The regularity of amplitude and frequency is obvious but not easily explained. Consumers 076 consumption pattern looks less suspicious at first sight. However, closer inspection reveals the same daily pattern of increasing consumption throughout the day and very low to zero energy consumption at night. This again rather resembles the energy consumption pattern of a business building or office rooms.
+
+
+
+%%%%%%%%%%%
+\subsubsection{Consumer data sets}
+
+
+
+%%%%%%%%%%%
+\subsubsection{Prosumer data sets}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
