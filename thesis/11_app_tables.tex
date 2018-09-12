@@ -8,7 +8,7 @@
 
 \begin{table}[ht]
     \csvreader[centered tabular=l|rrrrrr,
-    before reading=\sisetup{round-mode=places,round-precision=2,round-integer-to-decimal},
+    filter not strcmp ={\thecsvinputline}{1},
     table head=
     \hline\hline
      & \textbf{Min} & \textbf{Q1} & \textbf{Median} & \textbf{Mean} & \textbf{Q3} & \textbf{Max}\\
