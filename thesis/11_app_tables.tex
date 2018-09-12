@@ -6,18 +6,18 @@
 %\begingroup\catcode`"=9
 
 \begin{table}[ht]
-    \csvreader[centered tabular=cccccc,
+    \csvreader[centered tabular=c|cccccc,
     table head=
     \hline\hline
-     \textbf{Min} & \textbf{Q1} & \textbf{Median} & \textbf{Mean} & \textbf{Q3} & \textbf{Max}\\
+     & \textbf{Min} & \textbf{Q1} & \textbf{Median} & \textbf{Mean} & \textbf{Q3} & \textbf{Max}\\
     \hline,
     head to column names,
     separator=comma,
     respect all,
     late after line=\\,
     table foot= \\\hline \hline]
-    {thesis/tables/summarystats_total.csv}{}%
-    {\csvcoli}%
+    {thesis/tables/summarystats_total_new.csv}{}%
+    {hallo & \csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii}%
     \caption[Summary statistics for consumers' total consumption in 2017]{Summary statistics for consumers' total consumption in 2017. \quantnet}
     \label{App:Tab:cons_totalcons}
 \end{table}
