@@ -12,47 +12,13 @@
      \textbf{Min} & \textbf{Q1} & \textbf{Median} & \textbf{Mean} & \textbf{Q3} & \textbf{Max}\\
     \hline,
     head to column names,
-    separator = comma,
+    separator=comma,
     respect all,
-    late after line = ,
-    table foot = \\\hline\hline]
+    late after line=\\,
+    table foot= \\\hline \hline]%
     {thesis/tables/summarystats_total.csv}{}%
-    {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii}%
+    {\csvcoli & \csvcolii & \csvcoliii}%
     \caption[Summary statistics for consumers' total consumption in 2017]{Summary statistics for consumers' total consumption in 2017. \quantnet}
-    \label{App:Tab:cons_totalcons}
-\end{table}
-
-\begin{table}[ht]
-    \csvreader[centered tabular=cccccc,
-    table head=
-    \hline\hline
-     \textbf{Min} & \textbf{Q1} & \textbf{Median} & \textbf{Mean} & \textbf{Q3} & \textbf{Max}\\
-    \hline,
-    head to column names,
-    separator = comma,
-    respect all,
-    late after line = ,
-    table foot = \\\hline\hline]
-    {thesis/tables/summarystats_prod_totalcons.csv}{}%
-    {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii}%
-    \caption[Summary statistics for prosumers' total consumption in 2017]{Summary statistics for prosumers' total consumption in 2017. \quantnet}
-    \label{App:Tab:cons_totalcons}
-\end{table}
-
-\begin{table}[ht]
-    \csvreader[centered tabular=cccccc,
-    table head=
-    \hline\hline
-     \textbf{Min} & \textbf{Q1} & \textbf{Median} & \textbf{Mean} & \textbf{Q3} & \textbf{Max}\\
-    \hline,
-    head to column names,
-    separator = comma,
-    respect all,
-    late after line = ,
-    table foot = \\\hline\hline]
-    {thesis/tables/summarystats_prod_totalprod.csv}{}%
-    {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii}%
-    \caption[Summary statistics for prosumers' total consumption in 2017]{Summary statistics for prosumers' total production in 2017. \quantnet}
     \label{App:Tab:cons_totalcons}
 \end{table}
 
