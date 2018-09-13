@@ -117,13 +117,13 @@ To get a better impression of the representativity of consumer 082's  energy con
 \label{Fig:cons_total_consumption}
 \end{figure}
 
-Figure \ref{Fig:boxplots_consumption} offers another view on the consumers' energy consumption. The figure shows a boxplot for each consumer's distribution of energy consumption per 3- minute interval. That means, the median line in the boxplot of a consumer is the consumers median consumption per 3-minute interval, while the box encloses the interquartile range (IQR) of the 3-minute consumption values of this particular consumer. It is apparent, that the IQR is for almost all consumers relatively small compared to the total range of their consumption values. All points plotted above the boxplots' whiskers are consumption values greater than the third quartile plus 1.5 $\times$ IQR. This again shows that there is a substantial amount of extreme values -- for which the description "outlier" not necessarily fits as they obviously occur quite often -- which are hard to predict with standard forecasting methods.
+Figure \ref{Fig:cons_boxplots_consumption} offers another view on the consumers' energy consumption. The figure shows a boxplot for each consumer's distribution of energy consumption per 3- minute interval. That means, the median line in the boxplot of a consumer is the consumers median consumption per 3-minute interval, while the box encloses the interquartile range (IQR) of the 3-minute consumption values of this particular consumer. It is apparent, that the IQR is for almost all consumers relatively small compared to the total range of their consumption values. All points plotted above the boxplots' whiskers are consumption values greater than the third quartile plus 1.5 $\times$ IQR. This again shows that there is a substantial amount of extreme values -- for which the description "outlier" not necessarily fits as they obviously occur quite often -- which are hard to predict with standard forecasting methods.
 
 \begin{figure}[ht]
  \centering
 \includegraphics[width=\textwidth]{thesis/graphs/consumer_boxplots_consumption.jpg}
-\caption[xxx]{xxx. \quantnet}
-\label{Fig:boxplots_consumption}
+\caption[Boxplots of each consumer's energy consumption in kWh per 3-minute interval]{Boxplots of each consumer's energy consumption in kWh per 3-minute interval. \quantnet}
+\label{Fig:cons_boxplots_consumption}
 \end{figure}
 
 %%%%%%%%%%%
@@ -164,7 +164,14 @@ Furthermore, the total consumption of prosumers follows a very different distrib
 \label{Fig:pros_total_consumption}
 \end{figure}
 
+Finally, 
 
+\begin{figure}[ht]
+ \centering
+\includegraphics[width=\textwidth]{thesis/graphs/prosumer_boxplots_consumption.pdf}
+\caption[Boxplots of each prosumer's net energy consumption in kWh per 3-minute interval]{Boxplots of each prosumer's net energy consumption in kWh per 3-minute interval. \quantnet}
+\label{Fig:pros_boxplots_consumption}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%   Data sets excluded   %%%
