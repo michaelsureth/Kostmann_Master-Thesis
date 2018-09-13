@@ -131,38 +131,36 @@ Figure \ref{Fig:boxplots_consumption} offers another view on the consumers' ener
 
 The prosumer data sets show partially very different consumption patterns than pure consumers. This due to the fact, that the recorded energy consumption per 3-minute interval is the net value of the actual energy consumption and the energy production in the same interval. For example, if prosumer 024's recorded consumption value is 0.021 kWh in the time period from 2017-05-13 06:03:00 to 06:06:00, and its energy production in the same interval is 0.018 kWh (which is not recorded and therefore not known), its actual energy consumption in that time interval is 0.039 kWh. However, this actual energy consumption is unknown as the energy production per 3-minute interval is not recorded. Only a surplus of energy production over consumption would be recorded as an increase in the energy out readings (see Table \ref{Tab:p089}) -- which is not the case in this example.
 
-Visual inspection of the consumption time series of the prosumer data sets already made obvious, that the consumption data in most cases did not resemble the consumer households' consumption patterns at all. Generalized, four types of consumption patterns can be found in the data: 
+Visual inspection of the consumption time series of the prosumer data sets already reveals, that the consumption data in most cases do not resemble the consumer households' consumption patterns. Generalized, four types of consumption patterns can be found in the data: (1) The net energy consumption of the prosumer is zero at night, starts to increase at around 6 a.m., fluctuates over daytime, and decreases to zero again at around 6 p.m. (see exemplary prosumer 004 in Figure \ref{Fig:prosenergycons_peculiar}). (2) The net energy consumption is mostly non-zero and fluctuates in a very regular pattern with occasional, non-regular net consumption spikes (see exemplary consumer 053 in Figure \ref{Fig:prosenergycons_peculiar}). (3) The net consumption is for most of the year zero (see exemplary prosumer 061 in Figure \ref{Fig:prosenergycons_peculiar}). This may be due to a surplus in net energy production. (4) The net energy consumption is mostly non-zero and fluctuates very little at a relatively high level (see exemplary prosumer 093 in Figure \ref{Fig:prosenergycons_peculiar}). The net energy consumption drops only occasional from this high level. The biggest group of 
 
 \begin{sidewaysfigure}[htbp]
     \centering
     \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
-    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/c013_cons.pdf}
+    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/p004_cons.pdf}
     \end{minipage}
-    
     \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
-    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/c035_cons.pdf}
+    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/p053_cons.pdf}
     \end{minipage}\\
     
     \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
-    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/c067_cons.pdf}
+    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/p061_cons.pdf}
     \end{minipage}
-    
     \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
-    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/c076_cons.pdf}
+    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/p093_cons.pdf}
     \end{minipage}
     
-    \caption[Energy consumption recordings for consumer with conspicuous consumption patterns]{Energy consumption recordings for consumer with conspicuous consumption patterns.}
-    \label{fig:energycons_peculiar}
+    \caption[Different types of prosumer energy consumption patterns]{Different types of prosumer energy consumption patterns. \quantnet}
+    \label{Fig:prosenergycons_peculiar}
 \end{sidewaysfigure}
 
 Moreover, the total consumption of prosumers follows a very different distribution than the total consumption of consumers. 
 
-\begin{figure}[ht]
+%\begin{figure}[ht]
  \centering
-\includegraphics[width=\textwidth]{thesis/graphs/timeseries/p0xx_cons.pdf}
-\caption[Energy consumption recordings for prosumer 0xx]{Energy consumption recordings for prosumer 0xx. The first panel shows the full year 2017, the second panel zooms in to one month (May), and the third panel zooms in to one day (May, 13). \quantnet}
-\label{Fig:energycons_p0xx}
-\end{figure}
+%\includegraphics[width=\textwidth]{thesis/graphs/timeseries/p0xx_cons.pdf}
+%\caption[Energy consumption recordings for prosumer 0xx]{Energy consumption recordings for prosumer 0xx. The first panel shows the full year 2017, the second panel zooms in to one month (May), and the third panel zooms in to one day (May, 13). \quantnet}
+%\label{Fig:energycons_p0xx}
+%\end{figure}
 
 
 
@@ -177,26 +175,24 @@ The data sets were analyzed for peculiarities the time series patterns that seem
 \begin{sidewaysfigure}[htbp]
     \centering
     \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
-    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/p004_cons.pdf}
+    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/c013_cons.pdf}
     \end{minipage}
-    
     \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
-    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/p053_cons.pdf}
+    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/c035_cons.pdf}
     \end{minipage}\\
     
     \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
-    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/p061_cons.pdf}
+    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/c067_cons.pdf}
     \end{minipage}
-    
     \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
-    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/p093_cons.pdf}
+    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/c076_cons.pdf}
     \end{minipage}
     
     \caption[Energy consumption recordings for consumer with conspicuous consumption patterns]{Energy consumption recordings for consumer with conspicuous consumption patterns.}
-    \label{fig:energycons_peculiar}
+    \label{fig:consenergycons_peculiar}
 \end{sidewaysfigure}
 
-Figure \ref{fig:energycons_peculiar} shows the time series of the aforementioned four consumers with a high share of zero measurements. Consumer 013 and 035 both show a very similar pattern of daily energy consumption. Looking at the middle panel of the two upper graphs in Figure \ref{fig:energycons_peculiar}, the regularity of the consumption increases and decreases for each day is striking. The lower panel shows again, exemplary May 13. Energy consumption starts to almost linearly increasing at about 6 a.m. and decreases to 0 kWh at about 6 p.m. This also explains the 52.77 and 54.02 \% of zero values in those to data sets: almost exactly 12 hours per day (from midnight to 6 a.m. and from 6 p.m. to midnight) the consumption is zero, while it is positive in between. and  In the meantime the the energy consumption fluctuates but with a relatively high "base" consumption. Switching back to the middle panel, it is noticeable that there are some days in May with an even smoother energy consumption increase and decrease over the course of the day. As there is no further socio-demographic data available, we can only guess what the reason for such different consumption patterns are. The most likely explanation seems to be, that the consumption time series of consumer 013 and 035 belongs to a small business rather than to a household.
+Figure \ref{fig:consenergycons_peculiar} shows the time series of the aforementioned four consumers with a high share of zero measurements. Consumer 013 and 035 both show a very similar pattern of daily energy consumption. Looking at the middle panel of the two upper graphs in Figure \ref{fig:energycons_peculiar}, the regularity of the consumption increases and decreases for each day is striking. The lower panel shows again, exemplary May 13. Energy consumption starts to almost linearly increasing at about 6 a.m. and decreases to 0 kWh at about 6 p.m. This also explains the 52.77 and 54.02 \% of zero values in those to data sets: almost exactly 12 hours per day (from midnight to 6 a.m. and from 6 p.m. to midnight) the consumption is zero, while it is positive in between. and  In the meantime the the energy consumption fluctuates but with a relatively high "base" consumption. Switching back to the middle panel, it is noticeable that there are some days in May with an even smoother energy consumption increase and decrease over the course of the day. As there is no further socio-demographic data available, we can only guess what the reason for such different consumption patterns are. The most likely explanation seems to be, that the consumption time series of consumer 013 and 035 belongs to a small business rather than to a household.
 
 The lower two graphs show the energy consumption time series of consumer 067 and consumer 075. Consumer 067 consumption pattern zoomed in to one month (middle panel) rather looks like an electrocardiogram (ECG) than what one would expect from a household energy consumption time series. The regularity of amplitude and frequency is obvious but not easily explained. Consumers 076 consumption pattern looks less suspicious at first sight. However, closer inspection reveals the same daily pattern of increasing consumption throughout the day and very low to zero energy consumption at night. This again rather resembles the energy consumption pattern of a business building or office rooms.
 
