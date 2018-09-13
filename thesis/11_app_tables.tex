@@ -1,29 +1,26 @@
 
 \section{Tables}\label{App:Tables}
 
-\subsection{B1: Summary statistics of total energy consumption and production in 2017} \label{App:Tables:totalcons}
-
-%\begingroup\catcode`"=9
+\subsection{Summary statistics of total energy consumption and production} \label{App:Tables:totalcons}
 
 \begin{table}[ht]
-    \csvreader[centered tabular=l|rrrrrr,
+{\footnotesize
+    \csvreader[centered tabular=l|......,
     filter not strcmp ={\thecsvinputline}{1},
     table head=
     \hline\hline
-     & \textbf{Min} & \textbf{Q1} & \textbf{Median} & \textbf{Mean} & \textbf{Q3} & \textbf{Max}\\
+     & \multicolumn{1} {|c}{\textbf{Min}} & \multicolumn{1} {c}{\textbf{Q1}} & \multicolumn{1} {c}{\textbf{Median}} & \multicolumn{1} {c}{\textbf{Mean}} & \multicolumn{1} {c}{\textbf{Q3}} & \multicolumn{1} {c}{\textbf{Max}}\\
     \hline,
     no head,
     separator=comma,
     respect all,
     late after line=\\,
-    table foot= \\\hline \hline]
+    table foot= \hline \hline]
     {thesis/tables/summarystats_total.csv}{}%
-    {\csvcoli & \csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii}%
-    \caption[Summary statistics for consumers' total consumption in 2017]{Summary statistics for consumers' total consumption in 2017. \quantnet}
+    {\csvcoli & \csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii}}%
+    \caption[Summary statistics of households' total consumption and production in 2017]{Summary statistics of households' total consumption and production in 2017. \quantnet}
     \label{App:Tab:cons_totalcons}
 \end{table}
-
-%\endgroup\catcode`"=9
 
 
 
