@@ -86,7 +86,7 @@ filter equal = {\thecsvinputline}{2}]%
 {tables/producer-00000089_glimpse.csv}{}%
 {\csvcoliii}$\times 10^{-10}$kWh). As consumer 056 is not a prosumer and has no energy production capacity installed, all energy out readings must be zero. Note, however, that although the data excerpt of prosumer 089 shown here has positive energy out readings, there may be prosumers with all zero energy out readings if their production capacity never exceeds their own consumption. In this case, the prosumer never actually feeds energy into the grid and the meter records an energy out reading of zero at all measurement points.
 
-For further computations, the first-order differences of the energy consumption and production readings were calculated. These first-order differences are equivalent to the energy consumption/production within each 3-minute interval between two meter recordings. The result of this computation leaves each time series with 175,200 observations.\footnote{One regular year (no leap year) comprises 175,200 3-minute intervals: $365\text{d} * 24\text{h/d} * \frac{60\text{m/h}}{3\text{m}} = 175,200$.}
+For further computations, the first differences of the energy consumption and production readings were calculated. These first differences are equivalent to the energy consumption/production within each 3-minute interval between two meter recordings. The result of this computation leaves each time series with 175,200 observations.\footnote{One regular year (no leap year) comprises 175,200 3-minute intervals: $365\text{d} * 24\text{h/d} * \frac{60\text{m/h}}{3\text{m}} = 175,200$.}
 
 
 
@@ -117,7 +117,7 @@ To get a better impression of the representativity of consumer 082's  energy con
 \label{Fig:cons_total_consumption}
 \end{figure}
 
-Figure \ref{Fig:cons_boxplots_consumption} offers another view on the consumers' energy consumption. The figure shows a boxplot for each consumer's distribution of energy consumption per 3- minute interval. That means, the median line in the boxplot of a consumer is the consumers median consumption per 3-minute interval, while the box encloses the interquartile range (IQR) of the 3-minute consumption values of this particular consumer. It is apparent, that the IQR is for almost all consumers relatively small compared to the total range of their consumption values. All points plotted above the boxplots' whiskers are consumption values greater than the third quartile plus 1.5 $\times$ IQR. This again shows that there is a substantial amount of extreme values -- for which the description "outlier" not necessarily fits as they obviously occur quite often -- which are hard to predict with standard forecasting methods.
+Figure \ref{Fig:cons_boxplots_consumption} offers another view on the consumers' energy consumption. The figure shows a boxplot for each consumer's distribution of energy consumption per 3-minute interval. That means, the median line in the boxplot of a consumer is the consumers median consumption per 3-minute interval, while the box encloses the interquartile range (IQR) of the 3-minute consumption values of this particular consumer. It is apparent, that the IQR is for almost all consumers relatively small compared to the total range of their consumption values. All points plotted above the boxplots' whiskers are consumption values greater than the third quartile plus 1.5 $\times$ IQR. This again shows that there is a substantial amount of extreme values -- for which the description "outlier" not necessarily fits as they obviously occur quite often -- which are hard to predict with standard forecasting methods.
 
 \begin{figure}[ht]
  \centering
@@ -129,7 +129,7 @@ Figure \ref{Fig:cons_boxplots_consumption} offers another view on the consumers'
 %%%%%%%%%%%
 \subsubsection{Prosumer data sets}
 
-The prosumer data sets show partially very different consumption patterns than pure consumers. This due to the fact, that the recorded energy consumption per 3-minute interval is the net value of the actual energy consumption and the energy production in the same interval. For example, if prosumer 024's recorded consumption value is 0.021 kWh in the time period from 2017-05-13 06:03:00 to 06:06:00, and its energy production in the same interval is 0.018 kWh (which is not recorded and therefore not known), its actual energy consumption in that time interval is 0.039 kWh. However, this actual energy consumption is unknown as the energy production per 3-minute interval is not recorded. Only a surplus of energy production over consumption would be recorded as an increase in the energy out readings (see Table \ref{Tab:p089}) -- which is not the case in this example.
+As it turns out, the prosumer data sets show very different consumption patterns than pure consumers. This due to the fact, that the recorded energy consumption per 3-minute interval is the net value of the actual energy consumption and the energy production in the same interval. For example, if prosumer 024's recorded consumption value is 0.021 kWh in the time period from 2017-05-13 06:03:00 to 06:06:00, and its energy production in the same interval is 0.018 kWh (which is not recorded and therefore not known), its actual energy consumption in that time interval is 0.039 kWh. However, this actual energy consumption is unknown as the energy production per 3-minute interval is not recorded. Only a surplus of energy production over consumption would be recorded as an increase in the energy out readings (see Table \ref{Tab:p089}) -- which is not the case in this example.
 
 Visual inspection of the consumption time series of the prosumer data sets already reveals, that the consumption data in most cases do not resemble the consumer households' consumption patterns. Generalized, four types of consumption patterns can be found in the data: (1) The net energy consumption of the prosumer is zero at night, starts to increase at around 6 a.m., fluctuates over daytime, and decreases to zero again at around 6 p.m. (see exemplary prosumer 004 in Figure \ref{Fig:prosenergycons_peculiar}). (2) The net energy consumption is mostly non-zero and fluctuates (in a regular pattern) at low levels with occasional net consumption spikes (see exemplary consumer 050 in Figure \ref{Fig:prosenergycons_peculiar}). This is the most generic type of prosumer energy consumption patterns. (3) The net consumption is for most of the year zero (see exemplary prosumer 061 in Figure \ref{Fig:prosenergycons_peculiar}). This may be due to a surplus in net energy production. (4) The net energy consumption is mostly non-zero and fluctuates very little at a relatively high level (see exemplary prosumer 093 in Figure \ref{Fig:prosenergycons_peculiar}). The net energy consumption drops only occasional from this high level. Type (1) and (2) represent the majority of data sets. Type (1) is very easily identifiable and represents 30 \% of the data sets. Type (2) is more generic and therefore comprises more heterogenic patterns with 56 \% of the data sets belonging to this type. Type (3) and (4), exemplary shown in the lower two panels of Figure \ref{Fig:prosenergycons_peculiar}, only represent a minority of the data sets.
 
@@ -155,7 +155,7 @@ Visual inspection of the consumption time series of the prosumer data sets alrea
 
 In conclusion, it becomes clear that the net energy consumption of prosumers may exhibit very different patterns than the energy consumption of consumers. This exacerbates the prediction task for prosumers significantly.
 
-Furthermore, the total consumption of prosumers follows a very different distribution than the total consumption of consumers. The maximum total net consumption of a prosumer was 424,893.434 kWh, which is by a factor of 15 more than the maximum total net consumption of a prosumer. 19 out of 100 prosumers net consumed more energy than the biggest consumer household contained in the data. Also, the dispersion of the total net consumption is much higher with an IQR of 22,149 kWh for prosumers' total net consumption compared ot an IQR of 2,542 kWh for consumers' total consumption in 2017.
+Furthermore, the total consumption of prosumers follows a very different distribution than the total consumption of consumers. The maximum total net consumption of a prosumer was 424,893.434 kWh, which is by a factor of 15 more than the maximum total net consumption of a prosumer. 19 out of 100 prosumers net consumed more energy than the biggest consumer household contained in the data. Also, the dispersion of the total net consumption is much higher with an IQR of 22,149 kWh for prosumers' total net consumption compared to an IQR of 2,542 kWh for consumers' total consumption in 2017.
 
 \begin{figure}[ht]
  \centering
@@ -164,20 +164,32 @@ Furthermore, the total consumption of prosumers follows a very different distrib
 \label{Fig:pros_total_consumption}
 \end{figure}
 
-Finally, 
+Finally, Figure \ref{Fig:pros_boxplots_consumption} offers another perspective on the heterogeneity of the prosumer data sets. The figure shows a boxplot for each prosumer's distribution of energy consumption per 3-minute interval. The prosumers are sorted on the x-Axis by their median net energy consumption. As can be seen, while the median for the majority of the prosumers is relatively close to zero, the IQR and the total range of net consumption values differs substantially between prosumers. Approximately the same range of net consumption values per 3-minute interval can be accompanied by a median of 0.0003 kWh (see p088 in Figure \ref{Fig:pros_boxplots_consumption}) or by a median of 1.9110 kWh (see p094 in Figure \ref{Fig:pros_boxplots_consumption}).
 
 \begin{figure}[ht]
  \centering
-\includegraphics[width=\textwidth]{thesis/graphs/prosumer_boxplots_consumption.pdf}
+\includegraphics[width=\textwidth]{thesis/graphs/prosumer_boxplots_consumption.jpg}
 \caption[Boxplots of each prosumer's net energy consumption in kWh per 3-minute interval]{Boxplots of each prosumer's net energy consumption in kWh per 3-minute interval. \quantnet}
 \label{Fig:pros_boxplots_consumption}
 \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%   Data sets excluded   %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Prosumers are defined by the fact, that they not only consume energy but also produce energy -- primarily for their own consumption. However, any surplus in energy production over energy consumption is fed into the grid and, thus, recorded by the smart meter as an increase in the energy out readings. As explained above, these energy out readings are used to compute the net energy production per 3-minute interval by first-differencing. Surprisingly, only 14 out of 100 available prosumer data sets contained non-zero net energy production values at all. This becomes clear when looking at Figure \ref{Fig:pros_total_production}, which shows the total net energy production of the prosumers, for which data sets are available. 86 of those prosumers fed zero kWh into the grid during 2017.
+
+\begin{figure}[ht]
+ \centering
+\includegraphics[width=\textwidth]{thesis/graphs/prosumer_totalproduction.pdf}
+\caption[Prosumers’ total energy production (in kWh) in 2017 ordered from high to low]{Prosumers’ total energy production (in kWh) in 2017 ordered from high to low. \quantnet}
+\label{Fig:pros_total_production}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%   Peculiarities in the data   %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Peculiarities in the data}
+
+%%%%%%%%%%%
+\subsubsection{Consumer data sets}
 
 The data sets were analyzed for peculiarities the time series patterns that seemed to be systematically different than the majority of data sets. One such peculiarity is the occurrence of zero values. In any household that does not produce its own energy (pure consumer household), energy consumption of 0 kWh, even only for a very short period of time, seems to be very unlikely (apart from the rare case of a power outage in the area or when the main switch of the household is turned off). Thus, it is not surprising that 93 \% of the data sets do not contain any 0 kWh measurements per 3-minute interval at all. Of the remaining 6 data sets, one contains just a single measurement of 0 kWh, which seems plausible. The other data set with a negligible amount of zero values is consumer 082 which was discussed in detail in section \ref{Sec:Data;Subsec:Description}. In Figure \ref{Fig:energycons_c082}, it is visible that although the consumption pattern does not change substantially, the lowest values of the daily fluctuations are lower in the second half of 2017 than in the first half. However, this seems still a plausible consumption pattern for a typical household. The other five data sets, however, contain between 34 and 54 \% of zero values. Examining the consumption time series more closely also reveals, that these households exhibit a systematically different consumption pattern that one would expect from a typical household.
 
@@ -208,13 +220,19 @@ The lower two graphs show the energy consumption time series of consumer 067 and
 
 
 %%%%%%%%%%%
-\subsubsection{Consumer data sets}
-
-
-
-%%%%%%%%%%%
 \subsubsection{Prosumer data sets}
 p046, p061, p079 -> flatliner without production
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%   Data sets excluded   %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Data sets excluded}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
