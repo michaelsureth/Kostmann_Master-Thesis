@@ -41,7 +41,7 @@ The data comes in 200 individual csv-files each containing the meter readings of
 
 Below, a preprocessed and correctly formatted sample of the data for consumer 56 and prosumer 89 containing 6 measurement points are shown.
 
-\begin{table}[ht]
+\begin{table}[htbp]
     \csvreader[centered tabular=c|cc,
     table head=
     \hline\hline
@@ -60,7 +60,7 @@ Below, a preprocessed and correctly formatted sample of the data for consumer 56
     \label{Tab:c056}
 \end{table}
 
-\begin{table}[ht]
+\begin{table}[htbp]
     \csvreader[centered tabular=c|cc,
     table head=
     \hline\hline
@@ -99,7 +99,7 @@ Notably, there are two extended (in March and June) and three shorter periods (i
 
 Interestingly, the consumption time series of consumer 082 shows an increase in mean consumption starting with October 2017. This could be explained by colder outside temperatures. However, within the first quarter of 2017, no equivalent decrease in the mean energy consumption can be seen. Therefore, the reason for this increase might be given by newly acquired household appliances which are increasingly used with the approaching winter as the household members spend more time indoors.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
  \centering
 \includegraphics[width=\textwidth]{thesis/graphs/timeseries/c082_cons.pdf}
 \caption[Energy consumption recordings for consumer 082]{Energy consumption recordings for consumer 082. The first panel shows the full year 2017, the second panel zooms in to one month (May), and the third panel zooms in to one day (May, 13). \quantnet}
@@ -110,16 +110,16 @@ The second panel zooms to just one month making daily fluctuation patterns alrea
 
 To get a better impression of the representativity of consumer 082's  energy consumption, it is compared to the other data sets available for this study. Figure \ref{Fig:cons_total_consumption} shows the total energy consumption of all consumers in kWh for 2017. As can be seen, consumer 082 (labelled c082 in Figure \ref{Fig:cons_total_consumption}) is at the lower end of the top quartile of the total energy consumption distribution across all consumers. The household's total energy consumption in 2017 was 6752.763 kWh. According to \citet{Stromspiegel:2017}, this number corresponds to a category D five-person household (on a scale from A (very low) to G (very high energy consumption)) that is heating its water with electricity. That means, the household of consumer 082 is either very big or has a comparatively very high energy consumption. Consumer 067, on the contrary, is remarkable as total consumption here is with only 40 kWh quite close to zero. At the high end of total consumption is consumers 025 with almost five times the total consumption of the average consumer in this data sets. Summary statistics for the total energy consumption of consumer households in 2017 can be found in Appendix \ref{App:Tables:totalcons}.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
  \centering
-\includegraphics[width=\textwidth]{thesis/graphs/consumer_totalconsumption.pdf}
+\includegraphics[width=\textwidth]{thesis/graphs/consumer_totalconsumption2.pdf}
 \caption[Consumers' total energy consumption (in kWh) in 2017 ordered from high to low]{Consumers' total energy consumption (in kWh) in 2017 ordered from high to low. \quantnet}
 \label{Fig:cons_total_consumption}
 \end{figure}
 
 Figure \ref{Fig:cons_boxplots_consumption} offers another view on the consumers' energy consumption. The figure shows a boxplot for each consumer's distribution of energy consumption per 3-minute interval. That means, the median line in the boxplot of a consumer is the consumers median consumption per 3-minute interval, while the box encloses the interquartile range (IQR) of the 3-minute consumption values of this particular consumer. It is apparent, that the IQR is for almost all consumers relatively small compared to the total range of their consumption values. All points plotted above the boxplots' whiskers are consumption values greater than the third quartile plus 1.5 $\times$ IQR. This again shows that there is a substantial amount of extreme values -- for which the description "outlier" not necessarily fits as they obviously occur quite often -- which are hard to predict with standard forecasting methods.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
  \centering
 \includegraphics[width=\textwidth]{thesis/graphs/consumer_boxplots_consumption.jpg}
 \caption[Boxplots of each consumer's energy consumption in kWh per 3-minute interval]{Boxplots of each consumer's energy consumption in kWh per 3-minute interval. \quantnet}
@@ -135,17 +135,17 @@ Visual inspection of the consumption time series of the prosumer data sets alrea
 
 \begin{sidewaysfigure}[htbp]
     \centering
-    \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
+    \begin{minipage}[h]{\dimexpr.5\textheight-0.15em}
     \includegraphics[width=\textwidth]{thesis/graphs/timeseries/p004_cons.pdf}
     \end{minipage}
-    \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
+    \begin{minipage}[h]{\dimexpr.5\textheight-0.15em}
     \includegraphics[width=\textwidth]{thesis/graphs/timeseries/p050_cons.pdf}
     \end{minipage}\\
     
-    \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
+    \begin{minipage}[h]{\dimexpr.5\textheight-0.15em}
     \includegraphics[width=\textwidth]{thesis/graphs/timeseries/p061_cons.pdf}
     \end{minipage}
-    \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
+    \begin{minipage}[h]{\dimexpr.5\textheight-0.15em}
     \includegraphics[width=\textwidth]{thesis/graphs/timeseries/p093_cons.pdf}
     \end{minipage}
     
@@ -157,29 +157,38 @@ In conclusion, it becomes clear that the net energy consumption of prosumers may
 
 Furthermore, the total consumption of prosumers follows a very different distribution than the total consumption of consumers. The maximum total net consumption of a prosumer was 424,893.434 kWh, which is by a factor of 15 more than the maximum total net consumption of a prosumer. 19 out of 100 prosumers net consumed more energy than the biggest consumer household contained in the data. Also, the dispersion of the total net consumption is much higher with an IQR of 22,149 kWh for prosumers' total net consumption compared to an IQR of 2,542 kWh for consumers' total consumption in 2017.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
  \centering
-\includegraphics[width=\textwidth]{thesis/graphs/prosumer_totalconsumption.pdf}
+\includegraphics[width=\textwidth]{thesis/graphs/prosumer_totalconsumption2.pdf}
 \caption[Prosumers’ total energy consumption (in kWh) in 2017 ordered from high to low]{Prosumers’ total energy consumption (in kWh) in 2017 ordered from high to low. \quantnet}
 \label{Fig:pros_total_consumption}
 \end{figure}
 
 Finally, Figure \ref{Fig:pros_boxplots_consumption} offers another perspective on the heterogeneity of the prosumer data sets. The figure shows a boxplot for each prosumer's distribution of energy consumption per 3-minute interval. The prosumers are sorted on the x-Axis by their median net energy consumption. As can be seen, while the median for the majority of the prosumers is relatively close to zero, the IQR and the total range of net consumption values differs substantially between prosumers. Approximately the same range of net consumption values per 3-minute interval can be accompanied by a median of 0.0003 kWh (see p088 in Figure \ref{Fig:pros_boxplots_consumption}) or by a median of 1.9110 kWh (see p094 in Figure \ref{Fig:pros_boxplots_consumption}).
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
  \centering
 \includegraphics[width=\textwidth]{thesis/graphs/prosumer_boxplots_consumption.jpg}
 \caption[Boxplots of each prosumer's net energy consumption in kWh per 3-minute interval]{Boxplots of each prosumer's net energy consumption in kWh per 3-minute interval. \quantnet}
 \label{Fig:pros_boxplots_consumption}
 \end{figure}
 
-Prosumers are defined by the fact, that they not only consume energy but also produce energy -- primarily for their own consumption. However, any surplus in energy production over energy consumption is fed into the grid and, thus, recorded by the smart meter as an increase in the energy out readings. As explained above, these energy out readings are used to compute the net energy production per 3-minute interval by first-differencing. Surprisingly, only 14 out of 100 available prosumer data sets contained non-zero net energy production values at all. This becomes clear when looking at Figure \ref{Fig:pros_total_production}, which shows the total net energy production of the prosumers, for which data sets are available. 86 of those prosumers fed zero kWh into the grid during 2017.
+Prosumers are defined by the fact, that they not only consume energy but also produce energy -- primarily for their own consumption. However, any surplus in energy production over energy consumption is fed into the grid and, thus, recorded by the smart meter as an increase in the energy out readings. As explained above, these energy out readings are used to compute the net energy production per 3-minute interval by first-differencing. Surprisingly, only 14 out of 100 available prosumer data sets contained non-zero net energy production values at all. This becomes clear when looking at Figure \ref{Fig:pros_total_production}, which shows the total net energy production of all prosumers. 86 of those prosumers fed zero kWh into the grid during 2017. The top three net energy producing prosumers, however, fed a total of 1,259,686 kWh into the grid, which is more than twice the amount all 100 consumer households consumed together\footnote{Cumulatively, the 100 consumer households for which data is available, consumed 559,368.64 kWh in 2017}. For comparison, a typical photovoltaic (PV) installation on a private residential building with a roof surface area of 150 m$^2$ produces approximately 20,000 kWh per year \citep{energieatlas:2018}.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
  \centering
-\includegraphics[width=\textwidth]{thesis/graphs/prosumer_totalproduction.pdf}
+\includegraphics[width=\textwidth]{thesis/graphs/prosumer_totalproduction2.pdf}
 \caption[Prosumers’ total energy production (in kWh) in 2017 ordered from high to low]{Prosumers’ total energy production (in kWh) in 2017 ordered from high to low. \quantnet}
 \label{Fig:pros_total_production}
+\end{figure}
+
+Prosumer 026, for example, has a relatively low total net energy production. However, its net energy production pattern looks like a typical household with a PV installation (see Figure 
+
+\begin{figure}[htbp]
+ \centering
+\includegraphics[width=\textwidth]{thesis/graphs/timeseries/p026_prod&cons.pdf}
+\caption[Energy consumption and production recordings for prosumer 026]{Energy consumption and production recordings for consumer 026. The first panel shows the full year 2017, the second panel zooms in to one month (May), and the third panel zooms in to one day (May, 13). \quantnet}
+\label{Fig:energyconsprod_p026}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -215,7 +224,7 @@ The data sets were analyzed for peculiarities the time series patterns that seem
 
 Figure \ref{fig:consenergycons_peculiar} shows the time series of the aforementioned four consumers with a high share of zero measurements. Consumer 013 and 035 both show a very similar pattern of daily energy consumption. Looking at the middle panel of the two upper graphs in Figure \ref{fig:energycons_peculiar}, the regularity of the consumption increases and decreases for each day is striking. The lower panel shows again, exemplary May 13. Energy consumption starts to almost linearly increasing at about 6 a.m. and decreases to 0 kWh at about 6 p.m. This also explains the 52.77 and 54.02 \% of zero values in those to data sets: almost exactly 12 hours per day (from midnight to 6 a.m. and from 6 p.m. to midnight) the consumption is zero, while it is positive in between. and  In the meantime the the energy consumption fluctuates but with a relatively high "base" consumption. Switching back to the middle panel, it is noticeable that there are some days in May with an even smoother energy consumption increase and decrease over the course of the day. As there is no further socio-demographic data available, we can only guess what the reason for such different consumption patterns are. The most likely explanation seems to be, that the consumption time series of consumer 013 and 035 belongs to a small business rather than to a household.
 
-The lower two graphs show the energy consumption time series of consumer 067 and consumer 075. Consumer 067 consumption pattern zoomed in to one month (middle panel) rather looks like an electrocardiogram (ECG) than what one would expect from a household energy consumption time series. The regularity of amplitude and frequency is obvious but not easily explained. Consumers 076 consumption pattern looks less suspicious at first sight. However, closer inspection reveals the same daily pattern of increasing consumption throughout the day and very low to zero energy consumption at night. This again rather resembles the energy consumption pattern of a business building or office rooms.
+The lower two graphs show the energy consumption time series of consumer 067 and consumer 075. Consumer 067 consumption pattern zoomed in to one month (middle panel) rather looks like an electrocardiogram than what one would expect from a household energy consumption time series. The regularity of amplitude and frequency is obvious but not easily explained. Consumers 076 consumption pattern looks less suspicious at first sight. However, closer inspection reveals the same daily pattern of increasing consumption throughout the day and very low to zero energy consumption at night. This again rather resembles the energy consumption pattern of a business building or office rooms.
 
 
 
