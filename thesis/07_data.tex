@@ -182,34 +182,34 @@ Prosumers are defined by the fact, that they not only consume energy but also pr
 \label{Fig:pros_total_production}
 \end{figure}
 
-Prosumer 026, for example, has a relatively low total net energy production. However, its net energy production pattern looks like a typical household with a PV installation (see Figure \ref{Fig:energyconsprod_p026}). The net energy consumption is (almost) always zero, while the net energy production on most days rather smoothly increases and decreases over daytime with occasional drops, probably caused by passing by clouds. Furthermore, the net energy production increases in the summer months and decreases notably in winter.
+Prosumer 026, for example, has a relatively low total net energy production. However, its net energy production pattern looks like a typical household with a PV installation (see Figure \ref{Fig:energyconsprod_p026p084}). The net energy consumption is (almost) always zero, while the net energy production on most days rather smoothly increases and decreases over daytime with occasional drops, probably caused by passing by clouds. Furthermore, the net energy production increases in the summer months and decreases notably in winter. Compare this to prosumer 084 that has a very stable, very high net energy production over the whole course of 2017. There are only very few drops, which are accompanied by a simultaneously net energy consumption (visible by the small blue spikes in the upper panel of the right graph of Figure \ref{Fig:energyconsprod_p026p084}, whenever the net production (red line) drops). Note also the different scales of the y-axis. The net production of prosumer 084 plays in the range of 2.5 kWh per 3-minute interval while the net production of prosumer 026 barely surpasses 0.4 kWh per 3-minute interval.
 
-\begin{figure}[htbp]
- \centering
- \begin{minipage}[h]{\dimexpr.5\textheight-0.15em}
+\begin{sidewaysfigure}[htbp]
+\centering
+\begin{minipage}[h]{\dimexpr.5\textwidth-0.15em}
 \includegraphics[width=\textwidth]{thesis/graphs/timeseries/p026_prod&cons.pdf}
-\caption[Energy consumption and production recordings for prosumer 026]{Energy consumption and production recordings for consumer 026. The first panel shows the full year 2017, the second panel zooms in to one month (May), and the third panel zooms in to one day (May, 13). \quantnet}
-\label{Fig:energyconsprod_p026}
-%\end{figure}
-
-%\begin{figure}[htbp]
- \centering
-\includegraphics[width=\textwidth]{thesis/graphs/timeseries/p084_prod&cons.pdf}
-\caption[Energy consumption and production recordings for prosumer 026]{Energy consumption and production recordings for consumer 026. The first panel shows the full year 2017, the second panel zooms in to one month (May), and the third panel zooms in to one day (May, 13). \quantnet}
-\label{Fig:energyconsprod_p026}
 \end{minipage}
-\end{figure}
+\begin{minipage}[h]{\dimexpr.5\textheight-0.15em}
+\includegraphics[width=\textwidth]{thesis/graphs/timeseries/p084_prod&cons.pdf}
+\end{minipage}
+
+\caption[Energy consumption and production recordings for prosumers 026 and 084]{Energy consumption and production recordings for prosumers 026 and 084. The first panel shows the full year 2017, the second panel zooms in to one month (May), and the third panel zooms in to one day (May, 13). \quantnet}
+\label{Fig:energyconsprod_p026p084}
+
+\end{sidewaysfigure}
+
+In conclusion, it becomes clear that the prosumers' net energy consumption and production follow much less easily explained patterns. The net energy consumption is much more heterogeneous. Additionally, most prosumer data sets do not contain any recordings of net energy production at all. Of those prosumers that do have positive net production values, most surpass the energy consumption of a typical household with their net energy production by far. Implications of this for the suitability of the data sets for the prediction task at hand will be discussed in Section \ref{Sec:Data;Subsec:Exclusion}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%   Peculiarities in the data   %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Peculiarities in the data}
+\subsection{Peculiarities in the data}\label{Sec:Data;Subsec:Peculiarities}
 
 %%%%%%%%%%%
 \subsubsection{Consumer data sets}
 
-The data sets were analyzed for peculiarities the time series patterns that seemed to be systematically different than the majority of data sets. One such peculiarity is the occurrence of zero values. In any household that does not produce its own energy (pure consumer household), energy consumption of 0 kWh, even only for a very short period of time, seems to be very unlikely (apart from the rare case of a power outage in the area or when the main switch of the household is turned off). Thus, it is not surprising that 93 \% of the data sets do not contain any 0 kWh measurements per 3-minute interval at all. Of the remaining 6 data sets, one contains just a single measurement of 0 kWh, which seems plausible. The other data set with a negligible amount of zero values is consumer 082 which was discussed in detail in section \ref{Sec:Data;Subsec:Description}. In Figure \ref{Fig:energycons_c082}, it is visible that although the consumption pattern does not change substantially, the lowest values of the daily fluctuations are lower in the second half of 2017 than in the first half. However, this seems still a plausible consumption pattern for a typical household. The other five data sets, however, contain between 34 and 54 \% of zero values. Examining the consumption time series more closely also reveals, that these households exhibit a systematically different consumption pattern that one would expect from a typical household.
+The data sets were analyzed for peculiarities in the time series patterns that seemed to be systematically different than the majority of data sets. One such peculiarity is the occurrence of zero values. In any household that does not produce its own energy (pure consumer household), energy consumption of 0 kWh, even only for a very short period of time, seems to be very unlikely (apart from the rare case of a power outage in the area or when the main switch of the household is turned off). Thus, it is not surprising that 93 \% of the data sets do not contain any 0 kWh measurements per 3-minute interval at all. Of the remaining 6 data sets, one contains just a single measurement of 0 kWh, which seems plausible. The other data set with a negligible amount of zero values is consumer 082 which was discussed in detail in section \ref{Sec:Data;Subsec:Description}. In Figure \ref{Fig:energycons_c082}, it is visible that although the consumption pattern does not change substantially, the lowest values of the daily fluctuations are lower in the second half of 2017 than in the first half. However, this seems still a plausible consumption pattern for a typical household. The other five data sets, however, contain between 34 and 54 \% of zero values. Examining the consumption time series more closely also reveals, that these households exhibit a systematically different consumption pattern that one would expect from a typical household.
 
 \begin{sidewaysfigure}[htbp]
     \centering
@@ -239,6 +239,8 @@ The lower two graphs show the energy consumption time series of consumer 067 and
 
 %%%%%%%%%%%
 \subsubsection{Prosumer data sets}
+
+
 p046, p061, p079 -> flatliner without production
 
 
@@ -248,8 +250,8 @@ p046, p061, p079 -> flatliner without production
 %%%   Data sets excluded   %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Data sets excluded}
-
+\subsection{Data sets excluded}\label{Sec:Data;Subsec:Exclusion}
+The data sets of consumer 013, 035, 067 and 075 shown in Figure \ref{fig:consenergycons_peculiar} where excluded from the prediction task for the reasons discussed in Section \ref{Sec:Data;Subsec:Peculiarities}. These four consumers plus one additional (consumer 082) exhibited large shares of zero consumption values. Further, consumer 046 was excluded as the consumption time series was flat for the most part of 2017. After some initial fluctuations in the first quarter, all fluctuations just stopped entirely. Five more consumers were excluded due to conspicuous regularity in daily or weekly consumption patterns. Lastly, consumer 080 was excluded due to the very low and stable consumption values with very rare extreme spikes. The time series graphs of all excluded consumer data sets are shown in Appendix \ref{App:Figures}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
