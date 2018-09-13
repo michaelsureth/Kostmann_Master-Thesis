@@ -131,7 +131,31 @@ Figure \ref{Fig:boxplots_consumption} offers another view on the consumers' ener
 
 The prosumer data sets show partially very different consumption patterns than pure consumers. This due to the fact, that the recorded energy consumption per 3-minute interval is the net value of the actual energy consumption and the energy production in the same interval. For example, if prosumer 024's recorded consumption value is 0.021 kWh in the time period from 2017-05-13 06:03:00 to 06:06:00, and its energy production in the same interval is 0.018 kWh (which is not recorded and therefore not known), its actual energy consumption in that time interval is 0.039 kWh. However, this actual energy consumption is unknown as the energy production per 3-minute interval is not recorded. Only a surplus of energy production over consumption would be recorded as an increase in the energy out readings (see Table \ref{Tab:p089}) -- which is not the case in this example.
 
-Moreover, the total consumption in 2017 of prosumers is very 
+Visual inspection of the consumption time series of the prosumer data sets already made obvious, that the consumption data in most cases did not resemble the consumer households' consumption patterns at all. Generalized, four types of consumption patterns can be found in the data: 
+
+\begin{sidewaysfigure}[htbp]
+    \centering
+    \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
+    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/c013_cons.pdf}
+    \end{minipage}
+    
+    \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
+    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/c035_cons.pdf}
+    \end{minipage}\\
+    
+    \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
+    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/c067_cons.pdf}
+    \end{minipage}
+    
+    \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
+    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/c076_cons.pdf}
+    \end{minipage}
+    
+    \caption[Energy consumption recordings for consumer with conspicuous consumption patterns]{Energy consumption recordings for consumer with conspicuous consumption patterns.}
+    \label{fig:energycons_peculiar}
+\end{sidewaysfigure}
+
+Moreover, the total consumption of prosumers follows a very different distribution than the total consumption of consumers. 
 
 \begin{figure}[ht]
  \centering
@@ -153,18 +177,21 @@ The data sets were analyzed for peculiarities the time series patterns that seem
 \begin{sidewaysfigure}[htbp]
     \centering
     \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
-    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/c013_cons.pdf}
+    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/p004_cons.pdf}
     \end{minipage}
+    
     \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
-    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/c035_cons.pdf}
+    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/p053_cons.pdf}
     \end{minipage}\\
     
     \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
-    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/c067_cons.pdf}
+    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/p061_cons.pdf}
     \end{minipage}
+    
     \begin{minipage}[ht]{\dimexpr.5\textheight-0.15em}
-    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/c076_cons.pdf}
+    \includegraphics[width=\textwidth]{thesis/graphs/timeseries/p093_cons.pdf}
     \end{minipage}
+    
     \caption[Energy consumption recordings for consumer with conspicuous consumption patterns]{Energy consumption recordings for consumer with conspicuous consumption patterns.}
     \label{fig:energycons_peculiar}
 \end{sidewaysfigure}
@@ -182,6 +209,7 @@ The lower two graphs show the energy consumption time series of consumer 067 and
 
 %%%%%%%%%%%
 \subsubsection{Prosumer data sets}
+p046, p061, p079 -> flatliner without production
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
