@@ -1,0 +1,131 @@
+
+\section{Method}\label{Sec:Method}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%   Forecasting methods   %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Forecasting methods}\label{Sec:Method;Subsec:Forecast}
+
+Based on an extensive literature review three different prediction techniques are proposed to forecast energy consumption and production ahead based only on historical (and potentially calendar) features of the Smart Meter time series: Pooling-based deep recurring neural net-work (PDRNN) based on the procedure outlined by \citet{Shi:2017}, sparse autoregressive LASSO as developed and implemented by \citet{Li:2017}, and Kernel-Wavelet-Functional method (KWF) following the idea of \citet{Auder:2018} of using discrete wavelet transform and clustering before applying the KWF method.
+As the data used to train the models is in 3-minute intervals, but the prediction will have to be made 15 minutes ahead, all forecasting models will be used to make 5 sequential one-step ahead predictions. These 5 predictions will then be aggregated into a single forecast for the whole 15-minute interval and compared to the actual consumption/production within this 15-minute interval (i.e., the aggregation of the 5 corresponding 3-minute consumption values).
+
+
+%%%%%%%%%%%
+\subsubsection{Benchmark models}
+
+The predictions generated with the above-mentioned forecasting techniques will be benchmarked against the prediction of a simple persistence model, i.e., the naïve predictor
+
+\begin{equation} \label{Eq:naivepred}
+\widehat{x}_{t+1}=x_t
+\end{equation}
+
+which is a good predictor for time horizons of minutes in the context of energy forecasting \citep{Pinson:2012}. Furthermore, as second benchmark an ARIMA model of first-order difference is used which is defined in polynomial form as
+
+\begin{equation} \label{Eq:ARIMA}
+x_t-x_{t-1}=(1-b)x_t
+\end{equation}
+
+\citep{Box:1990}.
+
+
+%%%%%%%%%%%
+\subsubsection{Long short-term memory recurring neural network}
+
+
+
+%%%%%%%%%%%
+\subsubsection{Sparse auto-regressive LASSO}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%   Error measures   %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Error measures}\label{Sec:Method;Subsec:Error}
+
+
+%%%%%%%%%%%
+\subsubsection{MAE and RMSE}
+
+Following the suggestion \citet{Hoff:2013} several performance metrics will be used to evaluate the quality of the forecasts. The choice of performance metrics is guided by the compilation provided by \citet{Meer:2018}.
+As all predictions will be computed on the same time series, the mean average error (MAE) is useful to compare the forecasting techniques to be evaluated with the benchmark model. The MAE is defined as
+
+\begin{equation} \label{Eq:MAE}
+\text{MAE}=\frac{1}{N}\sum_{t=1}^N\left|\widehat{x}_t-x_t\right|,    
+\end{equation}
+
+where N is the length of the forecasted time series, $\widehat{x}_t$ the forecasted value and $x_t$ the observed value. Similar to the MAE, but putting more weight on large deviations between forecast and observation by squaring the difference, is the root mean squared error (RMSE). It is formulated as
+
+\begin{equation} \label{Eq:RMSE}
+\text{RMSE}=\sqrt{\frac{1}{N}\sum_{t=1}^N\left(\widehat{x}_t-x_t\right)^2}.
+\end{equation}
+
+
+
+
+
+%%%%%%%%%%%
+\subsubsection{MAPE and NRMSE}
+
+Even though the MAE and RMSE are widely used, they are not useful to compare the forecast accuracy across studies as these measures are not scale independent. Therefore, they will be complemented by the mean absolute percentage error (MAPE) and the normalized root mean squared error (NRMSE). Investigating forecasting error measures for PV power plants, \citet{Hoff:2013} conclude that normalizing the MAE by the average output of a PV power plant is most desirable to compute the MAPE. Even though \citet{Meer:2018} did not find any literature supporting this for consumption forecasting, they suggest that the same reasoning should hold here as well. Therefore, the MAPE and NRMSE are formulated as follows
+
+\begin{equation} \label{Eq:MAPE}
+\text{MAPE}=\frac{100}{N}\sum_{i=1}^N\left|\frac{\widehat{x}_i-x_i}{\bar{x}}\right|,
+\end{equation}
+
+\begin{equation} \label{Eq:NRMSE}
+\text{NRMSE}=\sqrt{\frac{100}{N}\sum_{i=1}^N\left(\frac{\widehat{x}_i-x_i}{\bar{x}}\right)^2}.
+\end{equation}
+
+where $\bar{x}$ is the average of the observed time series. For MAPE this is equivalent to dividing the sum of absolute errors by the sum of all values contained in the time series. This formulation avoids the problem of the classical MAPE formulation using $x_t$ to normalize, that the fraction $\frac{\widehat{x}_i-x_i}{\bar{x}_t}$ is not defined if $x_t=0$ and is for example used in \citet{Yamin:2004}.
+
+
+
+%%%%%%%%%%%
+\subsubsection{MASE}
+
+Finally, the mean absolute scaled error (MASE) by \citet{Hyndman:2006} will be used to assess the forecasts as it has the advantage of being applicable even if the time series includes a great number of meaningless zero values (e.g., night-time PV energy production). Additionally, the MASE overcomes the issue that MAPE puts a heavier penalty on negative errors. It normalizes the MAE with the forecast made by the persistence model and is defined as
+
+\begin{equation} \label{Eq:MASE}
+\text{MASE}=\frac{\text{MAE}}{\frac{1}{n-1}\sum_{i=2}^N\left|x_i-x_{i-1}\right|}.
+\end{equation}
+
+
+%%%%%%%%%%%
+\subsubsection{Ramp score}
+ put into discussion !!
+
+
+Additionally, skewness and kurtosis of forecasting errors’ distribution will be calculated to further assess the quality of the predictions made by different forecasting techniques.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%   Market simulation   %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Market simulation}\label{Sec:Method;Subsec:Market}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{itemize}
+
+    \item How was the data analyzed ?
+
+    \item Present the underlying economic model/theory and
+        give reasons why it is suitable to answer the given problem.
+
+    \item Present econometric/statistical estimation method and
+        give reasons why it is suitable to answer the given problem.
+
+    \item Allows the reader to judge the validity of the study and its findings.
+
+    \item Depending on the topic this section can also be split up into separate sections.
+
+\end{itemize}
