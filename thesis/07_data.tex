@@ -182,7 +182,7 @@ Prosumers are defined by the fact, that they not only consume energy but also pr
 \label{Fig:pros_total_production}
 \end{figure}
 
-Prosumer 026, for example, has a relatively low total net energy production. However, its net energy production pattern looks like a typical household with a PV installation (see Figure \ref{Fig:energyconsprod_p026p084}). The net energy consumption is (almost) always zero, while the net energy production on most days rather smoothly increases and decreases over daytime with occasional drops, probably caused by passing by clouds. Furthermore, the net energy production increases in the summer months and decreases notably in winter. Compare this to prosumer 084 that has a very stable, very high net energy production over the whole course of 2017. There are only very few drops, which are accompanied by a simultaneously net energy consumption (visible by the small blue spikes in the upper panel of the right graph of Figure \ref{Fig:energyconsprod_p026p086}, whenever the net production (red line) drops). Note also the different scales of the y-axis. The net production of prosumer 084 plays in the range of 2.5 kWh per 3-minute interval while the net production of prosumer 026 barely surpasses 0.4 kWh per 3-minute interval. A plausible explanation for this kind of net production pattern may be a combined heat and power unit (CHP) (also known as block-type thermal power station (BTTP)). 
+Prosumer 026, for example, has a relatively low total net energy production. However, its net energy production pattern looks like a typical household with a PV installation (see Figure \ref{Fig:energyconsprod_p026p084}). The net energy consumption is (almost) always zero, while the net energy production on most days rather smoothly increases and decreases over daytime with occasional drops, probably caused by passing by clouds. Furthermore, the net energy production increases in the summer months and decreases notably in winter. Compare this to prosumer 086 that has a stable, very high net energy production over the whole course of 2017. There are only few drops, which are accompanied by a simultaneously net energy consumption (visible by the small blue spikes in the upper panel of the right graph of Figure \ref{Fig:energyconsprod_p026p086}, whenever the net production (red line) drops). Note also the different scales of the y-axis. The net production of prosumer 084 plays in the range of 1 kWh per 3-minute interval while the net production of prosumer 026 barely surpasses 0.4 kWh per 3-minute interval. A plausible explanation for this kind of net production pattern may be a combined heat and power unit (CHP) (also known as block-type thermal power station (BTTP)). This is also indicated by the increasing frequency of drops in net energy production over the summer months. In these months much less heating is needed resulting in more downtime of the CHP and therefore also more periods of zero net energy production. However, as mentioned in the discussion of the consumer data sets, unfortunately, there is no additional context information available for the data sets at hand making assumption like that purely speculative.
 
 \begin{sidewaysfigure}[htbp]
 \centering
@@ -193,7 +193,7 @@ Prosumer 026, for example, has a relatively low total net energy production. How
 \includegraphics[width=\textwidth]{thesis/graphs/timeseries/p086_prod&cons.pdf}
 \end{minipage}
 
-\caption[Energy consumption and production recordings for prosumers 026 and 084]{Energy consumption and production recordings for prosumers 026 and 084. The first panel shows the full year 2017, the second panel zooms in to one month (May), and the third panel zooms in to one day (May, 13). \quantnet}
+\caption[Energy consumption and production recordings for prosumers 026 and 086]{Energy consumption and production recordings for prosumers 026 and 086. The first panel in the respective graph shows the full year 2017, the second panel zooms in to one month (May), and the third panel zooms in to one day (May, 13). \quantnet}
 \label{Fig:energyconsprod_p026p086}
 
 \end{sidewaysfigure}
@@ -240,21 +240,50 @@ The lower two graphs show the energy consumption time series of consumer 067 and
 %%%%%%%%%%%
 \subsubsection{Prosumer data sets}
 
+For prosumers, peculiarities in the time series pattern can be found either in the net energy consumption or net energy production or in combination. As net energy consumption is much more heterogeneous in the prosumer data sets than in the consumer data sets, it is less obvious what patterns fall outside the norm. However,  some prosumer still exhibit obvious anomalies in their consumption patterns. Prosumer 046, 061, and 079 stand out as their consumption is zero for the largest part of the year. This would be an expected pattern if they were net energy producers during this time period. However, as they do not feed in any produced energy at all in 2017, this consumption pattern indicates a data problem. 
+Prosumer 038 attracts attention by having a very low total net energy consumption of just 18.168 kWh in 2017 and zero net production. Moreover, this energy is consumed at an extremely low level of around 0.0001 kWh with a standard deviation of $\sigma=2\times10^{-6}$ and just one single drop from this level to zero in the whole year (see Figure \ref{Fig:energycons_p038}). Six more prosumers exhibit a similar pattern of stable level of net energy consumption with occasional drops to zero but no spikes above this stable level. None of them is a net energy producer at any time.
 
-p046, p061, p079 -> flatliner without production
+\begin{figure}[htbp]
+ \centering
+\includegraphics[width=\textwidth]{thesis/graphs/timeseries/p038_cons.pdf}
+\caption[Energy consumption recordings for prosumer 038]{Energy consumption recordings for prosumer 038. The first panel shows the full year 2017, the second panel zooms in to one month (May), and the third panel zooms in to one day (May, 13). \quantnet}
+\label{Fig:energycons_p038}
+\end{figure}
 
+Lastly, prosumer 019 is worth mentioning as it is the only prosumer data set that records a total net energy consumption of 0 kWh for 2017. As the net energy production, however, contains a substantial amount of zero values as well, it seems implausible that prosumer 019 is a regular household. For a household, it appears unlikely that the energy consumption is also always zero when the energy production is zero.
 
+Regarding the prosumer time series, most of the data sets are peculiar in so far as they have only zero net production values. It seems somewhat unlikely that any household equipped with energy production capacities  consumes more than it produces over the whole course of the year at any point in time. However, it is unfortunately not possible to get feedback on this matter from Discovergy due to privacy and internal policy reasons.
 
+Of the remaining 14 data sets, prosumer 084 and 085 stand out as their net energy production time series is almost a flat line at 2.5 kWh per 3-minute interval. Their graphs are shown in Figure \ref{}.
+
+\begin{sidewaysfigure}[htbp]
+\centering
+\begin{minipage}[h]{\dimexpr.5\textwidth-0.15em}
+\includegraphics[width=\textwidth]{thesis/graphs/timeseries/p084_prod&cons.pdf}
+\end{minipage}
+\begin{minipage}[h]{\dimexpr.5\textheight-0.15em}
+\includegraphics[width=\textwidth]{thesis/graphs/timeseries/p085_prod&cons.pdf}
+\end{minipage}
+
+\caption[Energy consumption and production recordings for prosumers 084 and 085]{Energy consumption and production recordings for prosumers 024 and 085. The first panel in the respective graph shows the full year 2017, the second panel zooms in to one month (May), and the third panel zooms in to one day (May, 13). \quantnet}
+\label{Fig:energyconsprod_p084p085}
+\end{sidewaysfigure}
+
+In conclusion, it seems like 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%   Data sets excluded   %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Data sets excluded}\label{Sec:Data;Subsec:Exclusion}
-The data sets of consumer 013, 035, 067 and 075 shown in Figure \ref{fig:consenergycons_peculiar} where excluded from the prediction task for the reasons discussed in Section \ref{Sec:Data;Subsec:Peculiarities}. These four consumers plus one additional (consumer 082) exhibited large shares of zero consumption values. Further, consumer 046 was excluded as the consumption time series was flat for the most part of 2017. After some initial fluctuations in the first quarter, all fluctuations stopped entirely. Four more consumers were excluded due to conspicuous regularity in daily or weekly consumption patterns. Lastly, consumer 080 was excluded due to very low and stable consumption values with very rare, extreme spikes. The time series graphs of all additionally to the ones shown in Figure \ref{fig:consenergycons_peculiar} excluded consumer data sets are shown in Appendix \ref{App:Figures:Excluded}.
+The data sets of consumer 013, 035, 067 and 075 shown in Figure \ref{fig:consenergycons_peculiar} where excluded from the prediction task for the reasons discussed in Section \ref{Sec:Data;Subsec:Peculiarities}. These four consumers plus one additional (consumer 082) exhibited large shares of zero consumption values. Further, consumer 046 was excluded as the consumption time series was flat for the most part of 2017. After some initial fluctuations in the first quarter, all fluctuations stopped entirely. Four more consumers were excluded due to conspicuous regularity in daily or weekly consumption patterns. Lastly, consumer 080 was excluded due to very low and stable consumption values with very rare, extreme spikes. The time series graphs of all additionally to the ones shown in Figure \ref{fig:consenergycons_peculiar} excluded consumer data sets are shown in Appendix \ref{App:Figures:Excludedc}.
+
+Consumer 026 was excluded not for peculiarities in the consumption patterns but due to missing data. For some unknown reason, the last recorded measurement for consumer 026 is 2017-12-29 07:03:00. As the inclusion of this shorter time series would lead to difficulties in the forecasting algorithms, this data set was excluded as well.
 
 Out of the 100 prosumer data sets, 86 were excluded from the prediction task due to zero total net energy production in 2017. These prosumers would not act as prosumers in a local energy market as they never actually supply a production surplus to the market. Moreover, as their net energy production is always zero, their net energy production shows no variation which is a necessary precondition to train any prediction model.
-Of the remaining 14 prosumer data sets, prosumer 012 was excluded as the total net energy it fed into the grid in 2017 was just 22.144 kWh. Even though, the feed in occurred continuously over the whole year, it was never exceeded 0.0013 kWh per 3-minute interval with a mean of 0.0001 kWh, which is too small to be of interest. Prosumer 015 was excluded as it only fed energy into the grid in the period from 06.01.2017 to 19.01.2017. For all other measurement points the net energy production was zero.
+Of the remaining 14 prosumer data sets, prosumer 012 was excluded as the total net energy it fed into the grid in 2017 was just 22.144 kWh. Even though, the feed in occurred continuously over the whole year, it was never exceeded 0.0013 kWh per 3-minute interval with a mean of 0.0001 kWh, which is too small to be of interest. Prosumer 015 was excluded as it only fed energy into the grid in the period from 06.01.2017 to 19.01.2017. For all other measurement points the net energy production was zero. The time series graph of the two excluded prosumer data sets with production data are shown in Appendix \ref{App:Figures:Excludedp}
+
+Hence, 88 consumer and 12 prosumer data sets remained for the following prediction tasks. All data sets included a time stamp and the consumption for consumers respectively the production time series for prosumers with a total of 175,200 data points each.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
