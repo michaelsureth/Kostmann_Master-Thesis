@@ -9,29 +9,36 @@
 
 \subsection{Forecasting methods}\label{Sec:Method;Subsec:Forecast}
 
-Based on an extensive literature review three different prediction techniques are proposed to forecast energy consumption and production ahead based only on historical (and potentially calendar) features of the Smart Meter time series: Pooling-based deep recurring neural net-work (PDRNN) based on the procedure outlined by \citet{Shi:2017}, sparse autoregressive LASSO as developed and implemented by \citet{Li:2017}, and Kernel-Wavelet-Functional method (KWF) following the idea of \citet{Auder:2018} of using discrete wavelet transform and clustering before applying the KWF method.
-As the data used to train the models is in 3-minute intervals, but the prediction will have to be made 15 minutes ahead, all forecasting models will be used to make 5 sequential one-step ahead predictions. These 5 predictions will then be aggregated into a single forecast for the whole 15-minute interval and compared to the actual consumption/production within this 15-minute interval (i.e., the aggregation of the 5 corresponding 3-minute consumption values).
+
+Based on the extensive literature review presented above, two different forecasting techniques were chosen to be employed to predict households' energy consumption and production. The following criteria were considered for the selection of appropriate methods: 
+
+\begin{enumerate}
+    \item The forecasting technique had to produce deterministic (i.e., point) forecasts.
+    \item The forecasting technique had to be used in existing studies about forecasting energy consumption or production.
+    \item The existing study or studies using the forecasting technique had to use comparable data, i.e., recorded by smart meters, 60-min resolution or less, recorded in multiple households, and not recorded in SMEs or other business or public buildings.
+    \item The forecasting task had to be comparable to the forecasting task of this study, i.e., single consumer household in contrast to the prediction of aggregated energy time series and very short forecasting horizon ($\leq 24$ hours).
+    \item The forecasting technique had to only take historical and calender features as input for the prediction.
+    \item The forecasting technique had to produce absolutely and relative to other studies promisingly accurate predictions.
+\end{enumerate}
+
+% (1) The forecasting technique had to produce deterministic (point) forecasts. (2) The forecasting technique had to be used in existing studies about forecasting energy consumption or production. (3) The existing study or studies using the forecasting technique had to use comparable data. (4) The forecasting task had to be comparable to the forecasting task of this study, i.e., single consumer household and very short-term forecasting horizon. (5) The forecasting technique only employed historical and calender features as input for the prediction. (6) The forecasting technique had to produce absolute and relative to other studies promisingly accurate predictions.
+
+\noindent Based on these criteria the following forecasting techniques were selected for the prediction task at hand: Pooling-based deep recurring neural net-work (PDRNN) based on the procedure outlined by \citet{Shi:2017} and sparse autoregressive LASSO as developed and implemented by \citet{Li:2017}.%, and Kernel-Wavelet-Functional method (KWF) following the idea of \citet{Auder:2018} of using discrete wavelet transform and clustering before applying the KWF method.
+
+% As the data used to train the models is in 3-minute intervals, but the prediction will have to be made 15 minutes ahead, all forecasting models will be used to make 5 sequential one-step ahead predictions. These 5 predictions will then be aggregated into a single forecast for the whole 15-minute interval and compared to the actual consumption/production within this 15-minute interval (i.e., the aggregation of the 5 corresponding 3-minute consumption values).
 
 
 %%%%%%%%%%%
-\subsubsection{Benchmark models}
+\subsubsection{Benchmark model}
 
-What about flat forecast?
-
-
-The predictions generated with the above-mentioned forecasting techniques will be benchmarked against the prediction of a simple persistence model, i.e., the naïve predictor
-
+Benchmark models serve as a trivial baseline to assess the relative improvement of a sophisticated model \citep{Meer:2018}. According to \citet{Pinson:2012}, a benchmark model should serve as a reference, need few computational resources to be estimated, and be model-free. A sophisticated forecasting method is only worth implementing if it can significantly outperform a trivial benchmark model \citep{Diagne:2013}. A frequent benchmark model used for deterministic forecasts is the simple persistence model \citep{Meer:2018}. This model assumes that the conditions at time $t$ persist at least up to the period of forecasting interest at time $t+h$. In energy forecasting, this na\"ive model is surprisingly well suited to forecast very short time periods of a few seconds or minutes \citep{Pinson:2012} and, thus, often harder to beat than it might seem. The persistence model is defined as
+%
 \begin{equation} \label{Eq:naivepred}
-\widehat{x}_{t+1}=x_t
+\widehat{x}_{t+1}=x_t.
 \end{equation}
 
-which is a good predictor for time horizons of minutes in the context of energy forecasting \citep{Pinson:2012}. Furthermore, as second benchmark an ARIMA model of first-order difference is used which is defined in polynomial form as
+There are several other benchmark models commonly used in energy load forecasting. Most of them are, in contrast to the persistence model, more sophisticated benchmarks, such as the Holt-Winters-Taylor (HTW) exponential smoothing method \citep[see, e.g.,][]{Arora:2016}. Further sophisticated benchmark models are the Vanilla benchmark \citep{hong:2010}, and the popular ARIMA method \citep{Box:1990}. However, as the forecasting task at hand serves the specific use case of being an input for the bidding process in a blockchain-based local energy market, the improvement of the forecasting model over a benchmark model is of secondary importance. The task here is not so much to establish the quality of a forecasting model per se as to assess whether the available and most promising forecasting techniques can deliver accurate enough results for the use case explained above. Hence, only the persistence model will serve as a benchmark to the forecasting techniques presented next. The more relevant test of the forecasting models' accuracy will be explained in Section \ref{Sec:Method;Subsec:Market}.
 
-\begin{equation} \label{Eq:ARIMA}
-x_t-x_{t-1}=(1-b)x_t
-\end{equation}
-
-\citep{Box:1990}.
 
 
 %%%%%%%%%%%
@@ -50,72 +57,75 @@ x_t-x_{t-1}=(1-b)x_t
 
 \subsection{Error measures}\label{Sec:Method;Subsec:Error}
 
-Error measures play a essential role in any prediction task. Also called performance metrics, these measures are used to quantify the accuracy of the prediction generated by a forecasting model \citep{zor:2017}. Without assessing the prediction accuracy through error measures, it is impossible to quantify whether the proposed forecasting technique is an improvement compared to the benchmark models \citep{Meer:2018}. Moreover, error measures are used by supervised machine learning algorithms to assess the prediction accuracy in cross-validation and accordingly adjust their parameters. However, there is a wide variaty of error measures available and actively used in the research of energy forecasting. \citet{zor:2017} reviewed energy forecasting literature published in 2017 and found eight different error measures used to assess the forecasting accuracy. Among those, mean absolute percentage error was used in 83 \% of the studies, with mean absolute error and root mean squared error coming third and second with 32 and 31 \% respectively. As these results suggest, there is, unfortunately, a lack of standardization in the field of energy forecasting regarding the usage of the various available error measures \citep{Meer:2018}. This is aggravated by the fact, different error measures are appropriate in different use cases and cannot be generally applied without careful consideration. Therefore, the following section will introduce the error measures used in the research at hand and discuss their advantages and disadvantages. Following the suggestion of \citet{Hoff:2013} several performance metrics will be used to evaluate the quality of the forecasts. The choice of performance metrics is mostly guided by the compilation provided by \citet{Meer:2018}.
+Error measures play an essential role in any prediction task. Also called performance metrics, these measures are used to quantify the accuracy of the prediction generated by a forecasting model \citep{zor:2017}. Without assessing the prediction accuracy through error measures, it is impossible to quantify whether the proposed forecasting technique is an improvement compared to the benchmark models \citep{Meer:2018}. Moreover, error measures are used by supervised machine learning algorithms to assess the prediction accuracy in cross-validation and to accordingly adjust their parameters.
 
-Error measures can be classified into capturing absolute or percentage errors \citep{Hoff:2013}. Absolute error measures are, for example, mean absolute error (MAE) and root mean squared error (RMSE) which are quite popular as performance metrics for energy forecasts \citet{zor:2017}. One disadvantage of these measures is that they are not scale independent which makes them unsuitable to compare the prediction accuracy on different time series. However, they can be suitable for cross-validation and the comparison of sophisticated forecasting techniques with benchmark models on the same time series. Moreover, they do not rely on denominator-related assumptions as percentage error measures do which makes them more robust \citep{Hoff:2013}. Absolute error measures can be formulated in terms of a vector function 
+However, there is a wide variaty of error measures available and actively used in the research of energy forecasting. \citet{zor:2017} reviewed the energy forecasting literature published in 2017 and found eight different error measures that were used to assess the forecasting accuracy. Among those, mean absolute percentage error was used in 83 \% of the studies, with mean absolute error and root mean squared error coming third and second with 32 and 31 \% respectively. As these results suggest, there is a lack of standardization in the field of energy forecasting regarding the usage of the various available error measures \citep{Meer:2018}. This is aggravated by the fact, that different error measures are appropriate in different use cases and cannot be generally applied without careful consideration. Therefore, the following section introduces the error measures used in the research at hand and discusses their advantages and disadvantages. Following the suggestion of \citet{Hoff:2013} several performance metrics will be used to evaluate the quality of the forecast models. The choice of performance metrics is mostly guided by the compilation provided by \citet{Meer:2018}.
 
+
+%%%%%%%%%%%
+\subsubsection{MAE and RMSE}
+
+Error measures can be classified into representing absolute or percentage errors \citep{Hoff:2013}. Absolute error measures are, for example, mean absolute error (MAE) and root mean squared error (RMSE). Both are quite popular as performance metrics for energy forecasts \citep{zor:2017}. Absolute error measures can be formulated in terms of a vector function 
+%
 \begin{equation} \label{Eq:vectorfunction}
     E=F\left(\vec{f}, \vec{x}\right),
 \end{equation}
 
 \noindent where $\vec{f}$ and $\vec{x}$ are the forecasted and actual data vectors respectively \citep{Haben:2014}. The metric $F$ is then the absolute p-norm,
-
+%
 \begin{equation} \label{Eq:pnorm}
     E_p=\left\lVert\vec{f}-\vec{x}\right\rVert_p=\biggl(\sum_{i=1}^N \left|f_i-x_i\right|^p\biggr)^{1/p},
 \end{equation}
 
-\noindent for $p≥1$ \citep[][p. 52]{golub:2012}. The MAE belongs to this type of error and is defined as the average of the absolute differences between the predicted and true values \citet{Hoff:2013}:
-
+\noindent for $p\geq1$ \citep[][p. 52]{golub:2012}. The MAE belongs to this type of error and is defined as the average of the absolute differences between the predicted and true values \citep{Hoff:2013}:
+%
 \begin{equation} \label{Eq:MAE}
 \text{MAE}=\frac{1}{N}\sum_{t=1}^N\left|\widehat{x}_t-x_t\right|,    
 \end{equation}
 
-\noindent where N is the length of the forecasted time series, $\widehat{x}_t$ the forecasted value and $x_t$ the observed value. This is equivalent to equation \ref{Eq:pnorm} with $p=1$. Similar to the MAE and also of the p-norm type of error measure is the RMSE. Instead of summing up the \textit{absolute} differences, the RMSE is defined as the square root of the average \textit{squared} differences (which is equivalent to $p=2$ in equation \ref{Eq:pnorm}):
-
+\noindent where N is the length of the forecasted time series, $\widehat{x}_t$ the forecasted value and $x_t$ the observed value. This is equivalent to Equation \ref{Eq:pnorm} with $p=1$. Similar to the MAE and also of the p-norm type of error measure is the RMSE. Instead of summing up the \textit{absolute} differences, the RMSE is defined as the square root of the average \textit{squared} differences (which is equivalent to $p=2$ in Equation \ref{Eq:pnorm}):
+%
 \begin{equation} \label{Eq:RMSE}
 \text{RMSE}=\sqrt{\frac{1}{N}\sum_{t=1}^N\left(\widehat{x}_t-x_t\right)^2}.
 \end{equation}
 
-The RMSE, thus, puts more weight on large deviations between forecast and observation than the MAE \citep{Meer:2018}. Therefore, the RMSE is more suitable in the presence of a lot of noise, as it does not mask a small amount of large errors in the presence of a majority of small errors as the MAE does \citep{Zhang:2015}.
-
-Even though the MAE and RMSE are widely used, they are not useful to compare the forecast accuracy across different time series as they are not scale independent \citep{Meer:2018}. Therefore, it is reasonable to complement them by percentage error measures which are normalized by a denominator to make them scale independent. However, depending on the application, there may be several denominators that could be used, each coming with certain advantages and disadvantages. \citet{Hoff:2013}, for example, found that the choice of the denominator influences the calculated error results of solar irradiance forecasts substantially. Generally, the denominator fall into two categories: (1) It can be a single number that is representative of the forecasted time series (e.g., the maximum value of the forecasted time series, the average value of the forecasted time series or the capacity as the maximum constraint of the electrical system under consideration) as proposed by \citet{Hoff:2013} and agreed on by \citet{Meer:2018}. (2) The denominator can be different for every pair of true and predicted value (i.e., the true value is used as denominator for each pair of true and predicted value) as done by \citet{xie:2018} and agreed on by \citet{zor:2017}. 
-
-the mean absolute percentage error (MAPE) and the normalized root mean squared error (NRMSE). Investigating forecasting error measures for PV power plants, \citet{Hoff:2013} conclude that normalizing the MAE by the average output of a PV power plant is most desirable to compute the MAPE. Even though \citet{Meer:2018} did not find any literature supporting this for consumption forecasting, they suggest that the same reasoning should hold here as well. Therefore, the MAPE and NRMSE are formulated as follows
-
-%%%%%%%%%%%
-\subsubsection{MAE and RMSE}
-
+\noindent RMSE, thus, puts more weight on large deviations between forecast and observation than MAE \citep{Meer:2018}. Therefore, RMSE is more suitable in the presence of a lot of noise, as it does not mask a small amount of large errors in the presence of a majority of small errors as the MAE does \citep{Zhang:2015}. One disadvantage of these measures is that they are not scale independent. This makes them unsuitable to compare the prediction accuracy of a forecasting model on different time series. However, they are suitable for cross-validation in machine learning algorithms and for the comparison of sophisticated forecasting techniques with benchmark models on the same time series. Moreover, they do not rely on denominator-related assumptions -- as percentage error measures do -- which makes them more robust \citep{Hoff:2013}.
 
 
 %%%%%%%%%%%
 \subsubsection{MAPE and NRMSE}
 
-Even though the MAE and RMSE are widely used, they are not useful to compare the forecast accuracy across studies as these measures are not scale independent. Therefore, they will be complemented by the mean absolute percentage error (MAPE) and the normalized root mean squared error (NRMSE). Investigating forecasting error measures for PV power plants, \citet{Hoff:2013} conclude that normalizing the MAE by the average output of a PV power plant is most desirable to compute the MAPE. Even though \citet{Meer:2018} did not find any literature supporting this for consumption forecasting, they suggest that the same reasoning should hold here as well. Therefore, the MAPE and NRMSE are formulated as follows
+Even though MAE and RMSE are widely used, they are not useful to compare the forecast accuracy across different time series as they are not scale independent \citep{Meer:2018}. Therefore, it is reasonable to complement them with percentage error measures which are normalized by a denominator. However, depending on the application, there may be several denominators that could be used, each coming with certain advantages and disadvantages. \citet{Hoff:2013}, for example, found that the choice of the denominator influences the calculated error results of solar irradiance forecasts substantially. Generally, the denominator may fall into one of two categories: (1) It is a fixed single number that is representative of the time series to be forecasted (e.g., the maximum value of the time series, the average value of the time series or the maximum capacity of the electrical system under consideration) as proposed by \citet{Hoff:2013} and agreed on by \citet{Meer:2018}. (2) The denominator can be different for every pair of true and predicted value (i.e., the true value is used as denominator for each pair of true and predicted values) as defined by \citet{Hyndman:2006} and used by \citet{xie:2018}, for example. 
 
+Investigating forecasting error measures for PV power plants, \citet{Hoff:2013} conclude that normalizing the MAE by the average output of a PV power plant is most desirable to compute the MAPE. However, as \citet{Meer:2018} did not find any literature supporting this for consumption forecasting, the MAPE and NRMSE normalised by the true value will be used here. Hence, they are defined as
+%
 \begin{equation} \label{Eq:MAPE}
-\text{MAPE}=\frac{100}{N}\sum_{i=1}^N\left|\frac{\widehat{x}_i-x_i}{\bar{x}}\right|,
+\text{MAPE}=\frac{100}{N}\sum_{i=1}^N\left|\frac{\widehat{x}_i-x_i}{x_i}\right|,
 \end{equation}
-
+and
 \begin{equation} \label{Eq:NRMSE}
-\text{NRMSE}=\sqrt{\frac{100}{N}\sum_{i=1}^N\left(\frac{\widehat{x}_i-x_i}{\bar{x}}\right)^2}.
+\text{NRMSE}=\sqrt{\frac{100}{N}\sum_{i=1}^N\left(\frac{\widehat{x}_i-x_i}{x_i}\right)^2}.
 \end{equation}
 
-where $\bar{x}$ is the average of the observed time series. For MAPE this is equivalent to dividing the sum of absolute errors by the sum of all values contained in the time series. This formulation avoids the problem of the classical MAPE formulation using $x_t$ to normalize, that the fraction $\frac{\widehat{x}_i-x_i}{\bar{x}_t}$ is not defined if $x_t=0$ and is for example used in \citet{Yamin:2004}.
-
+\noindent However, as \citet{Hyndman:2006} point out, this choice of denominator is problematic in the presence of zero values as the fraction $\frac{\widehat{x}_i-x_i}{\bar{x}_t}$ is not defined for $x_t=0$. Therefore, time series containing zero values cannot be assessed with this definition of the MAPE and NRSME. This has to be kept in mind for the further analysis. Furthermore, it is important to recognize that percentage errors assume a meaningful zero value (which is not the case for, e.g., temperature scales like Fahrenheit or Celsuis) \citep{Hyndman:2006}. However, as kWh as measurement unit of the time series used here does have a meaningful zero value, that is of no concern in this study. Again, just as RMSE relative to MAE, NRSME is more sensitive to outliers than MAPE.
 
 
 %%%%%%%%%%%
-\subsubsection{MASE}
+\subsubsection{Further error measures}
 
-Finally, the mean absolute scaled error (MASE) by \citet{Hyndman:2006} will be used to assess the forecasts as it has the advantage of being applicable even if the time series includes a great number of meaningless zero values (e.g., night-time PV energy production). Additionally, the MASE overcomes the issue that MAPE puts a heavier penalty on negative errors. It normalizes the MAE with the forecast made by the persistence model and is defined as
-
+To overcome the shortage of an undefined fraction in the presence of zero values that MAPE and NRMSE suffer from, the mean absolute scaled error (MASE) was proposed by \citet{Hyndman:2006}. According to them, MASE is applicable even if the time series includes a great number of zero values (e.g., night-time PV energy production) and, as further advantage, MASE does not put a heavier penalty on positive errors as MAPE does. To compute MASE, the MAE is normalized with the in-sample mean absolute error of the persistence model forecast \citet{Hyndman:2006}:
+%
 \begin{equation} \label{Eq:MASE}
 \text{MASE}=\frac{\text{MAE}}{\frac{1}{n-1}\sum_{i=2}^N\left|x_i-x_{i-1}\right|}.
 \end{equation}
 
+Unfortunately, all metrics described above can be misleading in the presence of sudden, large fluctuations. \citet{Vallance:2017} show, that forecasts that follow the observed time series more closely but with a small temporal mismatch (e.g., sudden fluctuation is forecasted but with a delay) may have the same or worse RMSE values than a smooth forecast ignoring sudden fluctuations but follow the trend of the observed time series well. A similar case is put forward by \citet{Haben:2014}. To address this issue, several new metrics have been proposed recently that take into account the ability of the forecast to predict sudden fluctuation in the time series, also called ramp events \citep{Zhang:2015}. As the energy consumption of households is also characterized by large and sudden fluctuation, this might be of concern for the forecasting task at hand as well.
 
+A proposed metric that captures the ability of a forecasting technique to accurately follow such ramp events is the ramp metric \citep{Vallance:2017} which is based on an application of the swinging door algorithm by \citet{Florita:2013}. Closely connected to the notion of detecting ramp events but with a focus on the temporal aspect of the forecast, \citet{Haben:2014} propose an adjusted p-norm based error metric, that allows for permutation of the observed time series in a specified interval to find the permutation that translates to the lowest absolute error. Thereby, the requirement of temporal accuracy of the forecast is relaxed and the error is smaller as long as a fluctuation is predicted correctly, even if the timing is slightly incorrect. Thereby, the double penalty of the standard absolute error measures (such as MAE and RMSE) is avoided \citep{Haben:2014}.
 
-Additionally, skewness and kurtosis of forecasting errors’ distribution will be calculated to further assess the quality of the predictions made by different forecasting techniques.
+However, the prediction task at hand aims to forecast just one value ahead. Therefore, solely the error for each predicted time step individually is of interest here. In this setting, a prediction that is correct in magnitude but not correct in timing is not preferable to a equally incorrect prediction at every point in time. This is due to the fact, that the prediction is not used to plan actions for an extended period of multiple time point (as is often the case for solar or wind generation forecasts) but just serves as a basis for a single bid at a single point in time, which is unrelated to potential future developments of a household's energy consumption or production. Thus, the ramp and adjusted absolute error metrics proposed above -- even though highly relevant to the field of energy forecasting as a whole -- will not be used in the research at hand.
+
+Analogically, the sometimes recommended Kolmogorov-Smirnov Integral (KSI) \citep{Espinar:2009} is not used here, as this metric describes the similarity of a forecasted and observed time series in terms of their probability distributions and not the accuracy of single value predictions.
 
 
 
