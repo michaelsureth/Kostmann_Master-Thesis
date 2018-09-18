@@ -1,15 +1,6 @@
 
 \section{Method}\label{Sec:Method}
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%   Forecasting methods   %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Forecasting methods}\label{Sec:Method;Subsec:Forecast}
-
-
 Based on the extensive literature review presented above, two different forecasting techniques were chosen to be employed to predict households' energy consumption and production. The following criteria were considered for the selection of appropriate methods: 
 
 \begin{enumerate}
@@ -23,13 +14,17 @@ Based on the extensive literature review presented above, two different forecast
 
 % (1) The forecasting technique had to produce deterministic (point) forecasts. (2) The forecasting technique had to be used in existing studies about forecasting energy consumption or production. (3) The existing study or studies using the forecasting technique had to use comparable data. (4) The forecasting task had to be comparable to the forecasting task of this study, i.e., single consumer household and very short-term forecasting horizon. (5) The forecasting technique only employed historical and calender features as input for the prediction. (6) The forecasting technique had to produce absolute and relative to other studies promisingly accurate predictions.
 
-\noindent Based on these criteria the following forecasting techniques were selected for the prediction task at hand: Pooling-based deep recurring neural net-work (PDRNN) based on the procedure outlined by \citet{Shi:2017} and sparse autoregressive LASSO as developed and implemented by \citet{Li:2017}.%, and Kernel-Wavelet-Functional method (KWF) following the idea of \citet{Auder:2018} of using discrete wavelet transform and clustering before applying the KWF method.
+\noindent Based on these criteria the following forecasting techniques were selected for the prediction task at hand: Pooling-based deep recurring neural network (PDRNN) based on the procedure outlined by \citet{Shi:2017} and sparse autoregressive LASSO as developed and implemented by \citet{Li:2017}.%, and Kernel-Wavelet-Functional method (KWF) following the idea of \citet{Auder:2018} of using discrete wavelet transform and clustering before applying the KWF method.
 
 % As the data used to train the models is in 3-minute intervals, but the prediction will have to be made 15 minutes ahead, all forecasting models will be used to make 5 sequential one-step ahead predictions. These 5 predictions will then be aggregated into a single forecast for the whole 15-minute interval and compared to the actual consumption/production within this 15-minute interval (i.e., the aggregation of the 5 corresponding 3-minute consumption values).
 
 
-%%%%%%%%%%%
-\subsubsection{Benchmark model}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%   Benchmark model   %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Benchmark model} \label{Sec:Method;Subsec:Benchmark}
 
 Benchmark models serve as a trivial baseline to assess the relative improvement of a sophisticated model \citep{Meer:2018}. According to \citet{Pinson:2012}, a benchmark model should serve as a reference, need few computational resources to be estimated, and be model-free. A sophisticated forecasting method is only worth implementing if it can significantly outperform a trivial benchmark model \citep{Diagne:2013}. A frequent benchmark model used for deterministic forecasts is the simple persistence model \citep{Meer:2018}. This model assumes that the conditions at time $t$ persist at least up to the period of forecasting interest at time $t+h$. In energy forecasting, this na\"ive model is surprisingly well suited to forecast very short time periods of a few seconds or minutes \citep{Pinson:2012} and, thus, often harder to beat than it might seem. The persistence model is defined as
 %
@@ -37,17 +32,64 @@ Benchmark models serve as a trivial baseline to assess the relative improvement 
 \widehat{x}_{t+1}=x_t.
 \end{equation}
 
-There are several other benchmark models commonly used in energy load forecasting. Most of them are, in contrast to the persistence model, more sophisticated benchmarks, such as the Holt-Winters-Taylor (HTW) exponential smoothing method \citep[see, e.g.,][]{Arora:2016}. Further sophisticated benchmark models are the Vanilla benchmark \citep{hong:2010}, and the popular ARIMA method \citep{Box:1990}. However, as the forecasting task at hand serves the specific use case of being an input for the bidding process in a blockchain-based local energy market, the improvement of the forecasting model over a benchmark model is of secondary importance. The task here is not so much to establish the quality of a forecasting model per se as to assess whether the available and most promising forecasting techniques can deliver accurate enough results for the use case explained above. Hence, only the persistence model will serve as a benchmark to the forecasting techniques presented next. The more relevant test of the forecasting models' accuracy will be explained in Section \ref{Sec:Method;Subsec:Market}.
+There are several other benchmark models commonly used in energy load forecasting. Most of them are, in contrast to the persistence model, more sophisticated benchmarks, such as the Holt-Winters-Taylor (HTW) exponential smoothing method \citep[see, e.g.,][]{Arora:2016}. Further sophisticated benchmark models are the Vanilla benchmark \citep{hong:2010}, and the popular ARMA method \citep{Box:1990}. However, as the forecasting task at hand serves the specific use case of being an input for the bidding process in a blockchain-based local energy market, the improvement of the forecasting model over a benchmark model is of secondary importance. The task here is not so much to establish the quality of a forecasting model per se as to assess whether the available and most promising forecasting techniques can deliver accurate enough results for the use case explained above. Hence, only the persistence model will serve as a benchmark to the forecasting techniques presented next. The more relevant test of the forecasting models' accuracy will be explained in Section \ref{Sec:Method;Subsec:Market}.
+
+
+
+%%%%%%%%%%%%%%%%
+%%%   LSTM   %%%
+%%%%%%%%%%%%%%%%
+
+\subsection{Long short-term memory recurring neural network} \label{Sec:Method;Subsec:LSTM}
+
+Long short-term memory (LSTM) neural networks (NN) have been successfully applied in several load forecasting studies \citep{Kong:2018,Shi:2017,Gan:2017,Chen:2018}. These studies benefit from the high effectiveness of recurrent neural networks with LSTM units for sequence learning. These LSTM units are particularly well suited to learn long sequences or time series due to their ability to retain information over a long time.
 
 
 
 %%%%%%%%%%%
-\subsubsection{Long short-term memory recurring neural network}
+\subsubsection{Basic functioning of neural networks}
+
+To understand the full advantage LSTM recurring neural networks have over other machine learning techniques for time series learning, it is useful to take a step back and understand the basic functioning of a so-called feedforward neural network first. The most basic building blocks of any neural network are three types of layers: an input layer, one or more hidden layer(s), and an output layer. Each layer consists of one or more units (sometimes called neurons). Each unit in a layer takes in a value, applies a linear transformation to this value, and outputs it to the next layer. In the input layer there are as many units as there are features that serve as input for the forecasting model. The units of the input layer are connected to all units in the (first) hidden layer with weights. These weights are trainable parameters that control how much weight is given to the output of one unit before it serves as a input for a unit in the next layer. In all subsequent hidden layers, all units of one layer are connected to all units of the next layer through weights (this is called densely connected). The last layer consists of as many units as there are output values. That is, if the forecasting model should just predict a single value, the output layer will have a single unit that takes in the weighted output values of all units of the last hidden layer, applies a linear transformation to these inputs and outputs a single value. The linear transformation that is applied within each unit is called activation function and is often a tanh function of the form
+
+\begin{equation} \label{}
+    \text{tanh}=
+\end{equation}
+
+The learning in machine learning refers in the case of neural networks to finding weights between the units that lead to the best prediction. Finding these weights (i.e., the training of the model) is done through a procedure that is called backpropagation. First, the initial weights are randomly chosen. Then, in a first iteration, the training data is fed into the network, which outputs a predicted value. With the help of a loss function, the accuracy of this prediction compared to the true value is quantified. By computing the derivative of the loss function, the weights can be changed in the direction that leads to the greatest decrease of the loss function. This method is called steepest gradient descent. The result is then backpropagated through the network to update the weights. This is repeated in each iteration until the model converges to a value of the loss function that cannot be further improved.
 
 
 
 %%%%%%%%%%%
-\subsubsection{Sparse auto-regressive LASSO}
+\subsubsection{Recurrent neural networks}
+
+The problem for time series learning with feedforward neural networks is that they do have no internal state that could retain a memory. That is, to learn a sequence or time series, a feedforward NN would always need the complete time series as a single input as it cannot retain the state learned in a previous chunk of the time series to apply it to the next chunk fed into the model. This problem is solved by recurring neural networks.
+
+Recurring neural network still employ the basic building blocks of units and layers. However, the units do not just feed forward the transformed input as output but have a recurrent connection that feeds an internal state back into the unit as input. Thereby, a RNN unit loops over individual elements of an input sequence, instead of processing the whole sequence in a single step \citep{chollet:2018}. This means, the RNN unit applies the linear transformation to the first element of the input sequence and combines it with its internal state. Simultaneously, it updates the internal state which is then again fed into the unit together with the next element of the input sequence. Theoretically, this enables the the unit to retain information about sequence elements that have been processed many steps before the current step. However, in practice the problem of a vanishing gradient occurs. This problem makes RNNs for very long sequences basically untrainable.
+
+
+
+%%%%%%%%%%%
+\subsubsection{RNN with long short-term memory units}
+
+To overcome the vanishing gradient problem, \citet{Hochreiter:1997} developed LSTM units. LSTM units are an extension of RNN units by an additional state. This state can retain information for as long as needed. In which step this additional state is updated and in which state the information it retains is used in the transformation of the input is controlled by three so-called gates. These three gates again have the form of a simple RNN cell. Sometimes, the gates are titled input, output, and forget gate. However, as \citet{chollet:2018} put it:
+\begin{quote}
+    "[T]hese interpretations don’t mean much, because what these [gates] actually do is determined by the contents of the weights parametrizing them; and the weights are learned in an end-to-end fashion, starting over with each training round, making it impossible to credit this or that operation with a specific purpose." (p. XX)
+\end{quote}
+
+To put it all together, LSTM RNN is an extension of simple RNN which has the advantage of being able to retain a state. This enables (LSTM) RNN to process individual elements of a sequence or time series sequentially and still use information that was obtained multiple steps earlier for the current transformation. LSTM overcomes the vanishing gradient problem that simple RNN suffers from. All NN use the basic building blocks of units that form input, hidden, and output layers. The training process of NN involves updating the weights of the model based on the gradient descent of a loss function that quantifies the accuracy of a prediction compared to true values. All this enables, LSTM RNN to learn highly complex and non-linear relationships in time series data and makes it a promising forecasting technique to predict housholds' very short-term energy consumption and production.
+
+
+
+%%%%%%%%%%%
+\subsubsection{Model training}
+
+
+
+%%%%%%%%%%%%%%%%%
+%%%   LASSO   %%%
+%%%%%%%%%%%%%%%%%
+
+\subsection{Sparse auto-regressive LASSO} \label{Sec:Method;Subsec:LASSO}
 
 
 
@@ -55,7 +97,7 @@ There are several other benchmark models commonly used in energy load forecastin
 %%%   Error measures   %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Error measures}\label{Sec:Method;Subsec:Error}
+\subsection{Error measures} \label{Sec:Method;Subsec:Error}
 
 Error measures play an essential role in any prediction task. Also called performance metrics, these measures are used to quantify the accuracy of the prediction generated by a forecasting model \citep{zor:2017}. Without assessing the prediction accuracy through error measures, it is impossible to quantify whether the proposed forecasting technique is an improvement compared to the benchmark models \citep{Meer:2018}. Moreover, error measures are used by supervised machine learning algorithms to assess the prediction accuracy in cross-validation and to accordingly adjust their parameters.
 
@@ -133,7 +175,27 @@ Analogically, the sometimes recommended Kolmogorov-Smirnov Integral (KSI) \citep
 %%%   Market simulation   %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Market simulation}\label{Sec:Method;Subsec:Market}
+\subsection{Market simulation} \label{Sec:Method;Subsec:Market}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%   Implementation   %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Implementation} \label{Sec:Method;Subsec:Implementation}
+
+
+\subsubsection{Data preprocessing}
+
+\subsubsection{Model training}
+
+\subsubsection{Prediction accuracy}
+
+\subsubsection{Market outcome}
+ 
 
 
 
