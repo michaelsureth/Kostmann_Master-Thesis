@@ -14,7 +14,7 @@ Based on the extensive literature review presented above, two different forecast
 
 % (1) The forecasting technique had to produce deterministic (point) forecasts. (2) The forecasting technique had to be used in existing studies about forecasting energy consumption or production. (3) The existing study or studies using the forecasting technique had to use comparable data. (4) The forecasting task had to be comparable to the forecasting task of this study, i.e., single consumer household and very short-term forecasting horizon. (5) The forecasting technique only employed historical and calender features as input for the prediction. (6) The forecasting technique had to produce absolute and relative to other studies promisingly accurate predictions.
 
-\noindent Based on these criteria the following forecasting techniques were selected for the prediction task at hand: Pooling-based deep recurring neural network (PDRNN) based on the procedure outlined by \citet{Shi:2017} and sparse autoregressive LASSO as developed and implemented by \citet{Li:2017}.%, and Kernel-Wavelet-Functional method (KWF) following the idea of \citet{Auder:2018} of using discrete wavelet transform and clustering before applying the KWF method.
+\noindent Based on these criteria the following forecasting techniques were selected for the prediction task at hand: Pooling-based deep recurrent neural network (PDRNN) based on the procedure outlined by \citet{Shi:2017} and sparse autoregressive LASSO as developed and implemented by \citet{Li:2017}.%, and Kernel-Wavelet-Functional method (KWF) following the idea of \citet{Auder:2018} of using discrete wavelet transform and clustering before applying the KWF method.
 
 % As the data used to train the models is in 3-minute intervals, but the prediction will have to be made 15 minutes ahead, all forecasting models will be used to make 5 sequential one-step ahead predictions. These 5 predictions will then be aggregated into a single forecast for the whole 15-minute interval and compared to the actual consumption/production within this 15-minute interval (i.e., the aggregation of the 5 corresponding 3-minute consumption values).
 
@@ -40,43 +40,105 @@ There are several other benchmark models commonly used in energy load forecastin
 %%%   LSTM   %%%
 %%%%%%%%%%%%%%%%
 
-\subsection{Long short-term memory recurring neural network} \label{Sec:Method;Subsec:LSTM}
+\subsection{Long short-term memory recurrent neural network} \label{Sec:Method;Subsec:LSTM}
 
-Long short-term memory (LSTM) neural networks (NN) have been successfully applied in several load forecasting studies \citep{Kong:2018,Shi:2017,Gan:2017,Chen:2018}. These studies benefit from the high effectiveness of recurrent neural networks with LSTM units for sequence learning. These LSTM units are particularly well suited to learn long sequences or time series due to their ability to retain information over a long time.
+Even though being applied very successfully in a wide range of tasks, such as speech recognition \citep{Graves:2013} or anomaly detection in time series \citep{Malhotra:2015}, long short-term memory (LSTM) neural networks (NN) have been introduced only very recently in load forecasting studies \citep[e.g.,][]{Kong:2018,Shi:2017,Gan:2017,Chen:2018}. Compared to previous previous attempts using machine learning techniques, the application of LSTM neural networks for load forecasting has been much more successful \citep{Kong:2018,Shi:2017} as these studies benefit from the high effectiveness of recurrent neural networks for sequence learning. LSTM units are particularly well suited to learn long sequences or time series due to their ability to retain information over many time steps. The next three sections are based on \citet{chollet:2018}, \citet{Lipton:2015}, and \citet{Gan:2017}.
 
 
 
 %%%%%%%%%%%
 \subsubsection{Basic functioning of neural networks}
 
-To understand the full advantage LSTM recurring neural networks have over other machine learning techniques for time series learning, it is useful to take a step back and understand the basic functioning of a so-called feedforward neural network first. The most basic building blocks of any neural network are three types of layers: an input layer, one or more hidden layer(s), and an output layer. Each layer consists of one or more units (sometimes called neurons). Each unit in a layer takes in a value, applies a linear transformation to this value, and outputs it to the next layer. In the input layer there are as many units as there are features that serve as input for the forecasting model. The units of the input layer are connected to all units in the (first) hidden layer with weights. These weights are trainable parameters that control how much weight is given to the output of one unit before it serves as a input for a unit in the next layer. In all subsequent hidden layers, all units of one layer are connected to all units of the next layer through weights (this is called densely connected). The last layer consists of as many units as there are output values. That is, if the forecasting model should just predict a single value, the output layer will have a single unit that takes in the weighted output values of all units of the last hidden layer, applies a linear transformation to these inputs and outputs a single value. The linear transformation that is applied within each unit is called activation function and is often a tanh function of the form
+To understand the full advantage that LSTM recurrent neural networks have over other machine learning techniques for time series learning, it is useful to take a step back and recapitulate the basic functioning of a so-called feedforward neural network first. The most basic building blocks of any neural network are three types of layers: an input layer, one or more hidden layer(s), and an output layer. Each layer consists of one or more units (sometimes called neurons). Each unit in a layer takes in an input, applies a transformation to this input, and outputs it to the next layer. Formally, this can be written as
+%
+\begin{equation} \label{feedforward}
+\begin{split}
+    \vec{h}_{1i}&=\phi_1\left(\vec{W}_1\vec{x}_i+\vec{b}_1\right)\\
+    \vec{h}_{2i}&=\phi_1\left(\vec{W}_2\vec{h}_{1i}+\vec{b}_2\right)\\
+    &\setbox0\hbox{=}\mathrel{\makebox[\wd0]{\hfil\vdots\hfil}}\\
+    o_i&=\phi_n\left(\vec{W}_n\vec{h}_{(n-1)i}+\vec{b}_n\right)=\widehat{y}_i,
+\end{split}
+\end{equation}
+%
+where $n$ denotes a layer, $\phi_n$ is the activation function, $\vec{W}_n$ is the weight matrix, and $\vec{b}_n$ the bias vector in layer $n$. $\vec{x}_i$ is the $i^{th}$ input vector and $o_i$ the output of the output layer which is the estimation of the true value $y_i$.
 
-\begin{equation} \label{}
-    \text{tanh}=
+In the input layer there are as many units as there are features (i.e., variables) that serve as input for the forecasting model. The units of the input layer are connected to all units in the (first) hidden layer. The weight matrices and bias vectors in each layer are parameters that are adjusted during the training of the model. In all subsequent hidden layers, all units of one layer are connected to all units of the next layer (this is called densely connected). The last layer consists of as many units as there are output values. That is, if the forecasting model should just predict a single value, the output layer will have a single unit that takes in the weighted output values of all units of the last hidden layer, applies a transformation to these inputs and outputs a single value. The transformation that is applied to the input within each unit is called activation function and must be chosen depending on the task at hand. Especially for sequence learning, this activation function is often a hypberbolic tangent (tanh) \citep{Lipton:2015}:
+
+\begin{equation} \label{activation}
+    \phi(z)=\frac{e^z-e^{-z}}{e^z+e^{-z}}
 \end{equation}
 
-The learning in machine learning refers in the case of neural networks to finding weights between the units that lead to the best prediction. Finding these weights (i.e., the training of the model) is done through a procedure that is called backpropagation. First, the initial weights are randomly chosen. Then, in a first iteration, the training data is fed into the network, which outputs a predicted value. With the help of a loss function, the accuracy of this prediction compared to the true value is quantified. By computing the derivative of the loss function, the weights can be changed in the direction that leads to the greatest decrease of the loss function. This method is called steepest gradient descent. The result is then backpropagated through the network to update the weights. This is repeated in each iteration until the model converges to a value of the loss function that cannot be further improved.
+The learning in machine learning refers in the case of neural networks to adjusting the weight matrices and bias vectors such that the best prediction is output. In supervised learning, adjusting these weights (i.e., the training of the model) is done through an algorithm that is called backpropagation which was introduced by \citet{Rumelhart:1986}. First, the weight matrices and bias vectors are randomly initialized. Then, in a first iteration, the training data is fed into the network, which outputs a prediction. This prediction is assessed with the help of a loss function that quantifies the distance between the prediction and the true value. A commonly used loss function is the mean absolute error:
+%
+\begin{equation} \label{lossMAE}
+    L\left(y, \widehat{y}\right)=\text{MAE}=\frac{1}{N}\sum_{i=1}^N\left|\widehat{y}_i-y_i\right|
+\end{equation}
+%
+The simplest method to optimize the model parameters is to compute the derivative of the loss function with respect to each parameter in the model and change each parameters in a fixed-size step in the direction of the negative gradient. This method is called gradient descent. Thereby the prediction error is "backpropagated" through the network to update the parameters. This is repeated in each iteration until the model converges to a value of the loss function that cannot be further improved.
 
 
 
 %%%%%%%%%%%
 \subsubsection{Recurrent neural networks}
 
-The problem for time series learning with feedforward neural networks is that they do have no internal state that could retain a memory. That is, to learn a sequence or time series, a feedforward NN would always need the complete time series as a single input as it cannot retain the state learned in a previous chunk of the time series to apply it to the next chunk fed into the model. This problem is solved by recurring neural networks.
+The problem for time series learning with feedforward neural networks is that they do not have an internal state that could retain a memory. That is, to learn a sequence or time series, a feedforward neural network would always need the complete time series as a single input as it cannot retain the state learned in a previous chunk of the time series to apply it to the next chunk fed into the model. This problem is solved by recurrent neural networks.
 
-Recurring neural network still employ the basic building blocks of units and layers. However, the units do not just feed forward the transformed input as output but have a recurrent connection that feeds an internal state back into the unit as input. Thereby, a RNN unit loops over individual elements of an input sequence, instead of processing the whole sequence in a single step \citep{chollet:2018}. This means, the RNN unit applies the linear transformation to the first element of the input sequence and combines it with its internal state. Simultaneously, it updates the internal state which is then again fed into the unit together with the next element of the input sequence. Theoretically, this enables the the unit to retain information about sequence elements that have been processed many steps before the current step. However, in practice the problem of a vanishing gradient occurs. This problem makes RNNs for very long sequences basically untrainable.
+Recurrent neural networks still consist of the basic building blocks of units and layers. However, the units do not just feed forward the transformed input as output but have a recurrent connection that feeds an internal state back into the unit as input. Thereby, a RNN unit loops over individual elements of an input sequence, instead of processing the whole sequence in a single step. This means, the RNN unit applies the transformation to the first element of the input sequence and combines it with its internal state. This introduces the notion of time into neural networks. Formally, this can be written as
+%
+\begin{equation} \label{RNN}
+\begin{split}
+    \vec{h}_{1t}&=\phi_1\left(\vec{W}_1^{(i)}\vec{x}_t+\vec{W}^{(r)}_1\vec{h_{1(t-1)}}+\vec{b}_1\right)\\
+    \vec{h}_{2t}&=\phi_2\left(\vec{W}_2^{(i)}\vec{h}_{1t}+\vec{W}^{(r)}_2\vec{h_{2(t-1)}}+\vec{b}_2\right)\\
+    &\setbox0\hbox{=}\mathrel{\makebox[\wd0]{\hfil\vdots\hfil}}\\
+    o_t&=\phi_n\left(\vec{W}_n^{(i)}\vec{h}_{(n-1)t}+\vec{b}_n\right)=\widehat{y}_t,
+\end{split}
+\end{equation}
+%
+where $n$ denotes a layer, $\phi_n$ is the activation function, $\vec{W}_n^{(i)}$ is the weight matrix for the input, $\vec{W}_n^{(r)}$ is the weight matrix for the recurrent input (i.e., the output of layer $n$ in the previous time step), and $\vec{b}_n$ the bias vector in layer $n$. $\vec{x}_i$ is the $i^{th}$ input vector and $o_i$ the output of the output layer which is the estimation of the true value $y_i$. Note that the output layer has no recurrent units but is the same as in a simple feed forward network.
+
+The cyclical structure of RNN can be unrolled across time (see Figure \ref{Fig:RNNunrolled}). This illustrates that a RNN is still trainable through backpropagation across all time steps. This is called backpropagation through time (BPTT) and was introduced by \citet{Werbos:1990}. Theoretically, this structure enables RNN to retain information about sequence elements that have been processed many steps before the current step and use it for the prediction of the current step. However, in practice the vanishing gradient problem occurs\footnote{For more details on the vanishing gradient problem see, e.g., \citet{Bengio:1994}}. This problem makes RNNs for very long sequences basically untrainable.
 
 
 
 %%%%%%%%%%%
 \subsubsection{RNN with long short-term memory units}
 
-To overcome the vanishing gradient problem, \citet{Hochreiter:1997} developed LSTM units. LSTM units are an extension of RNN units by an additional state. This state can retain information for as long as needed. In which step this additional state is updated and in which state the information it retains is used in the transformation of the input is controlled by three so-called gates. These three gates again have the form of a simple RNN cell. Sometimes, the gates are titled input, output, and forget gate. However, as \citet{chollet:2018} put it:
+To overcome the vanishing gradient problem, \citet{Hochreiter:1997} developed LSTM units. LSTM units extend RNN units by an additional state. This state can retain information for as long as needed. In which step this additional state is updated and in which state the information it retains is used in the transformation of the input is controlled by three so-called gates\footnote{In their original specification, \citet{Hochreiter:1997} included only two gates. However, as this LSTM specification was still prone to the vanishing gradient problem under some circumstances, \citet{Gers:2000} extended it by a third gate.}. These three gates again have the form of a simple RNN cell. Formally, these gates can be written as (following the notation of \citet{Lipton:2015})
+%
+\begin{equation} \label{LSTMgates}
+\begin{split}
+    \vec{i_t}&=\sigma\left(\vec{W}^{(ix)}\vec{x}_t+\vec{W}^{(ih)}h_{t-1}+\vec{b_i}\right)\\
+    \vec{f_t}&=\sigma\left(\vec{W}^{(fx)}\vec{x}_t+\vec{W}^{(fh)}h_{t-1}+\vec{b_f}\right)\\
+    \vec{o_t}&=\sigma\left(\vec{W}^{(ox)}\vec{x}_t+\vec{W}^{(oh)}h_{t-1}+\vec{b_o}\right),
+\end{split}   
+\end{equation}
+%
+where $\sigma$ is the sigmoid activation function $\sigma(z)=\frac{1}{1+e^{-z}}$, with $W$ denoting the weight matrices that are intuitively labeled ($ix$ for the weight matrix of gate $i_t$ multiplied with the input $x_t$ etc.), and $b$ denoting the bias vectors.\footnote{Sometimes, the gates are titled input, output, and forget gate. However, as \citet{chollet:2018} put it:
 \begin{quote}
     "[T]hese interpretations don’t mean much, because what these [gates] actually do is determined by the contents of the weights parametrizing them; and the weights are learned in an end-to-end fashion, starting over with each training round, making it impossible to credit this or that operation with a specific purpose." (p. XX)
 \end{quote}
+}
 
-To put it all together, LSTM RNN is an extension of simple RNN which has the advantage of being able to retain a state. This enables (LSTM) RNN to process individual elements of a sequence or time series sequentially and still use information that was obtained multiple steps earlier for the current transformation. LSTM overcomes the vanishing gradient problem that simple RNN suffers from. All NN use the basic building blocks of units that form input, hidden, and output layers. The training process of NN involves updating the weights of the model based on the gradient descent of a loss function that quantifies the accuracy of a prediction compared to true values. All this enables, LSTM RNN to learn highly complex and non-linear relationships in time series data and makes it a promising forecasting technique to predict housholds' very short-term energy consumption and production.
+Again following the notation of \citet{Lipton:2015}, the full algorithm of a LSTM unit is given by the three gates specified above, the input node
+%
+\begin{equation} \label{LSTMinput}
+    \vec{g_t}=\sigma\left(\vec{W}^{(gx)}\vec{x}_t+\vec{W}^{(gh)}h_{t-1}+\vec{b_g}\right),
+\end{equation}
+%
+the internal state of the LSTM unit at time step $t$
+%
+\begin{equation} \label{LSTMstate}
+    \vec{s}_t=\vec{g}_t\odot\vec{i}_t+\vec{s}_{t-1}\odot\vec{f}_t,
+\end{equation}
+%
+where $\odot$ is pointwise multiplication, and the output at time step $t$
+%
+\begin{equation} \label{LSTMoutput}
+    \vec{h}_t=\phi\left(\vec{s}_t\right)\odot\vec{o}_t.
+\end{equation}
+%
+
+To summarize, all neural networks use the basic building blocks of units that form input, hidden, and output layers. The training process of neural networks involves updating the parameters (weights and biases) of the model based on the gradient descent of a loss function that quantifies the accuracy of a prediction compared to true values. RNN enables the neural network to process individual elements of a sequence or time series sequentially and still use information that was obtained in previous time steps for the current transformation of the input. LSTM RNN is an extension of simple RNN which has the advantage of being able to retain a state over multiple time steps and solves the vanishing gradient problem through the introduction of an additional internal state $\vec{s}_t$. By this, LSTM RNN are capable of learning highly complex, non-linear relationships in time series data which makes it a promising forecasting technique to predict households' very short-term energy consumption and production.
 
 
 
