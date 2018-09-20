@@ -49,7 +49,7 @@ Even though being applied very successfully in a wide range of tasks, such as sp
 %%%%%%%%%%%
 \subsubsection{Basic functioning of neural networks}
 
-To understand the full advantage that LSTM recurrent neural networks have over other machine learning techniques for time series learning, it is useful to take a step back and recapitulate the basic functioning of a so-called feedforward neural network first. The most basic building blocks of any neural network are three types of layers: an input layer, one or more hidden layer(s), and an output layer. Each layer consists of one or more units (sometimes called neurons). Each unit in a layer takes in an input, applies a transformation to this input, and outputs it to the next layer (see Figure \ref{Fig:simpleNN}. Formally, this can be written as
+To understand the full advantage that LSTM recurrent neural networks have over other machine learning techniques for time series learning, it is useful to take a step back and recapitulate the basic functioning of a so-called feedforward neural network. The most basic building blocks of any neural network are three types of layers: an input layer, one or more hidden layer(s), and an output layer. Each layer consists of one or more units (sometimes called neurons). Each unit in a layer takes in an input, applies a transformation to this input, and outputs it to the next layer (see Figure \ref{Fig:simpleNN}). Formally, this can be written as
 %
 \begin{equation} \label{feedforward}
 \begin{split}
@@ -62,9 +62,9 @@ To understand the full advantage that LSTM recurrent neural networks have over o
 %
 where $n$ denotes a layer, $\phi_n$ is the activation function, $\vec{W}_n$ is the weight matrix, and $\vec{b}_n$ the bias vector in layer $n$. $\vec{x}_i$ is the $i^{th}$ input vector and $o_i$ the output of the output layer which is the estimation of the true value $y_i$.
 %
-\begin{figure}
+\begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.6]{thesis/figures/simpleNN.pdf}
+    \includegraphics[scale=0.5]{thesis/figures/simpleNN.pdf}
     \caption[Schematic visualization of a simple neural network]{Schematic visualization of a simple neural network. Adapted from \citet{Gan:2017}.}
     \label{Fig:simpleNN}
 \end{figure}
@@ -103,16 +103,16 @@ Recurrent neural networks still consist of the basic building blocks of units an
 %
 where $n$ denotes a layer, $\phi_n$ is the activation function, $\vec{W}_n^{(i)}$ is the weight matrix for the input, $\vec{W}_n^{(r)}$ is the weight matrix for the recurrent input (i.e., the output of layer $n$ in the previous time step), and $\vec{b}_n$ the bias vector in layer $n$. $\vec{x}_i$ is the $i^{th}$ input vector and $o_i$ the output of the output layer which is the estimation of the true value $y_i$. Note that the output layer has no recurrent units but is the same as in a simple feed forward network.
 %
-\begin{figure}
+\begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.6]{thesis/figures/RNNunit.pdf}
+    \includegraphics[scale=0.5]{thesis/figures/RNNunit.pdf}
     \caption[Schematic visualization of a RNN unit]{Schematic visualization of a RNN unit. Adapted from \citet{chollet:2018}.}
     \label{Fig:RNNunit}
 \end{figure}
 %
 The cyclical structure of RNN can be unrolled across time (see Figure \ref{Fig:RNNunfolded}). This illustrates that a RNN is still trainable through backpropagation across all time steps. This is called backpropagation through time (BPTT) and was introduced by \citet{Werbos:1990}. Theoretically, this structure enables RNN to retain information about sequence elements that have been processed many steps before the current step and use it for the prediction of the current step. However, in practice the vanishing gradient problem occurs\footnote{For more details on the vanishing gradient problem see, e.g., \citet{Bengio:1994}}. This problem makes RNNs for very long sequences basically untrainable.
 %
-\begin{figure}
+\begin{figure}[htbp]
     \centering
     \includegraphics[scale=0.6]{thesis/figures/RNNunfolded.pdf}
     \caption[Schematic visualization of an unfolded RNN unit]{Schematic visualization of an unfolded RNN unit. Adapted from \citet{chollet:2018}.}
