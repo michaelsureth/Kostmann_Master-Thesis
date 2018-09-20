@@ -128,9 +128,9 @@ To overcome the vanishing gradient problem, \citet{Hochreiter:1997} developed LS
 %
 \begin{equation} \label{Eq:LSTMgates}
 \begin{split}
-    \vec{i_t}&=\sigma\left(\vec{W}^{(ix)}\vec{x}_t+\vec{W}^{(is)}s_{t-1}+\vec{b_i}\right)\\
-    \vec{f_t}&=\sigma\left(\vec{W}^{(fx)}\vec{x}_t+\vec{W}^{(fs)}s_{t-1}+\vec{b_f}\right)\\
-    \vec{o_t}&=\sigma\left(\vec{W}^{(ox)}\vec{x}_t+\vec{W}^{(os)}s_{t-1}+\vec{b_o}\right),
+    \vec{i_t}&=\sigma\left(\vec{W}^{(ix)}\vec{x}_t+\vec{W}^{(is)}\vec{s}_{t-1}+\vec{b_i}\right)\\
+    \vec{f_t}&=\sigma\left(\vec{W}^{(fx)}\vec{x}_t+\vec{W}^{(fs)}\vec{s}_{t-1}+\vec{b_f}\right)\\
+    \vec{o_t}&=\sigma\left(\vec{W}^{(ox)}\vec{x}_t+\vec{W}^{(os)}\vec{s}_{t-1}+\vec{b_o}\right),
 \end{split}   
 \end{equation}
 %
@@ -143,7 +143,7 @@ where $\sigma$ is the sigmoid activation function $\sigma(z)=\frac{1}{1+e^{-z}}$
 Again following the notation of \citet{Lipton:2015}, the full algorithm of a LSTM unit is given by the three gates specified above plus the input node
 %
 \begin{equation} \label{Eq:LSTMinput}
-    \vec{g_t}=\sigma\left(\vec{W}^{(gx)}\vec{x}_t+\vec{W}^{(gh)}h_{t-1}+\vec{b_g}\right),
+    \vec{g_t}=\sigma\left(\vec{W}^{(gx)}\vec{x}_t+\vec{W}^{(gh)}\vec{h}_{t-1}+\vec{b_g}\right),
 \end{equation}
 %
 the internal state of the LSTM unit at time step $t$
