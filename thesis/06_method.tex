@@ -83,7 +83,7 @@ The simplest method to optimize the model parameters is to compute the derivativ
 
 The problem for time series learning with feedforward neural networks is that they do not have an internal state that could retain a memory. That is, to learn a sequence or time series, a feedforward neural network would always need the complete time series as a single input as it cannot retain the state learned in a previous chunk of the time series to apply it to the next chunk fed into the model. This problem is solved by recurrent neural networks.
 
-Recurrent neural networks still consist of the basic building blocks of units and layers. However, the units do not just feed forward the transformed input as output but have a recurrent connection that feeds an internal state back into the unit as input. Thereby, a RNN unit loops over individual elements of an input sequence, instead of processing the whole sequence in a single step. This means, the RNN unit applies the transformation to the first element of the input sequence and combines it with its internal state. This introduces the notion of time into neural networks. Formally, this can be written as
+Recurrent neural networks still consist of the basic building blocks of units and layers. However, the units do not just feed forward the transformed input as output but have a recurrent connection that feeds an internal state back into the unit as input (see Figure \ref{Fig:RNNunit}. Thereby, a RNN unit loops over individual elements of an input sequence, instead of processing the whole sequence in a single step. This means, the RNN unit applies the transformation to the first element of the input sequence and combines it with its internal state. This introduces the notion of time into neural networks. Formally, this can be written as
 %
 \begin{equation} \label{RNN}
 \begin{split}
@@ -95,10 +95,22 @@ Recurrent neural networks still consist of the basic building blocks of units an
 \end{equation}
 %
 where $n$ denotes a layer, $\phi_n$ is the activation function, $\vec{W}_n^{(i)}$ is the weight matrix for the input, $\vec{W}_n^{(r)}$ is the weight matrix for the recurrent input (i.e., the output of layer $n$ in the previous time step), and $\vec{b}_n$ the bias vector in layer $n$. $\vec{x}_i$ is the $i^{th}$ input vector and $o_i$ the output of the output layer which is the estimation of the true value $y_i$. Note that the output layer has no recurrent units but is the same as in a simple feed forward network.
+%
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.6]{thesis/figures/RNNunit.pdf}
+    \caption[Schematic visualization of a RNN unit]{Schematic visualization of a RNN unit. Adapted from \citet{chollet:2018}}
+    \label{Fig:RNNunit}
+\end{figure}
 
 The cyclical structure of RNN can be unrolled across time (see Figure \ref{Fig:RNNunrolled}). This illustrates that a RNN is still trainable through backpropagation across all time steps. This is called backpropagation through time (BPTT) and was introduced by \citet{Werbos:1990}. Theoretically, this structure enables RNN to retain information about sequence elements that have been processed many steps before the current step and use it for the prediction of the current step. However, in practice the vanishing gradient problem occurs\footnote{For more details on the vanishing gradient problem see, e.g., \citet{Bengio:1994}}. This problem makes RNNs for very long sequences basically untrainable.
 
-
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.6]{thesis/figures/RNNunfolded.pdf}
+    \caption[Schematic visualization of an unfolded RNN unit]{Schematic visualization of an unfolded RNN unit. Adapted from \citet{chollet:2018}}
+    \label{Fig:RNNunit}
+\end{figure}
 
 %%%%%%%%%%%
 \subsubsection{RNN with long short-term memory units}
