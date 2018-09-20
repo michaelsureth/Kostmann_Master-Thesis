@@ -23,6 +23,8 @@
 % Align decimal points in tables
 \usepackage{dcolumn}
 \newcolumntype{.}{D{.}{.}{-1}}
+% Align footnotes (no indent of first line)
+\usepackage[bottom,flushmargin,hang,multiple]{footmisc}
 
 % -----------------------------
 % --- user-defined commands ---
@@ -33,6 +35,12 @@
 
 % display vectors as bold symbols without arrow as superscript
 \renewcommand{\vec}[1]{\boldsymbol{#1}}
+
+% add possessive 's to author name in citation
+\newcommand\cites[1]{\citeauthor{#1}'s\ (\citeyear{#1})}
+
+% define arg min with underscored argument
+\DeclareMathOperator*{\argmin}{\arg\min}
 
 % --------------------------
 % --- layout definitions ---
@@ -61,8 +69,11 @@
 % define line spacing = 1.5
 \spacing{1.5}
 
-% define distance between text and footnote line
+% define space between text and footnote line
 \addtolength{\skip\footins}{2pc plus 5pt}
+
+% define space between footnotes
+\setlength{\footnotesep}{1em}
 
 % define second level for 'itemizing'
 \renewcommand{\labelitemii}{-}

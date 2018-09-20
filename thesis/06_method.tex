@@ -124,26 +124,27 @@ The cyclical structure of an RNN unit can be unrolled across time (see Figure \r
 %%%%%%%%%%%
 \subsubsection{Long short-term memory units}
 
-To overcome the vanishing gradient problem, \citet{Hochreiter:1997} developed LSTM units. LSTM units extend RNN units by an additional state. This state can retain information for as long as needed. In which step this additional state is updated and in which state the information it retains is used in the transformation of the input is controlled by three so-called gates\footnote{In their original specification, \citet{Hochreiter:1997} included only two gates. However, as this LSTM specification was still prone to the vanishing gradient problem under some circumstances, \citet{Gers:2000} extended it by a third gate.}. These three gates again have the form of a simple RNN cell. Formally, the gates can be written as (following the notation of \citet{Lipton:2015}\footnote{\citet{Lipton:2015} notation uses $h_{t-1}$ instead of $s_{t-1}$. The notation used here ($s_{t-1}$) accounts for the modern LSTM architecture of peephole connections. For more information see \cite{Gers:2002}.})
+To overcome the vanishing gradient problem, \citet{Hochreiter:1997} developed LSTM units. LSTM units extend RNN units by an additional state. This state can retain information for as long as needed. In which step this additional state is updated and in which state the information it retains is used in the transformation of the input is controlled by three so-called gates\footnote{In their original specification, \citet{Hochreiter:1997} included only two gates. However, as this LSTM specification was still prone to the vanishing gradient problem under some circumstances, \citet{Gers:2000} extended it by a third gate.}. These three gates again have the form of a simple RNN cell. Formally, the gates can be written as (following the notation of \citet{Lipton:2015}\footnote{\cites{Lipton:2015} notation uses $h_{t-1}$ instead of $s_{t-1}$. The notation used here ($s_{t-1}$) accounts for the modern LSTM architecture with peephole connections. For more information see \cite{Gers:2002}.})
 %
 \begin{equation} \label{Eq:LSTMgates}
 \begin{split}
-    \vec{i_t}&=\sigma\left(\vec{W}^{(ix)}\vec{x}_t+\vec{W}^{(is)}\vec{s}_{t-1}+\vec{b_i}\right)\\
-    \vec{f_t}&=\sigma\left(\vec{W}^{(fx)}\vec{x}_t+\vec{W}^{(fs)}\vec{s}_{t-1}+\vec{b_f}\right)\\
-    \vec{o_t}&=\sigma\left(\vec{W}^{(ox)}\vec{x}_t+\vec{W}^{(os)}\vec{s}_{t-1}+\vec{b_o}\right),
+    \vec{i}_t&=\sigma\left(\vec{W}^{(ix)}\vec{x}_t+\vec{W}^{(is)}\vec{s}_{t-1}+\vec{b_i}\right)\\
+    \vec{f}_t&=\sigma\left(\vec{W}^{(fx)}\vec{x}_t+\vec{W}^{(fs)}\vec{s}_{t-1}+\vec{b_f}\right)\\
+    \vec{o}_t&=\sigma\left(\vec{W}^{(ox)}\vec{x}_t+\vec{W}^{(os)}\vec{s}_{t-1}+\vec{b_o}\right),
 \end{split}   
 \end{equation}
 %
 where $\sigma$ is the sigmoid activation function $\sigma(z)=\frac{1}{1+e^{-z}}$, $W$ denotes the weight matrices that are intuitively labeled ($ix$ for the weight matrix of gate $i_t$ multiplied with the input $x_t$ etc.), and $b$ denotes the bias vectors.\footnote{Sometimes, the gates are titled input, output, and forget gate. However, as \citet{chollet:2018} put it:
+\vspace{0.75\dimexpr-\topsep-\partopsep}
 \begin{quote}
     "[T]hese interpretations don’t mean much, because what these [gates] actually do is determined by the contents of the weights parameterizing them; and the weights are learned in an end-to-end fashion, starting over with each training round, making it impossible to credit this or that operation with a specific purpose" (p. 193).
-\end{quote}
+\end{quote}\vspace{\dimexpr-\topsep-\partopsep}
 }
 
 Again following the notation of \citet{Lipton:2015}, the full algorithm of a LSTM unit is given by the three gates specified above plus the input node
 %
 \begin{equation} \label{Eq:LSTMinput}
-    \vec{g_t}=\sigma\left(\vec{W}^{(gx)}\vec{x}_t+\vec{W}^{(gh)}\vec{h}_{t-1}+\vec{b_g}\right),
+    \vec{g}_t=\sigma\left(\vec{W}^{(gx)}\vec{x}_t+\vec{W}^{(gh)}\vec{h}_{t-1}+\vec{b_g}\right),
 \end{equation}
 %
 the internal state of the LSTM unit at time step $t$
@@ -182,7 +183,30 @@ To summarize, all neural networks use the basic building blocks of units that fo
 
 \subsection{Sparse auto-regressive LASSO} \label{Sec:Method;Subsec:LASSO}
 
-Commonly, short-term energy forecasting techniques are categorized into statistical and machine learning (or artificial intelligence) methods \citep{Bansal:2015,Diagne:2013,Gan:2017}. To complement the machine learning approach of LSTM neural networks with a statistical approach, additionally, the sparse autoregressive LASSO algorithm proposed by \citet{Li:2017} was applied in this research. 
+Commonly, short-term energy forecasting techniques are categorized into statistical and machine learning (or artificial intelligence) methods \citep{Bansal:2015,Diagne:2013,Gan:2017}. To complement the machine learning approach of LSTM neural networks with a statistical approach, additionally, the sparse autoregressive LASSO algorithm proposed by \citet{Li:2017} was applied in this research. Statistical methods have the advantage of much lower model complexity compared to neural networks which makes them computationally much less resource intensive. Additionally, a LASSO-based approach as employed by \citet{Li:2017} maintains the easy interpretability of linear methods.
+
+The approach proposed by \citet{Li:2017} is based on a linear autoregressive model
+%
+\begin{equation} \label{Eq:ARmodel}
+    y_{t+1}=\beta_0+\sum_{i=0}^I\beta_iy_{t-i}+\varepsilon_t,
+\end{equation}
+%
+where the future demand $y_{t+1}$ depends linearly only historical data $y_{t-i}$ plus a random Gaussian noise $\varepsilon_t$, with $\beta_i$ being the coefficient for lag-order $i$.
+
+As the OLS estimator
+%
+\begin{equation} \label{Eq:betaOLS}
+    \widehat{\vec{\beta}}_{\text{OLS}}=\argmin_{\vec{\beta}}\left\lVert(\vec{y}-\vec{X}\vec{\beta}\right\rVert^2_2
+\end{equation}
+%
+minimizes the sum of squared error in the data used to estimate $\widehat{\vec{\beta}}_{\text{OLS}}$, it is very likely to overfit the data and to have a very poor prediction accuracy on new data. This risk of model overfitting can be mitigated by including only lag orders of the historical data that is relevant for the estimation of $y_{t+1}$ and thereby reducing the number of regressors. Thus, \citet{Li:2017} use least absolute shrinkage and selection to find a sparse autoregressive model which generalizes better to new data. Formally, the LASSO estimator can be written as
+%
+\begin{equation} \label{betaLASSO}
+    \widehat{\vec{\beta}}_{\text{LASSO}}=\argmin_{\vec{\beta}}\frac{1}{2}\left\lVert(\vec{y}-\vec{X}\vec{\beta}\right\rVert^2_2+\lambda\left\lVert\vec{\beta}\right\rVert_1,
+\end{equation}
+%
+where $\lambda$ is a parameter that controls the level of sparsity in the model, i.e., the number of lag-orders that are included to predict $y_{t+1}$.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%   Error measures   %%%
@@ -240,7 +264,7 @@ and
 \text{NRMSE}=\sqrt{\frac{100}{N}\sum_{i=1}^N\left(\frac{\widehat{x}_i-x_i}{x_i}\right)^2}.
 \end{equation}
 
-\noindent However, as \citet{Hyndman:2006} point out, this choice of denominator is problematic in the presence of zero values as the fraction $\frac{\widehat{x}_i-x_i}{\bar{x}_t}$ is not defined for $x_t=0$. Therefore, time series containing zero values cannot be assessed with this definition of the MAPE and NRSME. This has to be kept in mind for the further analysis. Furthermore, it is important to recognize that percentage errors assume a meaningful zero value (which is not the case for, e.g., temperature scales like Fahrenheit or Celsuis) \citep{Hyndman:2006}. However, as kWh as measurement unit of the time series used here does have a meaningful zero value, that is of no concern in this study. Again, just as RMSE relative to MAE, NRSME is more sensitive to outliers than MAPE.
+\noindent However, as \citet{Hyndman:2006} point out, this choice of denominator is problematic in the presence of zero values, as the fraction $\frac{\widehat{x}_i-x_i}{\bar{x}_t}$ is not defined for $x_t=0$. Therefore, time series containing zero values cannot be assessed with this definition of the MAPE and NRSME. This has to be kept in mind for the further analysis. Furthermore, it is important to recognize that percentage errors assume a meaningful zero value (which is not the case for, e.g., temperature scales like Fahrenheit or Celsuis) \citep{Hyndman:2006}. However, as kWh as measurement unit of the time series used here does have a meaningful zero value, that is of no concern in this study. Again, just as RMSE relative to MAE, NRSME is more sensitive to outliers than MAPE.
 
 
 %%%%%%%%%%%
