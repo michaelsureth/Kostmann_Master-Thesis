@@ -51,7 +51,7 @@ Even though being applied very successfully in a wide range of tasks, such as sp
 
 To understand the full advantage that LSTM recurrent neural networks have over other machine learning techniques for time series learning, it is useful to take a step back and recapitulate the basic functioning of a so-called feedforward neural network. Neural networks do not need any strong assumptions about their functional form, such as traditional time series models (e.g., ARMA). Still, they are universal approximators for finite input \citep{Hornik:1989} and, therefore, especially well suited for the prediction of such volatile time series as energy consumption or production. The most basic building blocks of any neural network are three types of layers: an input layer, one or more hidden layer(s), and an output layer. Each layer consists of one or more units (sometimes called neurons). Each unit in a layer takes in an input, applies a transformation to this input, and outputs it to the next layer (see Figure \ref{Fig:simpleNN}). Formally, this can be written as
 %
-\begin{equation} \label{feedforward}
+\begin{equation} \label{Eq:feedforward}
 \begin{split}
     \vec{h}_{1,i}&=\phi_1\left(\vec{W}_1\vec{x}_i+\vec{b}_1\right)\\
     \vec{h}_{2,i}&=\phi_1\left(\vec{W}_2\vec{h}_{1,i}+\vec{b}_2\right)\\
@@ -71,13 +71,13 @@ where $n$ denotes a layer, $\phi_n$ is the activation function, $\vec{W}_n$ is t
 
 In the input layer there are as many units as there are features (i.e., variables) that serve as input for the forecasting model. The units of the input layer are connected to all units in the (first) hidden layer. The weight matrices and bias vectors in each layer are parameters that are adjusted during the training of the model. In all subsequent hidden layers, all units of one layer are connected to all units of the next layer (this is called densely connected). The last layer consists of as many units as there are output values. That is, if the forecasting model should just predict a single value, the output layer will have a single unit that takes in the weighted output values of all units of the last hidden layer, applies a transformation to these inputs and outputs a single value. The transformation that is applied to the input within each unit is called activation function and must be chosen depending on the task at hand. Especially for sequence learning, this activation function is often a hypberbolic tangent (tanh) \citep{Lipton:2015}:
 
-\begin{equation} \label{activation}
+\begin{equation} \label{Eq:activation}
     \phi(z)=\frac{e^z-e^{-z}}{e^z+e^{-z}}
 \end{equation}
 
 The learning in machine learning refers in the case of neural networks to adjusting the weight matrices and bias vectors such that the best prediction is output. In supervised learning, adjusting these weights (i.e., the training of the model) is done through an algorithm that is called backpropagation which was introduced by \citet{Rumelhart:1986}. First, the weight matrices and bias vectors are randomly initialized. Then, in a first iteration, the training data is fed into the network, which outputs a prediction. This prediction is assessed with the help of a loss function that quantifies the distance between the prediction and the true value. A commonly used loss function is the mean absolute error:
 %
-\begin{equation} \label{lossMAE}
+\begin{equation} \label{Eq:lossMAE}
     L\left(y, \widehat{y}\right)=\text{MAE}=\frac{1}{N}\sum_{i=1}^N\left|\widehat{y}_i-y_i\right|
 \end{equation}
 %
@@ -92,7 +92,7 @@ Unfortunately, feedforward neural networks are not particularly well-suited for 
 
 Recurrent neural networks still consist of the basic building blocks of units and layers. However, the units do not just feed forward the transformed input as output but have a recurrent connection that feeds an internal state back into the unit as input (see Figure \ref{Fig:RNNunit}. Thereby, a RNN unit loops over individual elements of an input sequence, instead of processing the whole sequence in a single step. This means, the RNN unit applies the transformation to the first element of the input sequence and combines it with its internal state. This introduces the notion of time into neural networks. Formally, this can be written as
 %
-\begin{equation} \label{RNN}
+\begin{equation} \label{Eq:RNN}
 \begin{split}
     \vec{h}_{1,t}&=\phi_1\left(\vec{W}_1^{(i)}\vec{x}_t+\vec{W}^{(r)}_1\vec{h}_{1,(t-1)}+\vec{b}_1\right)\\
     \vec{h}_{2,t}&=\phi_2\left(\vec{W}_2^{(i)}\vec{h}_{1,t}+\vec{W}^{(r)}_2\vec{h}_{2,(t-1)}+\vec{b}_2\right)\\
@@ -122,48 +122,48 @@ The cyclical structure of an RNN unit can be unrolled across time (see Figure \r
 
 
 %%%%%%%%%%%
-\subsubsection{RNN with long short-term memory units}
+\subsubsection{Long short-term memory units}
 
-To overcome the vanishing gradient problem, \citet{Hochreiter:1997} developed LSTM units. LSTM units extend RNN units by an additional state. This state can retain information for as long as needed. In which step this additional state is updated and in which state the information it retains is used in the transformation of the input is controlled by three so-called gates\footnote{In their original specification, \citet{Hochreiter:1997} included only two gates. However, as this LSTM specification was still prone to the vanishing gradient problem under some circumstances, \citet{Gers:2000} extended it by a third gate.}. These three gates again have the form of a simple RNN cell. Formally, the gates can be written as (following the notation of \citet{Lipton:2015})
+To overcome the vanishing gradient problem, \citet{Hochreiter:1997} developed LSTM units. LSTM units extend RNN units by an additional state. This state can retain information for as long as needed. In which step this additional state is updated and in which state the information it retains is used in the transformation of the input is controlled by three so-called gates\footnote{In their original specification, \citet{Hochreiter:1997} included only two gates. However, as this LSTM specification was still prone to the vanishing gradient problem under some circumstances, \citet{Gers:2000} extended it by a third gate.}. These three gates again have the form of a simple RNN cell. Formally, the gates can be written as (following the notation of \citet{Lipton:2015}\footnote{\citet{Lipton:2015} notation uses $h_{t-1}$ instead of $s_{t-1}$. The notation used here ($s_{t-1}$) accounts for the modern LSTM architecture of peephole connections. For more information see \cite{Gers:2002}.})
 %
-\begin{equation} \label{LSTMgates}
+\begin{equation} \label{Eq:LSTMgates}
 \begin{split}
-    \vec{i_t}&=\sigma\left(\vec{W}^{(ix)}\vec{x}_t+\vec{W}^{(ih)}h_{t-1}+\vec{b_i}\right)\\
-    \vec{f_t}&=\sigma\left(\vec{W}^{(fx)}\vec{x}_t+\vec{W}^{(fh)}h_{t-1}+\vec{b_f}\right)\\
-    \vec{o_t}&=\sigma\left(\vec{W}^{(ox)}\vec{x}_t+\vec{W}^{(oh)}h_{t-1}+\vec{b_o}\right),
+    \vec{i_t}&=\sigma\left(\vec{W}^{(ix)}\vec{x}_t+\vec{W}^{(is)}s_{t-1}+\vec{b_i}\right)\\
+    \vec{f_t}&=\sigma\left(\vec{W}^{(fx)}\vec{x}_t+\vec{W}^{(fs)}s_{t-1}+\vec{b_f}\right)\\
+    \vec{o_t}&=\sigma\left(\vec{W}^{(ox)}\vec{x}_t+\vec{W}^{(os)}s_{t-1}+\vec{b_o}\right),
 \end{split}   
 \end{equation}
 %
 where $\sigma$ is the sigmoid activation function $\sigma(z)=\frac{1}{1+e^{-z}}$, $W$ denotes the weight matrices that are intuitively labeled ($ix$ for the weight matrix of gate $i_t$ multiplied with the input $x_t$ etc.), and $b$ denotes the bias vectors.\footnote{Sometimes, the gates are titled input, output, and forget gate. However, as \citet{chollet:2018} put it:
 \begin{quote}
-    "[T]hese interpretations don’t mean much, because what these [gates] actually do is determined by the contents of the weights parametrizing them; and the weights are learned in an end-to-end fashion, starting over with each training round, making it impossible to credit this or that operation with a specific purpose." (p. XX)
+    "[T]hese interpretations don’t mean much, because what these [gates] actually do is determined by the contents of the weights parameterizing them; and the weights are learned in an end-to-end fashion, starting over with each training round, making it impossible to credit this or that operation with a specific purpose" (p. 193).
 \end{quote}
 }
 
 Again following the notation of \citet{Lipton:2015}, the full algorithm of a LSTM unit is given by the three gates specified above plus the input node
 %
-\begin{equation} \label{LSTMinput}
+\begin{equation} \label{Eq:LSTMinput}
     \vec{g_t}=\sigma\left(\vec{W}^{(gx)}\vec{x}_t+\vec{W}^{(gh)}h_{t-1}+\vec{b_g}\right),
 \end{equation}
 %
 the internal state of the LSTM unit at time step $t$
 %
-\begin{equation} \label{LSTMstate}
+\begin{equation} \label{Eq:LSTMstate}
     \vec{s}_t=\vec{g}_t\odot\vec{i}_t+\vec{s}_{t-1}\odot\vec{f}_t,
 \end{equation}
 %
 where $\odot$ is pointwise multiplication, and the output at time step $t$
 %
-\begin{equation} \label{LSTMoutput}
+\begin{equation} \label{Eq:LSTMoutput}
     \vec{h}_t=\phi\left(\vec{s}_t\right)\odot\vec{o}_t.
 \end{equation}
 %
-The internal structure of a LSTM cell is further clarified by Figure \ref{Fig:LSTMunit}.
+The internal structure of a LSTM cell is further clarified by Figure \ref{Fig:LSTMunit}. For an intuitive but more detailed explanation of LSTM neural networks see \citet[][Ch. 6.2]{chollet:2018}
 %
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.6]{thesis/figures/LSTMunit.pdf}
-    \caption{Schematic representation of a LSTM unit. Adapted from \citet{Graves:2012}.}
+    \includegraphics[scale=0.5]{thesis/figures/LSTMunit.pdf}
+    \caption[Schematic representation of a LSTM unit]{Schematic representation of a LSTM unit. Adapted from \citet{Graves:2012}. The filled in circles represent the pointwise multiplication operation denoted by \odot in Equation \ref{Eq:LSTMstate} and \ref{Eq:LSTMoutput}.}
     \label{Fig:LSTMunit}
 \end{figure}
 
@@ -182,7 +182,7 @@ To summarize, all neural networks use the basic building blocks of units that fo
 
 \subsection{Sparse auto-regressive LASSO} \label{Sec:Method;Subsec:LASSO}
 
-
+Commonly, short-term energy forecasting techniques are categorized into statistical and machine learning (or artificial intelligence) methods \citep{Bansal:2015,Diagne:2013,Gan:2017}. To complement the machine learning approach of LSTM neural networks with a statistical approach, additionally, the sparse autoregressive LASSO algorithm proposed by \citet{Li:2017} was applied in this research. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%   Error measures   %%%
