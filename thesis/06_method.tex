@@ -49,14 +49,14 @@ Even though being applied very successfully in a wide range of tasks, such as sp
 %%%%%%%%%%%
 \subsubsection{Basic functioning of neural networks}
 
-To understand the full advantage that LSTM recurrent neural networks have over other machine learning techniques for time series learning, it is useful to take a step back and recapitulate the basic functioning of a so-called feedforward neural network. The most basic building blocks of any neural network are three types of layers: an input layer, one or more hidden layer(s), and an output layer. Each layer consists of one or more units (sometimes called neurons). Each unit in a layer takes in an input, applies a transformation to this input, and outputs it to the next layer (see Figure \ref{Fig:simpleNN}). Formally, this can be written as
+To understand the full advantage that LSTM recurrent neural networks have over other machine learning techniques for time series learning, it is useful to take a step back and recapitulate the basic functioning of a so-called feedforward neural network. Neural networks do not need any strong assumptions about their functional form, such as traditional time series models (e.g., ARMA). Still, they are universal approximators for finite input \citep{Hornik:1989} and, therefore, especially well suited for the prediction of such volatile time series as energy consumption or production. The most basic building blocks of any neural network are three types of layers: an input layer, one or more hidden layer(s), and an output layer. Each layer consists of one or more units (sometimes called neurons). Each unit in a layer takes in an input, applies a transformation to this input, and outputs it to the next layer (see Figure \ref{Fig:simpleNN}). Formally, this can be written as
 %
 \begin{equation} \label{feedforward}
 \begin{split}
-    \vec{h}_{1i}&=\phi_1\left(\vec{W}_1\vec{x}_i+\vec{b}_1\right)\\
-    \vec{h}_{2i}&=\phi_1\left(\vec{W}_2\vec{h}_{1i}+\vec{b}_2\right)\\
+    \vec{h}_{1,i}&=\phi_1\left(\vec{W}_1\vec{x}_i+\vec{b}_1\right)\\
+    \vec{h}_{2,i}&=\phi_1\left(\vec{W}_2\vec{h}_{1,i}+\vec{b}_2\right)\\
     &\setbox0\hbox{=}\mathrel{\makebox[\wd0]{\hfil\vdots\hfil}}\\
-    o_i&=\phi_n\left(\vec{W}_n\vec{h}_{(n-1)i}+\vec{b}_n\right)=\widehat{y}_i,
+    o_i&=\phi_n\left(\vec{W}_n\vec{h}_{(n-1),i}+\vec{b}_n\right)=\widehat{y}_i,
 \end{split}
 \end{equation}
 %
@@ -88,7 +88,7 @@ The simplest method to optimize the model parameters is to compute the derivativ
 %%%%%%%%%%%
 \subsubsection{Recurrent neural networks}
 
-The problem for time series learning with feedforward neural networks is that they do not have an internal state that could retain a memory. That is, to learn a sequence or time series, a feedforward neural network would always need the complete time series as a single input as it cannot retain the state learned in a previous chunk of the time series to apply it to the next chunk fed into the model. This problem is solved by recurrent neural networks.
+Unfortunately, feedforward neural networks are not particularly well-suited for time series learning. This is because simple neural networks, such as the one described above, do not have an internal state that could retain a memory of previously processed input. That is, to learn a sequence or time series, a feedforward neural network would always need the complete time series as a single input. It cannot retain a memory of something learned in a previous chunk of the time series to apply it to the next chunk that is fed into the model. This problem is tackled by recurrent neural networks.
 
 Recurrent neural networks still consist of the basic building blocks of units and layers. However, the units do not just feed forward the transformed input as output but have a recurrent connection that feeds an internal state back into the unit as input (see Figure \ref{Fig:RNNunit}. Thereby, a RNN unit loops over individual elements of an input sequence, instead of processing the whole sequence in a single step. This means, the RNN unit applies the transformation to the first element of the input sequence and combines it with its internal state. This introduces the notion of time into neural networks. Formally, this can be written as
 %
@@ -101,7 +101,7 @@ Recurrent neural networks still consist of the basic building blocks of units an
 \end{split}
 \end{equation}
 %
-where $n$ denotes a layer, $\phi_n$ is the activation function, $\vec{W}_n^{(i)}$ is the weight matrix for the input, $\vec{W}_n^{(r)}$ is the weight matrix for the recurrent input (i.e., the output of layer $n$ in the previous time step), and $\vec{b}_n$ the bias vector in layer $n$. $\vec{x}_i$ is the $i^{th}$ input vector and $o_i$ the output of the output layer which is the estimation of the true value $y_i$. Note that the output layer has no recurrent units but is the same as in a simple feed forward network.
+where $n$ denotes a layer, $\phi_n$ is the activation function, $\vec{W}_n^{(i)}$ is the weight matrix for the input, $\vec{W}_n^{(r)}$ is the weight matrix for the recurrent input (i.e., the output of layer $n$ in the previous time step), and $\vec{b}_n$ the bias vector in layer $n$. $\vec{x}_t$ is the input vector at time $t$ and $o_t$ the output of the output layer which is the estimation of the true value $y_t$. Note that the output layer has no recurrent units but is the same as in a simple feed forward network.
 %
 \begin{figure}[htbp]
     \centering
@@ -109,8 +109,8 @@ where $n$ denotes a layer, $\phi_n$ is the activation function, $\vec{W}_n^{(i)}
     \caption[Schematic visualization of a RNN unit]{Schematic visualization of a RNN unit. Adapted from \citet{chollet:2018}.}
     \label{Fig:RNNunit}
 \end{figure}
-%
-The cyclical structure of RNN can be unrolled across time (see Figure \ref{Fig:RNNunfolded}). This illustrates that a RNN is still trainable through backpropagation across all time steps. This is called backpropagation through time (BPTT) and was introduced by \citet{Werbos:1990}. Theoretically, this structure enables RNN to retain information about sequence elements that have been processed many steps before the current step and use it for the prediction of the current step. However, in practice the vanishing gradient problem occurs\footnote{For more details on the vanishing gradient problem see, e.g., \citet{Bengio:1994}}. This problem makes RNNs for very long sequences basically untrainable.
+
+The cyclical structure of an RNN unit can be unrolled across time (see Figure \ref{Fig:RNNunfolded}). This illustrates that a RNN is basically a simple neural network that has one layer for each time step that has to processed per input. This notion of a unfolded RNN also reveals, that a RNN is still trainable through backpropagation. The backpropagation just has to happen across all time steps. This is called backpropagation through time (BPTT) and was introduced by \citet{Werbos:1990}. Theoretically, this feedback structure enables RNN to retain information about sequence elements that have been processed many steps before the current step and use it for the prediction of the current step. However, in practice the vanishing gradient problem occurs\footnote{For more details on the vanishing gradient problem see, e.g., \citet{Bengio:1994}}. This problem makes RNNs for very long sequences basically untrainable.
 %
 \begin{figure}[htbp]
     \centering
@@ -124,7 +124,7 @@ The cyclical structure of RNN can be unrolled across time (see Figure \ref{Fig:R
 %%%%%%%%%%%
 \subsubsection{RNN with long short-term memory units}
 
-To overcome the vanishing gradient problem, \citet{Hochreiter:1997} developed LSTM units. LSTM units extend RNN units by an additional state. This state can retain information for as long as needed. In which step this additional state is updated and in which state the information it retains is used in the transformation of the input is controlled by three so-called gates\footnote{In their original specification, \citet{Hochreiter:1997} included only two gates. However, as this LSTM specification was still prone to the vanishing gradient problem under some circumstances, \citet{Gers:2000} extended it by a third gate.}. These three gates again have the form of a simple RNN cell. Formally, these gates can be written as (following the notation of \citet{Lipton:2015})
+To overcome the vanishing gradient problem, \citet{Hochreiter:1997} developed LSTM units. LSTM units extend RNN units by an additional state. This state can retain information for as long as needed. In which step this additional state is updated and in which state the information it retains is used in the transformation of the input is controlled by three so-called gates\footnote{In their original specification, \citet{Hochreiter:1997} included only two gates. However, as this LSTM specification was still prone to the vanishing gradient problem under some circumstances, \citet{Gers:2000} extended it by a third gate.}. These three gates again have the form of a simple RNN cell. Formally, the gates can be written as (following the notation of \citet{Lipton:2015})
 %
 \begin{equation} \label{LSTMgates}
 \begin{split}
@@ -134,13 +134,13 @@ To overcome the vanishing gradient problem, \citet{Hochreiter:1997} developed LS
 \end{split}   
 \end{equation}
 %
-where $\sigma$ is the sigmoid activation function $\sigma(z)=\frac{1}{1+e^{-z}}$, with $W$ denoting the weight matrices that are intuitively labeled ($ix$ for the weight matrix of gate $i_t$ multiplied with the input $x_t$ etc.), and $b$ denoting the bias vectors.\footnote{Sometimes, the gates are titled input, output, and forget gate. However, as \citet{chollet:2018} put it:
+where $\sigma$ is the sigmoid activation function $\sigma(z)=\frac{1}{1+e^{-z}}$, $W$ denotes the weight matrices that are intuitively labeled ($ix$ for the weight matrix of gate $i_t$ multiplied with the input $x_t$ etc.), and $b$ denotes the bias vectors.\footnote{Sometimes, the gates are titled input, output, and forget gate. However, as \citet{chollet:2018} put it:
 \begin{quote}
     "[T]hese interpretations don’t mean much, because what these [gates] actually do is determined by the contents of the weights parametrizing them; and the weights are learned in an end-to-end fashion, starting over with each training round, making it impossible to credit this or that operation with a specific purpose." (p. XX)
 \end{quote}
 }
 
-Again following the notation of \citet{Lipton:2015}, the full algorithm of a LSTM unit is given by the three gates specified above, the input node
+Again following the notation of \citet{Lipton:2015}, the full algorithm of a LSTM unit is given by the three gates specified above plus the input node
 %
 \begin{equation} \label{LSTMinput}
     \vec{g_t}=\sigma\left(\vec{W}^{(gx)}\vec{x}_t+\vec{W}^{(gh)}h_{t-1}+\vec{b_g}\right),
@@ -158,6 +158,14 @@ where $\odot$ is pointwise multiplication, and the output at time step $t$
     \vec{h}_t=\phi\left(\vec{s}_t\right)\odot\vec{o}_t.
 \end{equation}
 %
+The internal structure of a LSTM cell is further clarified by Figure \ref{Fig:LSTMunit}.
+%
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.6]{thesis/figures/LSTMunit.pdf}
+    \caption{Caption}
+    \label{Fig:LSTMunit}
+\end{figure}
 
 To summarize, all neural networks use the basic building blocks of units that form input, hidden, and output layers. The training process of neural networks involves updating the parameters (weights and biases) of the model based on the gradient descent of a loss function that quantifies the accuracy of a prediction compared to true values. RNN enables the neural network to process individual elements of a sequence or time series sequentially and still use information that was obtained in previous time steps for the current transformation of the input. LSTM RNN is an extension of simple RNN which has the advantage of being able to retain a state over multiple time steps and solves the vanishing gradient problem through the introduction of an additional internal state $\vec{s}_t$. By this, LSTM RNN are capable of learning highly complex, non-linear relationships in time series data which makes it a promising forecasting technique to predict households' very short-term energy consumption and production.
 
