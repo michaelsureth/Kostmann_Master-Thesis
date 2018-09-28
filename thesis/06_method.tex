@@ -1,23 +1,20 @@
 
 \section{Method}\label{Sec:Method}
 
-Based on the extensive literature review presented above, two different forecasting techniques were chosen to be employed to predict households' energy consumption and production. The following criteria were considered for the selection of appropriate methods: 
+Based on the extensive literature review briefly presented above, two different forecasting techniques were chosen to be employed to predict households' energy consumption and production. The following criteria were considered for the selection of appropriate methods: 
 
 \begin{enumerate}
     \item The forecasting technique had to produce deterministic (i.e., point) forecasts.
     \item The forecasting technique had to be used in existing studies about forecasting energy consumption or production.
-    \item The existing study or studies using the forecasting technique had to use comparable data, i.e., recorded by smart meters, 60-min resolution or less, recorded in multiple households, and not recorded in SMEs or other business or public buildings.
-    \item The forecasting task had to be comparable to the forecasting task of this study, i.e., single consumer household in contrast to the prediction of aggregated energy time series and very short forecasting horizon ($\leq 24$ hours).
+    \item The existing study or studies using the forecasting technique had to use comparable data, i.e., recorded by smart meters, 60-min or higher resolution, recorded in multiple households, and not recorded in SMEs or other business or public buildings.
+    \item The forecasting task had to be comparable to the forecasting task of this study, i.e., single consumer household (in contrast to the prediction of aggregated energy time series) and very short forecasting horizon ($\leq 24$ hours).
     \item The forecasting technique had to only take historical and calender features as input for the prediction.
     \item The forecasting technique had to produce absolutely and relative to other studies promisingly accurate predictions.
 \end{enumerate}
 
-% (1) The forecasting technique had to produce deterministic (point) forecasts. (2) The forecasting technique had to be used in existing studies about forecasting energy consumption or production. (3) The existing study or studies using the forecasting technique had to use comparable data. (4) The forecasting task had to be comparable to the forecasting task of this study, i.e., single consumer household and very short-term forecasting horizon. (5) The forecasting technique only employed historical and calender features as input for the prediction. (6) The forecasting technique had to produce absolute and relative to other studies promisingly accurate predictions.
+\noindent Based on these criteria two forecasting techniques were selected for the prediction task at hand. As short-term energy forecasting techniques are commonly categorized into statistical and machine learning (or artificial intelligence) methods \citep{Bansal:2015,Diagne:2013,Gan:2017}, one method of each category was chosen: Deep recurrent neural network (DRNN) adapted from the procedure outlined by \citet{Shi:2017} and sparse autoregressive LASSO as developed and implemented by \citet{Li:2017}.%, and Kernel-Wavelet-Functional method (KWF) following the idea of \citet{Auder:2018} of using discrete wavelet transform and clustering before applying the KWF method.
 
-\noindent Based on these criteria the following forecasting techniques were selected for the prediction task at hand: Pooling-based deep recurrent neural network (PDRNN) based on the procedure outlined by \citet{Shi:2017} and sparse autoregressive LASSO as developed and implemented by \citet{Li:2017}.%, and Kernel-Wavelet-Functional method (KWF) following the idea of \citet{Auder:2018} of using discrete wavelet transform and clustering before applying the KWF method.
-
-% As the data used to train the models is in 3-minute intervals, but the prediction will have to be made 15 minutes ahead, all forecasting models will be used to make 5 sequential one-step ahead predictions. These 5 predictions will then be aggregated into a single forecast for the whole 15-minute interval and compared to the actual consumption/production within this 15-minute interval (i.e., the aggregation of the 5 corresponding 3-minute consumption values).
-
+Before these two methods are explained in detail, the benchmark model, that serves as a baseline for the assessment of the prediction methods, is presented next.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -26,7 +23,7 @@ Based on the extensive literature review presented above, two different forecast
 
 \subsection{Benchmark model} \label{Sec:Method;Subsec:Benchmark}
 
-Benchmark models serve as a trivial baseline to assess the relative improvement of a sophisticated model \citep{Meer:2018}. According to \citet{Pinson:2012}, a benchmark model should serve as a reference, need few computational resources to be estimated, and be model-free. A sophisticated forecasting method is only worth implementing if it can significantly outperform a trivial benchmark model \citep{Diagne:2013}. A frequent benchmark model used for deterministic forecasts is the simple persistence model \citep{Meer:2018}. This model assumes that the conditions at time $t$ persist at least up to the period of forecasting interest at time $t+h$. In energy forecasting, this na\"ive model is surprisingly well suited to forecast very short time periods of a few seconds or minutes \citep{Pinson:2012} and, thus, often harder to beat than it might seem. The persistence model is defined as
+Benchmark models serve as a trivial baseline to assess the relative improvement of a sophisticated model \citep{Meer:2018}. According to \citet{Pinson:2012}, a benchmark model should serve as a reference, need few computational resources to be estimated, and be model-free. A sophisticated forecasting method is only worth implementing if it can significantly outperform a trivial benchmark model \citep{Diagne:2013}. A frequent benchmark model used for deterministic forecasts is the simple persistence model \citep{Meer:2018}. This model assumes that the conditions at time $t$ persist at least up to the period of forecasting interest at time $t+h$. In energy forecasting, this na\"ive model is surprisingly well suited to forecast very short time periods of a few seconds or minutes \citep{Pinson:2012} and, thus, often harder to beat than it might seem. Here, the persistence model is defined as
 %
 \begin{equation} \label{Eq:naivepred}
 \widehat{x}_{t+1}=x_t.
@@ -40,9 +37,9 @@ There are several other benchmark models commonly used in energy load forecastin
 %%%   LSTM   %%%
 %%%%%%%%%%%%%%%%
 
-\subsection{Long short-term memory recurrent neural network} \label{Sec:Method;Subsec:LSTM}
+\subsection{Machine learning based forecasting approach} \label{Sec:Method;Subsec:LSTM}
 
-Even though being applied very successfully in a wide range of tasks, such as speech recognition \citep{Graves:2013} or anomaly detection in time series \citep{Malhotra:2015}, long short-term memory (LSTM) neural networks (NN) have been introduced only very recently in load forecasting studies \citep[e.g.,][]{Kong:2018,Shi:2017,Gan:2017,Chen:2018}. Compared to previous previous attempts using machine learning techniques, the application of LSTM neural networks for load forecasting has been much more successful \citep{Kong:2018,Shi:2017} as these studies benefit from the high effectiveness of recurrent neural networks for sequence learning. LSTM units are particularly well suited to learn long sequences or time series due to their ability to retain information over many time steps. The next three sections are based on \citet{chollet:2018}, \citet{Lipton:2015}, and \citet{Gan:2017}.
+The first sophisticated forecasting technique that is employed to produce accurate predictions for the blockchain-based LEM is a machine learning algorithm. Even though being applied very successfully in a wide range of tasks, such as speech recognition \citep{Graves:2013} or anomaly detection in time series \citep{Malhotra:2015}, long short-term memory (LSTM) neural networks (NN) have been introduced only very recently in load forecasting studies \citep[e.g.,][]{Kong:2018,Shi:2017,Gan:2017,Chen:2018}. Compared to previous attempts using machine learning techniques, the applications of LSTM neural networks for load forecasting have been much more successful \citep{Kong:2018,Shi:2017}. This is most likely due to the high effectiveness of recurrent neural networks for sequence learning. LSTM neural networks are a advanced architecture of recurrent neural networks that are particularly well suited to learn long sequences or time series due to their ability to retain information over many time steps. The next three sections explain the basic working principles of the chosen machine learning approach and are based on \citet{chollet:2018}, \citet{Lipton:2015}, and \citet{Gan:2017}.
 
 
 
@@ -60,7 +57,7 @@ To understand the full advantage that LSTM recurrent neural networks have over o
 \end{split}
 \end{equation}
 %
-where $n$ denotes a layer, $\phi_n$ is the activation function, $\vec{W}_n$ is the weight matrix, and $\vec{b}_n$ the bias vector in layer $n$. $\vec{x}_i$ is the $i^{th}$ input vector and $o_i$ the output of the output layer which is the estimation of the true value $y_i$.
+where $n$ denotes a layer, $\phi_n$ is the activation function, $\vec{W}_n$ is the weight matrix, and $\vec{b}_n$ the bias vector in layer $n$. $\vec{x}_i$ is the $i^{th}$ input vector and $o_i$ the output value of the output layer which is the estimation of the true value $y_i$.
 %
 \begin{figure}[htbp]
     \centering
@@ -72,7 +69,7 @@ where $n$ denotes a layer, $\phi_n$ is the activation function, $\vec{W}_n$ is t
 In the input layer there are as many units as there are features (i.e., variables) that serve as input for the forecasting model. The units of the input layer are connected to all units in the (first) hidden layer. The weight matrices and bias vectors in each layer are parameters that are adjusted during the training of the model. In all subsequent hidden layers, all units of one layer are connected to all units of the next layer (this is called densely connected). The last layer consists of as many units as there are output values. That is, if the forecasting model should just predict a single value, the output layer will have a single unit that takes in the weighted output values of all units of the last hidden layer, applies a transformation to these inputs and outputs a single value. The transformation that is applied to the input within each unit is called activation function and must be chosen depending on the task at hand. Especially for sequence learning, this activation function is often a hypberbolic tangent (tanh) \citep{Lipton:2015}:
 
 \begin{equation} \label{Eq:activation}
-    \phi(z)=\frac{e^z-e^{-z}}{e^z+e^{-z}}
+    \phi(z)=\frac{e^z-e^{-z}}{e^z+e^{-z}}.
 \end{equation}
 
 The learning in machine learning refers in the case of neural networks to adjusting the weight matrices and bias vectors such that the best prediction is output. In supervised learning, adjusting these weights (i.e., the training of the model) is done through an algorithm that is called backpropagation which was introduced by \citet{Rumelhart:1986}. First, the weight matrices and bias vectors are randomly initialized. Then, in a first iteration, the training data is fed into the network, which outputs a prediction. This prediction is assessed with the help of a loss function that quantifies the distance between the prediction and the true value. A commonly used loss function is the mean absolute error:
@@ -81,16 +78,16 @@ The learning in machine learning refers in the case of neural networks to adjust
     L\left(y, \widehat{y}\right)=\text{MAE}=\frac{1}{N}\sum_{i=1}^N\left|\widehat{y}_i-y_i\right|
 \end{equation}
 %
-The simplest method to optimize the model parameters is to compute the derivative of the loss function with respect to each parameter in the model and change each parameters in a fixed-size step in the direction of the negative gradient. This method is called gradient descent. Thereby the prediction error is "backpropagated" through the network to update the parameters. This is repeated in each iteration until the model converges to a value of the loss function that cannot be further improved.
+The simplest method to optimize the model parameters is to compute the derivative of the loss function with respect to each parameter in the model and change each parameters in a fixed-size step in the direction of the negative gradient \citep{Graves:2013}. This method is called gradient descent. Thereby the prediction error is "backpropagated" through the network to update the parameters. This is repeated in each iteration until the model converges to a value of the loss function that cannot be further improved.
 
 
 
 %%%%%%%%%%%
 \subsubsection{Recurrent neural networks}
 
-Unfortunately, feedforward neural networks are not particularly well-suited for time series learning. This is because simple neural networks, such as the one described above, do not have an internal state that could retain a memory of previously processed input. That is, to learn a sequence or time series, a feedforward neural network would always need the complete time series as a single input. It cannot retain a memory of something learned in a previous chunk of the time series to apply it to the next chunk that is fed into the model. This problem is tackled by recurrent neural networks.
+Unfortunately, feedforward neural networks are not particularly well-suited for time series learning \citep{chollet:2018}. This is because simple neural networks, such as the one described above, do not have an internal state that could retain a memory of previously processed input. That is, to learn a sequence or time series, a feedforward neural network would always need the complete time series as a single input. It cannot retain a memory of something learned in a previous chunk of the time series to apply it to the next chunk that is fed into the model. This problem is tackled by recurrent neural networks.
 
-Recurrent neural networks still consist of the basic building blocks of units and layers. However, the units do not just feed forward the transformed input as output but have a recurrent connection that feeds an internal state back into the unit as input (see Figure \ref{Fig:RNNunit}. Thereby, a RNN unit loops over individual elements of an input sequence, instead of processing the whole sequence in a single step. This means, the RNN unit applies the transformation to the first element of the input sequence and combines it with its internal state. This introduces the notion of time into neural networks. Formally, this can be written as
+Recurrent neural networks still consist of the basic building blocks of units and layers. However, the units do not just feed forward the transformed input as output but have a recurrent connection that feeds an internal state back into the unit as input (see Figure \ref{Fig:RNNunit}). Thereby, a RNN unit loops over individual elements of an input sequence, instead of processing the whole sequence in a single step. This means, the RNN unit applies the transformation to the first element of the input sequence and combines it with its internal state. This introduces the notion of time into neural networks. Formally, this can be written as
 %
 \begin{equation} \label{Eq:RNN}
 \begin{split}
@@ -101,7 +98,7 @@ Recurrent neural networks still consist of the basic building blocks of units an
 \end{split}
 \end{equation}
 %
-where $n$ denotes a layer, $\phi_n$ is the activation function, $\vec{W}_n^{(i)}$ is the weight matrix for the input, $\vec{W}_n^{(r)}$ is the weight matrix for the recurrent input (i.e., the output of layer $n$ in the previous time step), and $\vec{b}_n$ the bias vector in layer $n$. $\vec{x}_t$ is the input vector at time $t$ and $o_t$ the output of the output layer which is the estimation of the true value $y_t$. Note that the output layer has no recurrent units but is the same as in a simple feed forward network.
+where $n$ denotes a layer, $\phi_n$ is the activation function, $\vec{W}_n^{(i)}$ is the weight matrix for the input, $\vec{W}_n^{(r)}$ is the weight matrix for the recurrent input (i.e., the output of layer $n$ in the previous time step), and $\vec{b}_n$ the bias vector in layer $n$. $\vec{x}_t$ is the input vector at time $t$ and $o_t$ the output value of the output layer which is the estimation of the true value $y_t$. Note that the output layer has no recurrent units but is the same as in a simple feed forward network.
 %
 \begin{figure}[htbp]
     \centering
@@ -110,7 +107,7 @@ where $n$ denotes a layer, $\phi_n$ is the activation function, $\vec{W}_n^{(i)}
     \label{Fig:RNNunit}
 \end{figure}
 
-The cyclical structure of an RNN unit can be unrolled across time (see Figure \ref{Fig:RNNunfolded}). This illustrates that a RNN is basically a simple neural network that has one layer for each time step that has to processed per input. This notion of a unfolded RNN also reveals, that a RNN is still trainable through backpropagation. The backpropagation just has to happen across all time steps. This is called backpropagation through time (BPTT) and was introduced by \citet{Werbos:1990}. Theoretically, this feedback structure enables RNN to retain information about sequence elements that have been processed many steps before the current step and use it for the prediction of the current step. However, in practice the vanishing gradient problem occurs\footnote{For more details on the vanishing gradient problem see, e.g., \citet{Bengio:1994}}. This problem makes RNNs for very long sequences basically untrainable.
+The cyclical structure of an RNN unit can be unrolled across time (see Figure \ref{Fig:RNNunfolded}). This illustrates that a RNN is basically a simple neural network that has one layer for each time step that has to be processed per input. This notion of an unfolded RNN also reveals, that a RNN is still trainable through backpropagation. The backpropagation just has to happen across all time steps. This is called backpropagation through time (BPTT) and was introduced by \citet{Werbos:1990}. Theoretically, this feedback structure enables RNN to retain information about sequence elements that have been processed many steps before the current step and use it for the prediction of the current step. However, in practice the vanishing gradient problem occurs\footnote{For more details on the vanishing gradient problem see, e.g., \citet{Bengio:1994}}. This problem makes RNNs for very long sequences basically untrainable.
 %
 \begin{figure}[htbp]
     \centering
@@ -141,7 +138,7 @@ where $\sigma$ is the sigmoid activation function $\sigma(z)=\frac{1}{1+e^{-z}}$
 \end{quote}\vspace{\dimexpr-\topsep-\partopsep}
 }
 
-Again following the notation of \citet{Lipton:2015}, the full algorithm of a LSTM unit is given by the three gates specified above plus the input node
+Again following the notation of \citet{Lipton:2015}, the full algorithm of a LSTM unit is given by the three gates specified above, the input node
 %
 \begin{equation} \label{Eq:LSTMinput}
     \vec{g}_t=\sigma\left(\vec{W}^{(gx)}\vec{x}_t+\vec{W}^{(gh)}\vec{h}_{t-1}+\vec{b_g}\right),
@@ -168,12 +165,14 @@ The internal structure of a LSTM cell is further clarified by Figure \ref{Fig:LS
     \label{Fig:LSTMunit}
 \end{figure}
 
-To summarize, all neural networks use the basic building blocks of units that form input, hidden, and output layers. The training process of neural networks involves updating the parameters (weights and biases) of the model based on the gradient descent of a loss function that quantifies the accuracy of a prediction compared to true values. RNN enables the neural network to process individual elements of a sequence or time series sequentially and still use information that was obtained in previous time steps for the current transformation of the input. LSTM RNN is an extension of simple RNN which has the advantage of being able to retain a state over multiple time steps and solves the vanishing gradient problem through the introduction of an additional internal state $\vec{s}_t$. By this, LSTM RNN are capable of learning highly complex, non-linear relationships in time series data which makes it a promising forecasting technique to predict households' very short-term energy consumption and production.
+To summarize, all neural networks use the basic building blocks of units that form input, hidden, and output layers. The training process of neural networks involves updating the parameters (weights and biases) of the model based on the gradient descent of a loss function that quantifies the accuracy of a prediction compared to true values. RNN enables the neural network to process individual elements of a sequence or time series sequentially and still use information that was obtained in previous time steps for the current transformation of the input. LSTM RNN is an extension of simple RNN which has the advantage of being able to retain a state over multiple time steps and solves the vanishing gradient problem through the introduction of an additional internal state $\vec{s}_t$. By this, LSTM RNN are capable of learning highly complex, non-linear relationships in time series data which makes them a promising forecasting technique to predict households' very short-term energy consumption and production.
 
 
 
 %%%%%%%%%%%
-\subsubsection{Model training}
+\subsubsection{Implementation of LSTM RNN}
+
+The specific LTSM RNN approach adopted in this study is based on the procedure employed by \citet{Shi:2017} to forecast individual households' energy consumption and will be briefly outlined in the following. 
 
 
 
@@ -181,31 +180,44 @@ To summarize, all neural networks use the basic building blocks of units that fo
 %%%   LASSO   %%%
 %%%%%%%%%%%%%%%%%
 
-\subsection{Sparse auto-regressive LASSO} \label{Sec:Method;Subsec:LASSO}
+\subsection{Statistical method based forecasting approach} \label{Sec:Method;Subsec:LASSO}
 
-Commonly, short-term energy forecasting techniques are categorized into statistical and machine learning (or artificial intelligence) methods \citep{Bansal:2015,Diagne:2013,Gan:2017}. To complement the machine learning approach of LSTM neural networks with a statistical approach, additionally, the sparse autoregressive LASSO algorithm proposed by \citet{Li:2017} was applied in this research. Statistical methods have the advantage of much lower model complexity compared to neural networks which makes them computationally much less resource intensive. Additionally, a LASSO-based approach as employed by \citet{Li:2017} maintains the easy interpretability of linear methods.
+To complement the machine learning approach of LSTM neural networks with a statistical approach, a second, regression-based method was chosen. For this purpose, the sparse autoregressive LASSO algorithm proposed by \citet{Li:2017} seemed most suitable. Statistical methods have the advantage of much lower model complexity compared to neural networks which makes them computationally much less resource intensive. Additionally, a LASSO-based approach as employed by \citet{Li:2017} maintains the easy interpretability of linear methods.
 
-The approach proposed by \citet{Li:2017} is based on a linear autoregressive model
+
+
+%%%%%%%%%%%
+\subsubsection{Sparse autoregressive LASSO}
+
+The approach proposed by \citet{Li:2017} is based on a linear autoregressive model:
 %
 \begin{equation} \label{Eq:ARmodel}
     y_{t+1}=\beta_0+\sum_{i=0}^I\beta_iy_{t-i}+\varepsilon_t,
 \end{equation}
 %
-where the future demand $y_{t+1}$ depends linearly only historical data $y_{t-i}$ plus a random Gaussian noise $\varepsilon_t$, with $\beta_i$ being the coefficient for lag-order $i$.
-
-As the OLS estimator
+where the future demand $y_{t+1}$ depends linearly only historical data $y_{t-i}$ plus a random Gaussian noise $\varepsilon_t$, with $\beta_i$ being the coefficient for lag-order $i$. In the following, the vector $\left[y_t, y_{t-1}, \dots, y_{t-I}\right]^T$ is written as $\vec{x_t}$. Using the model in Equation \ref{Eq:ARmodel} for prediction is achieved by estimating the vector $\widehat{\beta}$ such that the sum of squared errors is minimal. However, as the OLS estimator
 %
 \begin{equation} \label{Eq:betaOLS}
     \widehat{\vec{\beta}}_{\text{OLS}}=\argmin_{\vec{\beta}}\left\lVert(\vec{y}-\vec{X}\vec{\beta}\right\rVert^2_2
 \end{equation}
 %
-minimizes the sum of squared error in the data used to estimate $\widehat{\vec{\beta}}_{\text{OLS}}$, it is very likely to overfit the data and to have a very poor prediction accuracy on new data. This risk of model overfitting can be mitigated by including only lag orders of the historical data that is relevant for the estimation of $y_{t+1}$ and thereby reducing the number of regressors. Thus, \citet{Li:2017} use least absolute shrinkage and selection to find a sparse autoregressive model which generalizes better to new data. Formally, the LASSO estimator can be written as
+minimizes the sum of squared error within the data used to estimate $\widehat{\vec{\beta}}_{\text{OLS}}$, it is very likely to overfit the data and to have a very poor prediction accuracy on new data.
+
+This risk of model overfitting can be mitigated by including only lag-orders of the historical data that are relevant for the estimation of $y_{t+1}$ and thereby reducing the number of regressors. Thus, \citet{Li:2017} use least absolute shrinkage and selection to find a sparse autoregressive model which generalizes better to new data. Formally, the LASSO estimator can be written as
 %
 \begin{equation} \label{betaLASSO}
     \widehat{\vec{\beta}}_{\text{LASSO}}=\argmin_{\vec{\beta}}\frac{1}{2}\left\lVert(\vec{y}-\vec{X}\vec{\beta}\right\rVert^2_2+\lambda\left\lVert\vec{\beta}\right\rVert_1,
 \end{equation}
 %
-where $\lambda$ is a parameter that controls the level of sparsity in the model, i.e., the number of lag-orders that are included to predict $y_{t+1}$.
+where $\lambda$ is a parameter that controls the level of sparsity in the model, i.e., the number of lag-orders that are included to predict $y_{t+1}$. This model specification selects the best recurrent pattern in the energy time series by shrinking coefficients of irrelevant lag-orders to zero and thereby improves the generalizability of the prediction model.
+
+
+
+%%%%%%%%%%%
+\subsubsection{Implementation of sparse autoregressive LASSO}
+
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -300,7 +312,12 @@ Analogically, the sometimes recommended Kolmogorov-Smirnov Integral (KSI) \citep
 %%%   Implementation   %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Implementation} \label{Sec:Method;Subsec:Implementation}
+
+% As the data used to train the models is in 3-minute intervals, but the prediction will have to be made 15 minutes ahead, all forecasting models will be used to make 5 sequential one-step ahead predictions. These 5 predictions will then be aggregated into a single forecast for the whole 15-minute interval and compared to the actual consumption/production within this 15-minute interval (i.e., the aggregation of the 5 corresponding 3-minute consumption values).
+
+%Both methods applied to the forecasting of individual households without taking data from other households into account.
+
+\subsection{Procedure} \label{Sec:Method;Subsec:Procedure}
 
 
 \subsubsection{Data preprocessing}
