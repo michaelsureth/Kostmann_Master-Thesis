@@ -216,7 +216,7 @@ As it turned out, a deeper model architecture of multiple layers did not increas
 
 The general procedure of model training, model assessment and prediction generation is shown as pseudo code in Procedure \ref{Alg:LSTMimplementation}. The first step of setting the parameter tuple is done globally for all household datasets based on the results of the hyperparameter tuning. Thereafter, the same procedure is repeated for each dataset.
 
-First, the consumption data time series is loaded, target values are generated, and the input data is transformed. The transformation consists of normalizing the log-values of the consumption per 3-minute interval between 0 an 1. A graph showing the distribution of energy consumption before and after the transformation exemplary for one dataset is shown in Appendix \ref{App:Figures}. This ensures fast convergence of the model training process. The data batches for the model training and the cross-validation are served to the training algorithm by so-called generator functions. The generator functions are called by the training algorithm and supply samples of data from the input time series infinitely. The number of training and validation steps that are necessary for the model to see the complete input time series is controlled by the training algorithm.
+First, the consumption data time series is loaded, target values are generated, and the input data is transformed. The transformation consists of normalizing the log-values of the consumption per 3-minute interval between 0 an 1. A graph showing the distribution of energy consumption before and after the transformation exemplary for one dataset is shown in Appendix \ref{App:Figures:transform}. This ensures fast convergence of the model training process. The data batches for the model training and the cross-validation are served to the training algorithm by so-called generator functions. The generator functions are called by the training algorithm and supply samples of data from the input time series infinitely. The number of training and validation steps that are necessary for the model to see the complete input time series is controlled by the training algorithm.
 %
 \begin{algorithm}[htbp]
 \floatname{algorithm}{Procedure}
@@ -252,9 +252,9 @@ First, the consumption data time series is loaded, target values are generated, 
 \caption{Supervised learning of LSTM neural network and prediction.}
 \end{algorithm}
 %
-Second, the LSTM RNN is compiled and trained. This is done with Keras which is a neural network API written in Python. It can employ several machine learning back-ends that are based on computational graphs. The most commonly known and very well-developed back-end is TensorFlow by Google which is an open source software that enables parallel GPU-based numerical computations\footnote{For more details on tensors and TensorFlow see \citet{Abadi:2017, Goldsborough:2016}}. The \texttt{keras} R package (v2.2.0.9) which is used in this study within RStudio v1.1.453 and TensorFlow 1.11.0 as back-end is a wrapper of the Python library that is maintained by \citep{chollet:2017kerasR}. The model training and prediction for each household was performed on a Windows Server 2012 with with 12 cores and 24 logical processors of Intel Xeon 3.4 GHz CPUs\footnote{The computing resources were kindly provided by the Humboldt Lab for Empirical and Quantitative Research (LEQR) at the School of Business and Economics, Humboldt-University Berlin.}. The model training is done in a differing number of epochs as early stopping was employed. That means, once the mean absolute error on the validation data did not decrease by more than 0.001 in three consecutive epochs, the training process is stopped. Early stopping is a common and well-suited approach to prevent overfitting \citep{chollet:2018}.
+Second, the LSTM RNN is compiled and trained. This is done with Keras which is a neural network API written in Python. It can employ several machine learning back-ends that are based on computational graphs. The most commonly known and very well-developed back-end is TensorFlow by Google which is an open source software that enables parallel GPU-based numerical computations\footnote{For more details on tensors and TensorFlow see \citet{Abadi:2017, Goldsborough:2016}}. The \texttt{keras} R package (v2.2.0.9), which this study used, is a wrapper of the Python library and is maintained by \citet{chollet:2017kerasR}. The package was used with RStudio v1.1.453 and TensorFlow 1.11.0 as back-end. The model training and prediction for each household was performed on a Windows Server 2012 with 12 cores and 24 logical processors of Intel Xeon 3.4 GHz CPUs\footnote{The computing resources were kindly provided by the Humboldt Lab for Empirical and Quantitative Research (LEQR) at the School of Business and Economics, Humboldt-University Berlin.}. The model training is done in a differing number of epochs as early stopping was employed. That means, once the mean absolute error on the validation data did not decrease by more than 0.001 in three consecutive epochs, the training process is stopped (see line 14 in Procedure \ref{Alg:LSTMimplementation}). Early stopping is a common and well-suited approach to prevent overfitting \citep{chollet:2018}.
 
-Finally, the trained model was used to generate predictions on the test set that comprises data from 01.10.2017 00:00 to 01.01.2018 00:00 (i.e., 44,180 data points). As the prediction is made in 15-minute intervals, in total, 8,836 data points are predicted. Using the error measures described in Section \ref{Sec:Method;Subsec:Error}, the model performance is assessed. Additionally, the predictions for all data sets are saved for the evaluation of the prediction in the context of market mechanism implemented in the smart contract by \citet{Mengelkamp:2018a}.
+Finally, the trained model was used to generate predictions on the test set that comprises data from 01.10.2017 00:00 to 01.01.2018 00:00 (i.e., 44,180 data points). As the prediction was made in 15-minute intervals, in total, 8,836 data points were predicted. Using the error measures described in Section \ref{Sec:Method;Subsec:Error}, the model performance was assessed. Additionally, the predictions for all data sets were saved for the evaluation of the prediction in the context of market mechanism implemented in a smart contract by \citet{Mengelkamp:2018a}.
 
 %%%%%%%%%%%%%%%%%
 %%%   LASSO   %%%
@@ -296,7 +296,42 @@ where $\lambda$ is a parameter that controls the level of sparsity in the model,
 %%%%%%%%%%%
 \subsubsection{Implementation of sparse autoregressive LASSO}
 
+%
+\begin{algorithm}[htbp]
+\floatname{algorithm}{Procedure}
 
+\begin{algorithmic}[2] \label{Alg:LASSOimplementation}
+\State{Initiate prediction matrix $P$ and list for error measures $\Theta$.}
+\For{Household $i$ in dataset pool $I$}
+    \State{Load dataset $\Psi_i$ of consumer $i$.}
+    \State{Generate target values $\vec{y}$ by aggregating consumption data to 15-min intervals.}
+    \State{Generate predictor matrix by slicing consumption time series with sliding window approach.}
+    \State{Set number of cross-validation folds $k$}
+    Repeat{$k$ times}
+    \State{Set up training and validation data generators according to parameter tuple $<b, d>$.}
+    \State{Split dataset $\Psi_i$ into training dataset $\Psi_{i,tr}$ and testing dataset $\Psi_{i,ts}$.}
+    \State{Build LSTM RNN $\zeta_i$ on Tensorflow with network size $(l, h)$.}
+    \Repeat
+    \indent\State{\textbf{At} $k^{th}$ epoch \textbf{do}:}
+        \State{\multiline{%
+        Train LSTM RNN $\zeta_i$ with data batches $\varphi_{train} \subseteq \Psi_{i,tr}$ supplied by training data generator.}}
+        \State{\multiline{%
+        Evaluate performance with mean absolute error $\Lambda_k$ on cross-validation data batches $\varphi_{val} \subseteq \Psi_{i,tr}$ supplied by validation data generator.}}
+    \Until{$\Lambda_{k-1}-\Lambda_{k}<0.001$ for the last 3 epochs.}
+    \State{Save trained LSTM RNN $\zeta_i$.}
+    \State{Set up testing data generator according to tuple $<b, d>$.}
+    \State{\multiline{%
+    Generate predictions $\vec{\widehat{y}_i}$ with batches $\varphi_{ts} \subseteq \Psi_{i,ts}$ fed by testing data generator into LSTM RNN $\zeta_i$.}}
+    \State{Calculate error measures $\Theta_i$ to assess performance of $X_i$.}
+    \State{Write prediction vector $\vec{\widehat{y}_i}$ into column $i$ of matrix $P$.}
+\EndFor
+\State{Save matrix $P$.}
+\State{\textbf{End.}}
+\end{algorithmic}
+
+\caption{Supervised learning of LSTM neural network and prediction.}
+\end{algorithm}
+%
 
 
 
