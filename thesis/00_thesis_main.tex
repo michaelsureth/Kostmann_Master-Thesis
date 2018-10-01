@@ -25,6 +25,13 @@
 \newcolumntype{.}{D{.}{.}{-1}}
 % Align footnotes (no indent of first line)
 \usepackage[bottom,flushmargin,hang,multiple]{footmisc}
+% For writing pseudo code
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{etoolbox}
+\usepackage{tabularx}
+% For using tables with cells over multiple rows and columns
+\usepackage{multirow, multicol}
 
 % -----------------------------
 % --- user-defined commands ---
@@ -68,6 +75,20 @@
 
 % define line spacing = 1.5
 \spacing{1.5}
+
+% set line spacing for algorithms
+\makeatletter
+\expandafter\patchcmd\csname\string\algorithmic\endcsname{\itemsep\z@}{\itemsep=1.5ex}{}{}
+\makeatother
+
+% set indent manually in algorithm environment
+\makeatletter
+\newcommand{\multiline}[1]{%
+  \begin{tabularx}{\dimexpr\linewidth-\ALG@thistlm}[t]{@{}X@{}}
+    #1
+  \end{tabularx}
+}
+\makeatother
 
 % define space between text and footnote line
 \addtolength{\skip\footins}{2pc plus 5pt}
