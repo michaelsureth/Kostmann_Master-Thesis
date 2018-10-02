@@ -39,6 +39,7 @@ ENTRY
     title
     type
     URL
+    lastchecked
     volume
     year
   }
@@ -162,7 +163,12 @@ FUNCTION {quote}
 FUNCTION {write.url}
 { URL empty$
     { skip$ }
-    { "\harvardurl{" URL * "}" * write$ }
+    { "\harvardurl{" URL * "}" * write$ newline$ 
+     lastchecked empty$
+       { skip$ }
+       { "[Accessed on: " lastchecked * "]" * write$ newline$ }
+       if$
+    }
   if$
 }
 
