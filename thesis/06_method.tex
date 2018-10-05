@@ -172,7 +172,7 @@ To summarize, all neural networks use the basic building blocks of units that fo
 %%%%%%%%%%%
 \subsubsection{Implementation of LSTM RNN}
 
-The specific LTSM RNN approach adopted in this study is based on the procedure employed by \citet{Shi:2017} to forecast individual households' energy consumption. However, according to the relevant use case in this study, model training and predictions were performed using only the data of individual households. That means, a LSTM recurring neural network was trained for each household individually using only the households historic consumption patterns and calender features. This differs from \cites{Shi:2017} implementation, that used pooled consumption data of multiple households. Specifically, 7 weeks of past consumption, an indicator for weekends, and an indicator for Germany-wide holidays were used as input for the neural network in the present study. The target values were single consumption values in 15-minute aggregation. Take the following example as illustration: The consumption values in 3-minute intervals from the 13.11.2017 13:00 until 20.11.2017 13:00 and zero/one-indicators for weekends and holidays (i.e., 3 $\times$ 3360 data points) are fed into the neural network. The model then produces a single output value that estimates the household's energy consumption in kWh from 20.11.2017 13:00 until 20.11.2017 13:15.
+The specific LTSM RNN approach adopted in this study is based on the procedure employed by \citet{Shi:2017} to forecast individual households' energy consumption. However, according to the relevant use case in this study, model training and predictions were performed using only the data of individual households. That means, a LSTM recurring neural network was trained for each household individually using only the households historic consumption patterns and calender features. This differs from \cites{Shi:2017} implementation, that used pooled consumption data of multiple households. Specifically, seven weeks of past consumption, an indicator for weekends, and an indicator for Germany-wide holidays were used as input for the neural network in the present study. The target values were single consumption values in 15-minute aggregation. Take the following example as illustration: The consumption values in 3-minute intervals from 13.11.2017 13:00 until 20.11.2017 13:00 and zero/one-indicators for weekends and holidays (i.e., 3 $\times$ 3360 data points) are fed into the neural network. The model then produces a single output value that estimates the household's energy consumption in kWh from 20.11.2017 13:00 until 20.11.2017 13:15.
 
 A neural network is defined by several so-called hyperparameters: The number and type of layers, the number of hidden units within each layer, the activation functions used within each unit, dropout rates for the recurrent transformation, and dropout rates for the transformation of the input. These hyperparameters must be chosen particularly for the task at hand and their influence on the model performance is difficult to foresee. For this reason, parameter tuning was employed to find a relatively well working combination of hyperparameter values. Unfortunately, hyperparameter tuning is computationally very resource intensive as for each hyperparameter combination, the model must be fully trained to asses the model performance. Hence, not all possible or sensible combinations of hyperparameters could be assessed. Instead, a random sample of different hyperparameter combinations was chosen and the resulting model configurations trained and evaluated on a randomly chosen dataset.
 
@@ -220,8 +220,9 @@ First, the consumption data time series is loaded, target values are generated, 
 %
 \begin{algorithm}[htbp]
 \floatname{algorithm}{Procedure}
+\caption{Supervised learning of LSTM neural network and prediction.}\label{Alg:LSTMimplementation}
 
-\begin{algorithmic}[1] \label{Alg:LSTMimplementation}
+\begin{algorithmic}[1]
 \State{Set parameter tuple $<l, u, b, d>$: number of layers $l \subseteq L$, number of hidden LSTM-units $u \subseteq U$, batch size $b \subseteq B$, and dropout rate $d \subseteq D$.}
 \State{Initiate prediction matrix $P$ and list for error measures $\Theta$.}
 \For{Household $i$ in dataset pool $I$}
@@ -249,12 +250,11 @@ First, the consumption data time series is loaded, target values are generated, 
 \State{\textbf{End.}}
 \end{algorithmic}
 
-\caption{Supervised learning of LSTM neural network and prediction.}
 \end{algorithm}
 %
 Second, the LSTM RNN is compiled and trained. This is done with Keras which is a neural network API written in Python. It can employ several machine learning back-ends that are based on computational graphs. The most commonly known and very well-developed back-end is TensorFlow by Google which is an open source software that enables parallel GPU-based numerical computations\footnote{For more details on tensors and TensorFlow see \citet{Abadi:2017, Goldsborough:2016}}. The \texttt{keras} R package (v2.2.0.9), which this study used, is a wrapper of the Python library and is maintained by \citet{chollet:2017kerasR}. The package was used with RStudio v1.1.453 and TensorFlow 1.11.0 as back-end. The model training and prediction for each household was performed on a Windows Server 2012 with 12 cores and 24 logical processors of Intel Xeon 3.4 GHz CPUs\footnote{The computing resources were kindly provided by the Humboldt Lab for Empirical and Quantitative Research (LEQR) at the School of Business and Economics, Humboldt-University Berlin.}. The model training is done in a differing number of epochs as early stopping was employed. That means, once the mean absolute error on the validation data did not decrease by more than 0.001 in three consecutive epochs, the training process is stopped (see line 14 in Procedure \ref{Alg:LSTMimplementation}). Early stopping is a common and well-suited approach to prevent overfitting \citep{chollet:2018}.
 
-Finally, the trained model was used to generate predictions on the test set that comprises data from 01.10.2017 00:00 to 01.01.2018 00:00 (i.e., 44,180 data points). As the prediction was made in 15-minute intervals, in total, 8,836 data points were predicted. Using the error measures described in Section \ref{Sec:Method;Subsec:Error}, the model performance was assessed. Additionally, the predictions for all data sets were saved for the evaluation of the prediction in the context of market mechanism implemented in a smart contract by \citet{Mengelkamp:2018a}.
+Finally, the trained model was used to generate predictions on the test set that comprises data from 01.10.2017 00:00 to 01.01.2018 00:00 (i.e., 44,180 data points). As the prediction was made in 15-minute intervals, in total, 8,836 data points were predicted. Using the error measures described in Section \ref{Sec:Method;Subsec:Error}, the model performance was assessed. Additionally, the predictions for all datasets were saved for the evaluation of the prediction in the context of the market mechanism implemented in a smart contract by \citet{Mengelkamp:2018a}.
 
 %%%%%%%%%%%%%%%%%
 %%%   LASSO   %%%
@@ -285,7 +285,7 @@ minimizes the sum of squared error within the data used to estimate $\widehat{\v
 
 This risk of model overfitting can be mitigated by including only lag-orders of the historical data that are relevant for the estimation of $y_{t+1}$ and thereby reducing the number of regressors. Thus, \citet{Li:2017} use least absolute shrinkage and selection to find a sparse autoregressive model which generalizes better to new data. Formally, the LASSO estimator can be written as
 %
-\begin{equation} \label{betaLASSO}
+\begin{equation} \label{Eq:betaLASSO}
     \widehat{\vec{\beta}}_{\text{LASSO}}=\argmin_{\vec{\beta}}\frac{1}{2}\left\lVert(\vec{y}-\vec{X}\vec{\beta}\right\rVert^2_2+\lambda\left\lVert\vec{\beta}\right\rVert_1,
 \end{equation}
 %
@@ -296,43 +296,68 @@ where $\lambda$ is a parameter that controls the level of sparsity in the model,
 %%%%%%%%%%%
 \subsubsection{Implementation of sparse autoregressive LASSO}
 
+The sparse autoregressive LASSO approach was implemented using the R package \texttt{glmnet} \citep{Friedman:2010}. Again, as for the LSTM RNN approach, model training and prediction were performed for every household individually. Following \cites{Li:2017} procedure, only historical consumption values were used as predictors. Specifically, seven weeks of lagged consumption values served as input to the LASSO model. The response vector consisted of single consumption values in 15-minute aggregation. The same example as above is presented for illustration of the prediction task: The consumption values in 3-minute intervals from 13.11.2017 13:00 until 20.11.2017 13:00 (i.e., 3360 data points) are available to the model for prediction. 
+Based on the training data, the model chooses the lagged values with the highest predictive power and makes a linear estimation of a single value for the household's energy consumption in kWh from 20.11.2017 13:00 until 20.11.2017 13:15.
+
+The \texttt{glmnet} package used for this task fits a generalized linear model with the  elastic-net penalty
+%
+\begin{equation} \label{Eq:elasticnetpenalty}
+    \lambda\left[(1-\alpha)\left\lVert\vec{\beta}\right\rVert^2_2/2 + \alpha \left\lVert\vec{\beta}\right\rVert_1\right],
+\end{equation}
+%
+where $\alpha=1$ to perform LASSO. Hence, the penalty term here is $\lambda\left\lVert\vec{\beta}\right\rVert_1$. The parameter $\lambda$ has to be tuned. This can be done using the package's cross-validation function with parallel computing. As a linear autoregressive model had to be fitted, the Gaussian family option of the package was chosen. The objective function of the Gaussian family LASSO model is
+%
+\begin{equation} \label{Eq:glmnetobjfun}
+    \min_{(\beta_0, \vec{\beta)}}\frac{1}{2N} \sum_{i=1}^N (y_i -\beta_0-x_i^T\vec{\beta})^2+\lambda\left\lVert\vec{\beta}\right\rVert_1,
+\end{equation}
+%
+where $\lambda \geq 0$ is the tuning parameter that controls by how much the number of coefficients is penalized. The objective function is solved by applying coordinate descent \citep[for more details see][]{Friedman:2010}.
+
+As the LASSO model requires a predictor matrix, the time series of each household is split in sequences of length $n=3360$ with 5 data points skipped in between. The skip accounts for the fact, that the response vector is comprised of 15-minute interval consumption values (i.e., five 3-minute consumption values). The detailed description of the model estimation and prediction is presented in Procedure \ref{Alg:LASSOimplementation}.
 %
 \begin{algorithm}[htbp]
 \floatname{algorithm}{Procedure}
+\caption{Cross-validated selection of $\lambda$ for LASSO and prediction.} \label{Alg:LASSOimplementation}
 
-\begin{algorithmic}[2] \label{Alg:LASSOimplementation}
+\begin{algorithmic}[1]
 \State{Initiate prediction matrix $P$ and list for error measures $\Theta$.}
 \For{Household $i$ in dataset pool $I$}
     \State{Load dataset $\Psi_i$ of consumer $i$.}
     \State{Generate target values $\vec{y}$ by aggregating consumption data to 15-min intervals.}
-    \State{Generate predictor matrix by slicing consumption time series with sliding window approach.}
-    \State{Set number of cross-validation folds $k$}
-    Repeat{$k$ times}
-    \State{Set up training and validation data generators according to parameter tuple $<b, d>$.}
     \State{Split dataset $\Psi_i$ into training dataset $\Psi_{i,tr}$ and testing dataset $\Psi_{i,ts}$.}
-    \State{Build LSTM RNN $\zeta_i$ on Tensorflow with network size $(l, h)$.}
-    \Repeat
-    \indent\State{\textbf{At} $k^{th}$ epoch \textbf{do}:}
-        \State{\multiline{%
-        Train LSTM RNN $\zeta_i$ with data batches $\varphi_{train} \subseteq \Psi_{i,tr}$ supplied by training data generator.}}
-        \State{\multiline{%
-        Evaluate performance with mean absolute error $\Lambda_k$ on cross-validation data batches $\varphi_{val} \subseteq \Psi_{i,tr}$ supplied by validation data generator.}}
-    \Until{$\Lambda_{k-1}-\Lambda_{k}<0.001$ for the last 3 epochs.}
-    \State{Save trained LSTM RNN $\zeta_i$.}
-    \State{Set up testing data generator according to tuple $<b, d>$.}
     \State{\multiline{%
-    Generate predictions $\vec{\widehat{y}_i}$ with batches $\varphi_{ts} \subseteq \Psi_{i,ts}$ fed by testing data generator into LSTM RNN $\zeta_i$.}}
-    \State{Calculate error measures $\Theta_i$ to assess performance of $X_i$.}
+    Generate predictor matrix $M_{tr}$ by slicing consumption time series from $\Psi_{i,tr}$ with sliding window.}}
+    \State{Generate sequence of $\lambda$-values $\{l_s\}_{s=1}^L$.}
+    \State{Set number of cross-validation (CV) folds $K$.}
+    \State{Split predictor matrix $M_{tr}$ into $K$ folds.}
+    \For{$k$ in $K$}
+        \State{Select fold $k$ as CV testing set and folds $j\neq k$ as CV training set.}
+        \For{each $l_s$ in $\{l_s\}_{s=1}^L$}
+            \State{Compute vector $\widehat{\vec{\beta}}_{k,l_s}$ on CV training set.}
+            \State{Compute mean absolute error $\Lambda_{k,l_s}$ on CV testing set.}
+        \EndFor
+    \EndFor
+    \State{For each $\widehat{\vec{\beta}}_{k,l_s}$ calculate average mean absolute error $\bar{\Lambda}_s$ across the $K$ folds.}
+    \State{\multiline{%
+    Select cross-validated $\lambda$-value $l_s^{CV}$ with the highest regularization (i.e., lowest number of non-zero $\beta$-coefficients) within one standard deviation of the minimum $\bar{\Lambda}_s$.}}
+    \State{Compute $\widehat{\vec{\beta}}_{l_s^{CV}}$ on complete predictor matrix $M_{tr}$.}
+    \State{\multiline{%
+    Generate predictor matrix $M_{ts}$ by slicing consumption time series from $\Psi_{i,ts}$ with sliding window.}}
+    \State{\multiline{%
+    Generate predictions $\vec{\widehat{y}_i}$ from predictor matrix $M_{ts}$ and coefficients $\widehat{\vec{\beta}}_{l_s^{CV}}$.}}
+    \State{Calculate error measures $\Theta_i$ to assess performance.}
     \State{Write prediction vector $\vec{\widehat{y}_i}$ into column $i$ of matrix $P$.}
 \EndFor
 \State{Save matrix $P$.}
 \State{\textbf{End.}}
 \end{algorithmic}
 
-\caption{Supervised learning of LSTM neural network and prediction.}
 \end{algorithm}
 %
 
+After generating the predictor matrix for the model estimation, the optimal $\lambda$ is found in a K-fold cross-validation. Here, $K$ is set to 10. The sequence of $\lambda$-values that is tested in the cross-validation is by default of length $L=100$. However, the \texttt{glmnet} algorithm uses early-stopping to reduce computing times if the percent of null deviance explained by the model with a certain $\lambda$ does not change sufficiently from one to the next $\lambda$-value. According to \citet{Friedman:2010} the sequence of $\lambda$-values is constructed by calculating the minimum lambda value as a fraction of the maximum lambda value ($\lambda_{min}=\varepsilon\lambda_{max}$, where $\lambda_{max}$ is such that all $\beta$-coefficients are set equal to zero) and moving along the log-scale from $\lambda_{max}$ to $\lambda_{min}$ in $L$ steps. The cross-validation procedure identifies the biggest $\lambda$ that is still within one standard deviation of the $\lambda$ with the lowest mean absolute error. The final coefficients for each household are then computed by solving Equation \ref{Eq:betaLASSO} for the complete predictor matrix.
+
+Thereafter, the predictions are made on the testing data. For this, again, the time series is sliced according to the sliding window of length $n=3360$ skipping 5 data points and written into a predictor matrix. This matrix comprises data from 01.10.2017 00:00 to 01.01.2018 00:00 (i.e., 8836 cases of 3360 lagged values), resulting again in 8836 predicted values as in the case of the LSTM neural network described above. The predictions on all datasets were assessed using the error measures described in Section \ref{Sec:Method;Subsec:Error} and saved for the evaluation of the prediction in the context of the market mechanism implemented in a smart contract by \citet{Mengelkamp:2018a}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -419,7 +444,11 @@ Analogically, the sometimes recommended Kolmogorov-Smirnov Integral (KSI) \citep
 
 \subsection{Market simulation} \label{Sec:Method;Subsec:Market}
 
+The market mechanism used to evaluate the prediction performance in a simulated blockchain-based local energy market is based on \cites{Mengelkamp:2018a} developed smart contract architecture. They use a market mechanism with discreet closing times every 15 minutes. Each consumer and each prosumer submit one order per interval. Their asks and bids are matched in a closed double auction that yield a single equilibrium price per interval. In their setup, the market mechanism is implemented as a smart contract on a Ethereum-Blockchain and coded in Solidity. The smart contract is deployed on a private Blockchain.
 
+This study replicated the market mechanism for simulation purposes in R. As the focus here is not the proof-of-concept, that a smart contract-based market mechanism on a Blockchain can serve a local energy market, the Solidity coded market mechanism used by \citet{Mengelkamp:2018a} is not suitable for this study. Recreating the market mechanism in R allows for a much more flexible and time-efficient analysis of the market outcomes with and without prediction errors.
+
+The simulation of the market mechanism followed five major steps: First, the consumption and production values of each market participant per 15-minute interval from 01-10-2017 00:00 to 01.01.2018 00:00 were retrieved. These values were either the true values as yielded by the aggregation of the raw Discovergy data or the prediction values as estimated by the benchmark, LSTM RNN, and LASSO model. Next, for each market participant a zero-intelligence offer price was generated. That is, the prices are drawn randomly from the uniform distribution $\textit{U}\{12.31,24.69\}$. The lower bound is the German feed-in tariff of $12.31 \frac{\text{cEUR}}{\text{kWh}}$ and the upper bound is -- for consistency with \citet{Mengelkamp:2018a} -- the the average German electricity price in 2016 of $24.69 \frac{\text{cEUR}}{\text{kWh}}$ \citep{Heidjann:2017}.
 
 
 
@@ -427,21 +456,16 @@ Analogically, the sometimes recommended Kolmogorov-Smirnov Integral (KSI) \citep
 %%%   Implementation   %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-% As the data used to train the models is in 3-minute intervals, but the prediction will have to be made 15 minutes ahead, all forecasting models will be used to make 5 sequential one-step ahead predictions. These 5 predictions will then be aggregated into a single forecast for the whole 15-minute interval and compared to the actual consumption/production within this 15-minute interval (i.e., the aggregation of the 5 corresponding 3-minute consumption values).
-
-%Both methods applied to the forecasting of individual households without taking data from other households into account.
-
-\subsection{Procedure} \label{Sec:Method;Subsec:Procedure}
+% \subsection{Procedure} \label{Sec:Method;Subsec:Procedure}
 
 
-\subsubsection{Data preprocessing}
+% \subsubsection{Data preprocessing}
 
-\subsubsection{Model training}
+% \subsubsection{Model training}
 
-\subsubsection{Prediction accuracy}
+% \subsubsection{Prediction accuracy}
 
-\subsubsection{Market outcome}
+% \subsubsection{Market outcome}
  
 
 
