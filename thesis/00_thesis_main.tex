@@ -33,6 +33,10 @@
 \usepackage{tabularx}
 % For using tables with cells over multiple rows and columns
 \usepackage{multirow, multicol}
+% For including appendix sections in the TOC
+\usepackage[toc]{appendix}
+% To control behaviour of floating graphics, tables etc.
+\usepackage{float}
 
 % -----------------------------
 % --- user-defined commands ---
@@ -225,32 +229,38 @@ breaklines, linenos}
 \pagestyle{plain}
 \setcounter{page}{1}    % start page numbering anew
 \pagenumbering{arabic}  % page numbers in arabic style
-
-
 \input{thesis/05_intro.tex}
-\input{thesis/06_method.tex}
+
+\newpage
+\input{thesis/06_methods.tex}
 
 \newpage
 \input{thesis/07_data.tex}
 
 \newpage
 \input{thesis/08_results.tex}
+
+\newpage
 \input{thesis/09_conclusion.tex}
+
+
+
+% ------------------
+% --- literature ---
+% ------------------
+\newpage
+\addcontentsline{toc}{section}{References}
+\bibliography{thesis/99_literature.bib}
 
 
 
 % ----------------
 % --- appendix ---
 % ----------------
-\appendix
-
-% literature
 \newpage
-\addcontentsline{toc}{section}{References}
-\bibliography{thesis/99_literature.bib}
+\begin{appendices}
 
 % figures
-\newpage
 \input{thesis/10_app_figures.tex}
 
 % tables
@@ -260,6 +270,9 @@ breaklines, linenos}
 % code
 \newpage
 \input{thesis/12_app_code.tex}
+\end{appendices}
+
+
 
 
 % --------------------------------------------
