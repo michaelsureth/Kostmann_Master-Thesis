@@ -1,23 +1,44 @@
 
 \section{Results}\label{Sec:Results}
 
+The results will be presented in two sections: First, the forecasting accuracy of the prediction models is evaluated and presented. Second, the results of the market simulation -- which is run once with the true consumption and production values and once with the predicted values -- are reported.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%   Benchmark models   %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Evaluation of prediction models}\label{Sec:Results;Subsec:Forecast}
+\subsection{Evaluation of the prediction models}\label{Sec:Results;Subsec:Forecast}
+
+Three prediction models where each applied to 82 consumer data sets and 12 prosumer data sets: the benchmark model (see Section~\ref{Sec:Method;Subsec:Benchmark}), the LSTM RNN model (see Section~\ref{Sec:Method;Subsec:LSTM}), and the LASSO model (see Section~\ref{Sec:Method;Subsec:LASSO}. All three prediction models are compared and evaluated using the error measures presented in Section~\ref{Sec:Method;Subsec:Error}.
 
 
-
-%%%%%%%%%%%%%%
+%%%%%%%%%%%
 \subsubsection{Consumption data}
 
+The performance of the prediction values was tested on a quarter of the available data. That is, the prediction models were fitted on the consumption values from 01.01.2017 00:00 to 30.09.2017 00:00 which is equivalent to 131,040 data points per data set. For all 82 consumer data sets the models were fitted separately resulting in 82 distinct prediction models for each method. The fitted models were then used to make energy consumption predictions in 15-minute intervals on the data from 01.10.2017 00:00 to 01.01.2018 00:00. This equates to 8,836 predicted values per data set per model. The performance of the three prediction models is presented in Table~\ref{Tab:}
+%
+\begin{table}[ht]
+{\footnotesize
+    \csvreader[centered tabular=l|......,
+    filter not strcmp ={\thecsvinputline}{1},
+    table head=
+    \hline\hline
+     & \multicolumn{1} {|c}{\textbf{Min}} & \multicolumn{1} {c}{\textbf{Q1}} & \multicolumn{1} {c}{\textbf{Median}} & \multicolumn{1} {c}{\textbf{Mean}} & \multicolumn{1} {c}{\textbf{Q3}} & \multicolumn{1} {c}{\textbf{Max}}\\
+    \hline,
+    no head,
+    separator=comma,
+    respect all,
+    late after line=\\,
+    table foot= \hline \hline]
+    {thesis/tables/summarystats_total.csv}{}%
+    {\csvcoli & \csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii}}%
+    \caption[Summary statistics of households' total consumption and production in 2017]{Summary statistics of households' total consumption and production in 2017. \quantnet\href{ }{BLEMdescStatEnergy}}
+    \label{App:Tab:cons_totalcons}
+\end{table}
 
 
-
-%%%%%%%%%%%%%%
+%%%%%%%%%%%
 \subsubsection{Production data}
 
 
@@ -27,7 +48,22 @@
 %%%   Market simulation   %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Evaluation of market outcomes}\label{Sec:Results;Subsec:Simulation}
+\subsection{Evaluation of the market simulation}\label{Sec:Results;Subsec:Simulation}
+
+
+
+%%%%%%%%%%%
+\subsubsection{True consumption and production values}
+
+
+
+%%%%%%%%%%%
+\subsubsection{Predicted consumption and production values}
+
+
+
+%%%%%%%%%%%
+\subsubsection{Cost due to prediction errors}
 
 
 
