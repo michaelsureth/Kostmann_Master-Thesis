@@ -263,10 +263,14 @@ breaklines, linenos}
 \begin{appendices}
 
 % figures
+\renewcommand\thefigure{A\arabic{figure}}
+\setcounter{figure}{0}
 \input{thesis/10_app_figures.tex}
 
 % tables
 \newpage
+\renewcommand\thetable{B\arabic{figure}}
+\setcounter{figure}{1}
 \input{thesis/11_app_tables.tex}
 
 % code
