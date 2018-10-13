@@ -16,7 +16,7 @@ Three prediction models where each applied to 82 consumer data sets and 12 prosu
 %%%%%%%%%%%
 \subsubsection{Consumption data}
 
-The performance of the prediction values was tested on a quarter of the available data. That is, the prediction models were fitted on the consumption values from 01.01.2017 00:00 to 30.09.2017 00:00 which is equivalent to 131,040 data points per data set. For all 82 consumer data sets the models were fitted separately resulting in 82 distinct prediction models for each method. The fitted models were then used to make energy consumption predictions in 15-minute intervals on the data from 01.10.2017 00:00 to 01.01.2018 00:00. This equates to 8,836 predicted values per data set per model. The performance of the three prediction models according to five error measures is shown in Table~\ref{Tab:avg_errormeasures}.
+The performance of the prediction values was tested on a quarter of the available data. That is, the prediction models were fitted on the consumption values from 01.01.2017 00:00 to 30.09.2017 00:00 which is equivalent to 131,040 data points per data set. For all 82 consumer data sets the models were fitted separately resulting in 82 distinct prediction models for each method. The fitted models were then used to make energy consumption predictions in 15-minute intervals on the data from 01.10.2017 00:00 to 01.01.2018 00:00. This equates to 8,836 predicted values per data set per model. The average performance of the three prediction models across all 82 data sets is shown in Table~\ref{Tab:avg_errormeasures}.
 %
 \begingroup\catcode`"=9
 \begin{table}[ht]
@@ -40,14 +40,32 @@ The performance of the prediction values was tested on a quarter of the availabl
 \end{table}
 \endgroup
 %
-As can be seen, LASSO and LSTM outperform the benchmark model according to MAE, RMSE, MAPE, and MASE. Interestingly, due to the heavy penalty NRMSE puts on large prediction errors, both sophisticated prediction methods perform worse according to NRMSE. A detailed analysis, however, reveals that this result is mainly driven, by extremely bad NRMSE scores of LSTM and LASSO on merely two of the 82 data sets. As can be seen in Figure~\ref{Fig:}, 
+As can be seen, LASSO and LSTM outperform the benchmark model according to MAE, RMSE, MAPE, and MASE by around 10 \%. Interestingly, due to the heavy penalty NRMSE puts on comparably large prediction errors, both sophisticated prediction methods perform worse according to NRMSE. A detailed analysis, however, reveals that this result is mainly driven, by extremely bad NRMSE scores of LSTM and LASSO on merely two of the 82 data sets. As can be seen in Figure~\ref{Fig:heatmapNRMSE}, the predictions on consumer data sets 027 and 076 have a particularly high NRMSE compared to all other data sets. However, this pattern is not present when use RMSE as error measure, as shown in Figure~\ref{Fig:heatmapRMSE}.
 %
 \begin{figure}[htbp]
  \centering
-\includegraphics[width=\textwidth]{thesis/graphs/timeseries/p038_cons.pdf}
-\caption[Energy consumption recordings of prosumer 038]{Energy consumption recordings of prosumer 038. The first panel shows the full year 2017, the second panel zooms in to one month (May), and the third panel zooms in to one day (May, 13). \quantnet\href{ }{BLEMplotEnergyData}}
-\label{Fig:energycons_p038}
+\includegraphics[width=\textwidth]{thesis/graphs/evaluation/c_heatmap_NRMSE.pdf}
+\caption[Heatmap of NRMSE scores for consumption values]{Heatmap of  NRMSE scores for the prediction of consumption values per consumer data set. \quantnet\href{ }{}}
+\label{Fig:heatmapNRMSE}
 \end{figure}
+%
+\begin{figure}[htbp]
+ \centering
+\includegraphics[width=\textwidth]{thesis/graphs/evaluation/c_heatmap_RMSE.pdf}
+\caption[Heatmap of RMSE scores for consumption values]{Heatmap of  RMSE scores for the prediction of consumption values per consumer data set. \quantnet\href{ }{}}
+\label{Fig:heatmapRMSE}
+\end{figure}
+%
+
+The LASSO model performs with a MAPE of 24.43 \% worse than in the implementation of \citet{Li:2017}, who achieved a score of 20.06 \%.
+%
+\begin{figure}
+    \centering
+    \includegraphics{thesis/graphs/evaluation/c_boxplot_MAE}
+    \caption{Caption}
+    \label{fig:my_label}
+\end{figure}
+
 
 %%%%%%%%%%%
 \subsubsection{Production data}
