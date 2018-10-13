@@ -22,11 +22,11 @@ The performance of the prediction values was tested on a quarter of the availabl
 \begin{table}[ht]
 {\footnotesize
     \csvreader[centered tabular=l|SSSSS,
-    before reading=\sisetup{round-mode=places,round-precision=4,round-integer-to-decimal},
+    before reading=\sisetup{round-mode=places,round-precision=2,round-integer-to-decimal},
     filter not strcmp={\thecsvinputline}{1},
     table head=
     \hline\hline
-     \multicolumn{1} {l}{\textbf{Model}} & \multicolumn{1} {|c}{\textbf{MAE}} & \multicolumn{1} {c}{\textbf{RMSE}} & \multicolumn{1} {c}{\textbf{MAPE}} & \multicolumn{1} {c}{\textbf{NRSME}} & \multicolumn{1} {c}{\textbf{MASE}}\\
+     \multicolumn{1} {l}{\textbf{Model}} & \multicolumn{1} {|c}{\textbf{MAE}} & \multicolumn{1} {c}{\textbf{RMSE}} & \multicolumn{1} {c}{\textbf{MAPE}} & \multicolumn{1} {c}{\textbf{NRMSE}} & \multicolumn{1} {c}{\textbf{MASE}}\\
     \hline,
     no head,
     separator=comma,
@@ -35,10 +35,19 @@ The performance of the prediction values was tested on a quarter of the availabl
     table foot=\hline \hline]
     {thesis/tables/avg_errorMeasures.csv}{}%
     {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii}}%
-    \caption[Summary statistics of households' total consumption and production in 2017]{Summary statistics of households' total consumption and production in 2017. \quantnet\href{ }{BLEMdescStatEnergy}}
+    \caption[Average error measures across all 82 consumer data sets]{Average error measures for the prediction of energy consumption across all 82 consumer data sets. \quantnet\href{ }{}}
     \label{Tab:avg_errormeasures}
 \end{table}
 \endgroup
+%
+As can be seen, LASSO and LSTM outperform the benchmark model according to MAE, RMSE, MAPE, and MASE. Interestingly, due to the heavy penalty NRMSE puts on large prediction errors, both sophisticated prediction methods perform worse according to NRMSE. A detailed analysis, however, reveals that this result is mainly driven, by extremely bad NRMSE scores of LSTM and LASSO on merely two of the 82 data sets. As can be seen in Figure~\ref{Fig:}, 
+%
+\begin{figure}[htbp]
+ \centering
+\includegraphics[width=\textwidth]{thesis/graphs/timeseries/p038_cons.pdf}
+\caption[Energy consumption recordings of prosumer 038]{Energy consumption recordings of prosumer 038. The first panel shows the full year 2017, the second panel zooms in to one month (May), and the third panel zooms in to one day (May, 13). \quantnet\href{ }{BLEMplotEnergyData}}
+\label{Fig:energycons_p038}
+\end{figure}
 
 %%%%%%%%%%%
 \subsubsection{Production data}
