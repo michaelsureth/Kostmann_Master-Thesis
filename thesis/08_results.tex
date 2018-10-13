@@ -16,7 +16,7 @@ Three prediction models where each applied to 82 consumer data sets and 12 prosu
 %%%%%%%%%%%
 \subsubsection{Consumption data}
 
-The performance of the prediction values was tested on a quarter of the available data. That is, the prediction models were fitted on the consumption values from 01.01.2017 00:00 to 30.09.2017 00:00 which is equivalent to 131,040 data points per data set. For all 82 consumer data sets the models were fitted separately resulting in 82 distinct prediction models for each method. The fitted models were then used to make energy consumption predictions in 15-minute intervals on the data from 01.10.2017 00:00 to 01.01.2018 00:00. This equates to 8,836 predicted values per data set per model. Figure~\ref{Fig:glimpse_predcons} exemplary shows the true and predicted consumption values of consumer 011 on October 27, 2017. 
+The performance of the prediction values was tested on a quarter of the available data. That is, the prediction models were fitted on the consumption values from 01.01.2017 00:00 to 30.09.2017 00:00 which is equivalent to 131,040 data points per data set. For all 82 consumer data sets the models were fitted separately resulting in 82 distinct prediction models for each method. The fitted models were then used to make energy consumption predictions in 15-minute intervals on the data from 01.10.2017 00:00 to 01.01.2018 00:00. This equates to 8,836 predicted values per data set per model. Figure~\ref{Fig:glimpse_predcons} exemplary shows the true and predicted consumption values of consumer 011 on October 27, 2017. The naive benchmark model just follows the true consumption shifted by one time step (i.e. 15 minutes). This fits generally good as long as there are no sudden jumps in the household's energy consumption. Spikes in energy consumption, as occurred in the 15 minutes before 07:30 and 08.30 respectively in this example, necessarily lead to two periods of high errors of the naive predictor: First, once the jump to a high consumption level occurs and the naive predictor remains at the previous low level, and second, once the consumption suddenly returns to the low "baseline" consumption level and the naive predictor lags behind at the high level of the previous period. In such situations, the LASSO and LSTM models are more suitable. Even though, they underestimate the jumps in energy consumption, they do not lag behind as much as the naive predictor and, generally, have the ability to anticipate movements. However, the exemplary glimpse onto the predicted consumption values of consumer 011 already reveal that also the sophisticated prediction models lack the ability to accurately predict sudden movements in the energy consumption and tend to overestimate low consumption levels and underestimate spiking energy consumption.
 %
 \begin{figure}[htbp]
     \centering
@@ -24,7 +24,18 @@ The performance of the prediction values was tested on a quarter of the availabl
     \caption[Exemplary 24 hours of true and predicted consumption values]{Exemplary 24 hours of true and predicted consumption values of consumer 011. \quantnet\href{}{}}
     \label{Fig:glimpse_predcons}
 \end{figure}
+%
+Systematically analyzing the total over- and underestimation of the different prediction models on each consumer data set confirm this impression. Figure~\ref{Fig:overunderestimation} displays the total sum of over- and underestimation errors of each prediction model per data set. As one would expect, the naive 
 
+%
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{thesis/graphs/evaluation/c_barplot_naive_overunderestimation.pdf}
+    \includegraphics[width=\textwidth]{thesis/graphs/evaluation/c_barplot_LASSO_overunderestimation.pdf}
+    \includegraphics[width=\textwidth]{thesis/graphs/evaluation/c_barplot_LSTM_overunderestimation.pdf}
+    \caption[Sum of total over- and underestimation errors per data set]{Sum of total over- and underestimation errors per data set and prediction model. \quantnet\href{}{}}
+    \label{Fig:overunderestimation}
+\end{figure}
 
 
 
