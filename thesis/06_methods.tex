@@ -383,7 +383,7 @@ Error measures can be classified into representing absolute or percentage errors
 \noindent where $\vec{f}$ and $\vec{x}$ are the forecasted and actual data vectors respectively \citep{Haben:2014}. The metric $F$ is then the absolute p-norm,
 %
 \begin{equation} \label{Eq:pnorm}
-    E_p=\left\lVert\vec{f}-\vec{x}\right\rVert_p=\biggl(\sum_{i=1}^N \left|f_i-x_i\right|^p\biggr)^{1/p},
+    E_p=\left\lVert\vec{f}-\vec{x}\right\rVert_p=\biggl(\sum_{t=1}^N \left|f_t-x_t\right|^p\biggr)^{1/p},
 \end{equation}
 
 \noindent for $p\geq1$ \citep[][p. 52]{golub:2012}. The MAE belongs to this type of error and is defined as the average of the absolute differences between the predicted and true values \citep{Hoff:2013}:
@@ -409,11 +409,11 @@ Even though MAE and RMSE are widely used, they are not useful to compare the for
 Investigating forecasting error measures for PV power plants, \citet{Hoff:2013} conclude that normalizing the MAE by the average output of a PV power plant is most desirable to compute the MAPE. However, as \citet{Meer:2018} did not find any literature supporting this for consumption forecasting, the MAPE and NRMSE normalised by the true value will be used here. Hence, they are defined as
 %
 \begin{equation} \label{Eq:MAPE}
-\text{MAPE}=\frac{100}{N}\sum_{i=1}^N\left|\frac{\widehat{x}_i-x_i}{x_i}\right|,
+\text{MAPE}=\frac{100}{N}\sum_{t=1}^N\left|\frac{\widehat{x}_t-x_t}{x_t}\right|,
 \end{equation}
 and
 \begin{equation} \label{Eq:NRMSE}
-\text{NRMSE}=\sqrt{\frac{100}{N}\sum_{i=1}^N\left(\frac{\widehat{x}_i-x_i}{x_i}\right)^2}.
+\text{NRMSE}=\sqrt{\frac{100}{N}\sum_{t=1}^N\left(\frac{\widehat{x}_t-x_t}{x_t}\right)^2}.
 \end{equation}
 
 \noindent However, as \citet{Hyndman:2006} point out, this choice of denominator is problematic in the presence of zero values, as the fraction $\frac{\widehat{x}_i-x_i}{\bar{x}_t}$ is not defined for $x_t=0$. Therefore, time series containing zero values cannot be assessed with this definition of the MAPE and NRSME. This has to be kept in mind for the further analysis. Furthermore, it is important to recognize that percentage errors assume a meaningful zero value (which is not the case for, e.g., temperature scales like Fahrenheit or Celsuis) \citep{Hyndman:2006}. However, as kWh as measurement unit of the time series used here does have a meaningful zero value, that is of no concern in this study. Again, just as RMSE relative to MAE, NRSME is more sensitive to outliers than MAPE.
@@ -425,7 +425,7 @@ and
 To overcome the shortage of an undefined fraction in the presence of zero values that MAPE and NRMSE suffer from, the mean absolute scaled error (MASE) was proposed by \citet{Hyndman:2006}. According to them, MASE is applicable even if the time series includes a great number of zero values (e.g., night-time PV energy production) and, as further advantage, MASE does not put a heavier penalty on positive errors as MAPE does. To compute MASE, the MAE is normalized with the in-sample mean absolute error of the persistence model forecast \citet{Hyndman:2006}:
 %
 \begin{equation} \label{Eq:MASE}
-\text{MASE}=\frac{\text{MAE}}{\frac{1}{n-1}\sum_{i=2}^N\left|x_i-x_{i-1}\right|}.
+\text{MASE}=\frac{\text{MAE}}{\frac{1}{n-1}\sum_{t=2}^N\left|x_t-x_{t-1}\right|}.
 \end{equation}
 
 Unfortunately, all metrics described above can be misleading in the presence of sudden, large fluctuations. \citet{Vallance:2017} show, that forecasts that follow the observed time series more closely but with a small temporal mismatch (e.g., sudden fluctuation is forecasted but with a delay) may have the same or worse RMSE values than a smooth forecast ignoring sudden fluctuations but follow the trend of the observed time series well. A similar case is put forward by \citet{Haben:2014}. To address this issue, several new metrics have been proposed recently that take into account the ability of the forecast to predict sudden fluctuation in the time series, also called ramp events \citep{Zhang:2015}. As the energy consumption of households is also characterized by large and sudden fluctuation, this might be of concern for the forecasting task at hand as well.
