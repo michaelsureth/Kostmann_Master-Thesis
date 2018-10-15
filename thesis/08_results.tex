@@ -45,20 +45,20 @@ The average performance of the three prediction models across all 81 data sets i
 \begingroup\catcode`"=9
 \begin{table}[ht]
 {\footnotesize
-    \csvreader[centered tabular=l|SSSSS,
-    before reading=\sisetup{round-mode=places,round-precision=2,round-integer-to-decimal},
+    \csvreader[centered tabular=l|SSSSSSS,
+    before reading=\sisetup{round-mode=places,round-precision=4,round-integer-to-decimal},
     filter not strcmp={\thecsvinputline}{1},
     table head=
     \hline\hline
-     \multicolumn{1} {l}{\textbf{Model}} & \multicolumn{1} {|c}{\textbf{MAE}} & \multicolumn{1} {c}{\textbf{RMSE}} & \multicolumn{1} {c}{\textbf{MAPE}} & \multicolumn{1} {c}{\textbf{NRMSE}} & \multicolumn{1} {c}{\textbf{MASE}}\\
+     \multicolumn{1} {l}{\textbf{Model}} & \multicolumn{1} {|c}{\textbf{MAE}} & \multicolumn{1} {c}{\textbf{RMSE}} & \multicolumn{1} {c}{\textbf{MAPE}} & \multicolumn{1} {c}{\textbf{MdAPE}} & \multicolumn{1} {c}{\textbf{NRMSE}} & \multicolumn{1} {c}{\textbf{NRMdSE}} & \multicolumn{1} {c}{\textbf{MASE}}\\
     \hline,
     no head,
     separator=comma,
     respect all,
     late after line=\\,
     table foot=\hline \hline]
-    {thesis/tables/avg_errorMeasures.csv}{}%
-    {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii}}%
+    {thesis/tables/avg_errorMeasures_corrected.csv}{}%
+    {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii & \csvcolviii & \csvcolix}}%
     \caption[Average error measures across all 82 consumer data sets]{Average error measures for the prediction of energy consumption across all 82 consumer data sets. \quantnet\href{ }{}}
     \label{Tab:avg_errormeasures}
 \end{table}
@@ -77,7 +77,7 @@ The average performance of the three prediction models across all 81 data sets i
 \end{figure}
 %
 
-Further investigating the prediction errors of the forecasts on consumer 026 exposes that the high NRMSE score is driven by merely one observations: Between 24.11.2017 11:30 and 11:45 the energy consumption falls below 3 $\times$ $10^{-6}$. Due to this, the relative squared error $e_t = \left(\frac{\widehat{x}_t-x_t}{x_t}\right)^2$ explodes (see Appendix~\hyperlink{}{})
+Further investigating the prediction errors of the forecasts on consumer 026 exposes that the high NRMSE score is driven by merely one observations: Between 24.11.2017 11:30 and 11:45 the energy consumption falls below 3 $\times$ $10^{-6}$. Due to this, the relative squared error $e_t = \left(\frac{\widehat{x}_t-x_t}{x_t}\right)^2$ explodes (see Appendix~\hyperlink{AppA4:Figures:erroranalysis}{A4}). This single extreme error pushes the NRMSE of the LSTM predictions to the staggering value of 2383.46 while the normalized root \emph{median} squared error is only 33.43 (which is still comparatively high). The same is true for MAPE, though not as extreme.
 
 Overall, the LASSO model performed best with the lowest MAE, RMSE, MAPE, and MASE scores. However, with a MAPE of 24.43 \%, it achieved a worse score in this study than in the implementation of \citet{Li:2017}, who achieved a score of 20.06 \%. The superior performance of the LASSO model is also clearly visible in Figure~\ref{Fig:boxplots_errormeasures}. Additionally noteworthy here is the differences in the IQR of the error measures between the prediction methods. Both, the LASSO as well as the LSTM model, have error measures with a smaller IQR across the consumer data sets than the benchmark model. Furthermore, even though the LASSO error measures consistently have the lowest median of all three prediction models, the IQR of the relative error measures MAPE and NRMSE is very similar between LASSO and LSTM.
 
