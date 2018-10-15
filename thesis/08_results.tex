@@ -40,7 +40,7 @@ Systematically analyzing the total over- and underestimation of the different pr
 \end{figure}
 %
 
-The average performance of the three prediction models across all 82 data sets is shown in Table~\ref{Tab:avg_errormeasures}. As can be seen, LASSO and LSTM outperform the benchmark model according to MAE, RMSE, MAPE, and MASE by around 10 \%. Interestingly, due to the heavy penalty NRMSE puts on comparably large prediction errors, both sophisticated prediction methods perform worse according to NRMSE. A detailed analysis, however, reveals that this result is mainly driven, by extremely bad NRMSE scores for LSTM and LASSO on merely two of the 82 data sets. As can be seen in Figure~\ref{Fig:heatmapNRMSE}, the predictions on consumer data sets 027 and 076 have a particularly high NRMSE compared to all other data sets. However, this pattern is not present when using RMSE as error measure.\footnote{The heatmaps of MAE, MAPE, and MASE scores can be found in Appendix~\hyperlink{AppA4:Figures:heatmaps}{A4}. Note, that the MASE score of the benchmark model must be exactly one as the MASE is defined as the mean absolute error absolute to the MAE of the naive predictor (see Equation~\ref{Eq:naivepred}).}
+The average performance of the three prediction models across all 82 data sets is shown in Table~\ref{Tab:avg_errormeasures}. As can be seen, LASSO and LSTM outperform the benchmark model according to MAE, RMSE, MAPE, and MASE by around 10 \%. Interestingly, due to the heavy penalty NRMSE puts on comparably large prediction errors, both sophisticated prediction methods perform worse according to NRMSE. A detailed analysis, however, reveals that this result is mainly driven, by extremely bad NRMSE scores for LSTM and LASSO on merely two of the 82 data sets. As can be seen in Figure~\ref{Fig:heatmaps}, the predictions on consumer data sets 027 and 076 have a particularly high NRMSE compared to all other data sets. However, this pattern is not present when using RMSE as error measure.\footnote{The heatmaps of MAE, MAPE, and MASE scores can be found in Appendix~\hyperlink{AppA4:Figures:heatmaps}{A4}. Note, that the MASE score of the benchmark model must be exactly one as the MASE is defined as the mean absolute error absolute to the MAE of the naive predictor (see Equation~\ref{Eq:naivepred}).}
 %
 \begingroup\catcode`"=9
 \begin{table}[ht]
@@ -64,18 +64,21 @@ The average performance of the three prediction models across all 82 data sets i
 \end{table}
 \endgroup
 %
-
-Overall, the LASSO model performed best with the lowest MAE, RMSE, MAPE, and MASE scores. However, with a MAPE of 24.43 \% it achieved a worse score in this study than in the implementation of \citet{Li:2017}, who achieved a score of 20.06 \%.
 %
 \begin{figure}[htbp]
  \centering
+ \includegraphics[width=\textwidth]{thesis/graphs/evaluation/c_heatmap_MAE.pdf}
+ \includegraphics[width=\textwidth]{thesis/graphs/evaluation/c_heatmap_MAPE.pdf}
  \includegraphics[width=\textwidth]{thesis/graphs/evaluation/c_heatmap_RMSE.pdf}
  \includegraphics[width=\textwidth]{thesis/graphs/evaluation/c_heatmap_NRMSE.pdf}
-\caption[Heatmap of RMSE and NRMSE scores for consumption values]{Heatmap of RMSE and NRMSE scores for the prediction of consumption values per consumer data set. \quantnet\href{ }{}}
-\label{Fig:heatmapNRMSE}
+ \includegraphics[width=\textwidth]{thesis/graphs/evaluation/c_heatmap_MASE.pdf}
+\caption[Heatmaps of all error measures for consumption values]{Heatmap of MAE, MAPE, RMSE and NRMSE scores for the prediction of consumption values per consumer data set. \quantnet\href{ }{}}
+\label{Fig:heatmaps}
 \end{figure}
 %
 
+
+Overall, the LASSO model performed best with the lowest MAE, RMSE, MAPE, and MASE scores. However, with a MAPE of 24.43 \% it achieved a worse score in this study than in the implementation of \citet{Li:2017}, who achieved a score of 20.06 \%. The superior performance of the LASSO model is also clearly visible in Figure~\ref{Fig:boxplots_errormeasures}. Additionally noteworthy here is the differences in the IQR of the error measures between the prediction methods. Both, the LASSO as well as the LSTM model, have error measures with a smaller IQR across the consumer data sets than the benchmark model. Furthermore, even though the LASSO error measures consistently have the lowest median of all three prediction models, the IQR of the relative error measures MAPE and NRMSE is very similar between LASSO and LSTM. Interestingly, there are some consumer data sets with apparently much harder to predict consumption patterns than the other data sets which is visible in the outliers of the MAPE and NRSME boxplots but also the heatmaps displayed in Figure~\ref{heatmaps}.
 
 
 %
@@ -86,7 +89,7 @@ Overall, the LASSO model performed best with the lowest MAE, RMSE, MAPE, and MAS
     
     \includegraphics[width=.5\textwidth-0.15em]{thesis/graphs/evaluation/c_boxplot_RMSE.pdf}
     \includegraphics[width=.5\textwidth-0.15em]{thesis/graphs/evaluation/c_boxplot_NRMSE.pdf} \\
-    \caption[Boxplots of MAE, MAPE, RMSE, and NRMSE scores across 82 consumer data sets]{Boxplots of MAE, MAPE, RMSE, and NRMSE scores across 82 consumer data sets for the three different prediction models (the upper 3 \%-quantile of the error measures is removed for better readability). \quantnet\href{}{}}
+    \caption[Boxplots of MAE, MAPE, RMSE, and NRMSE scores across 82 consumer data sets]{Boxplots of MAE, MAPE, RMSE, and NRMSE scores across 82 consumer data sets for the three different prediction models (the upper 3 \%-quantile of the error measures is cut off for better readability). \quantnet\href{}{}}
     \label{Fig:boxplots_errormeasures}
 \end{figure}
 
