@@ -1,7 +1,7 @@
 
 \section{Results}\label{Sec:Results}
 
-The results will be presented in two sections: First, the forecasting accuracy of the prediction models is evaluated and presented. Second, the results of the market simulation -- which is run once with the true consumption and production values and once with the predicted values -- are reported.
+The results will be presented in two parts: First, the forecasting accuracy of the prediction models is evaluated and presented. Second, the results of the market simulation -- which is run once with the true consumption and production values and once with the predicted values -- are reported.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -10,15 +10,15 @@ The results will be presented in two sections: First, the forecasting accuracy o
 
 \subsection{Evaluation of the prediction models}\label{Sec:Results;Subsec:Forecast}
 
-Three prediction models where each applied to 82 consumer data sets and 12 prosumer data sets: the benchmark model (see Section~\ref{Sec:Method;Subsec:Benchmark}), the LSTM RNN model (see Section~\ref{Sec:Method;Subsec:LSTM}), and the LASSO model (see Section~\ref{Sec:Method;Subsec:LASSO}). All three prediction models are compared and evaluated using the error measures presented in Section~\ref{Sec:Method;Subsec:Error}.
+Three prediction methods where used to forecast the energy consumption of 82 consumer data sets and to forecast the energy production of 12 prosumer data sets: a benchmark model (see Section~\ref{Sec:Method;Subsec:Benchmark}), a LSTM RNN model (see Section~\ref{Sec:Method;Subsec:LSTM}), and a LASSO model (see Section~\ref{Sec:Method;Subsec:LASSO}). All three prediction models were compared and evaluated using the error measures presented in Section~\ref{Sec:Method;Subsec:Error}.
 
 
 %%%%%%%%%%%
 \subsubsection{Consumption data}
 
-The performance of the prediction values was tested on a quarter of the available data. That is, the prediction models were fitted on the consumption values from 01.01.2017 00:00 to 30.09.2017 00:00 which is equivalent to 131,040 data points per data set. For all 82 consumer data sets the models were fitted separately resulting in 82 distinct prediction models for each method. The fitted models were then used to make energy consumption predictions in 15-minute intervals on the data from 01.10.2017 00:00 to 01.01.2018 00:00. This equates to 8,836 predicted values per data set per model.
+The performance of the prediction models was tested on a quarter of the available data. That is, the prediction models were fitted on the consumption values from 01.01.2017~00:00 to 30.09.2017~00:00 which is equivalent to 131,040 data points per data set. For all 82 consumer data sets, the models were fitted separately resulting in as many distinct LASSO and LSTM prediction models. The fitted models were then used to make energy consumption predictions in 15-minute intervals for each household individually on the data from 01.10.2017~00:00 to 01.01.2018~00:00. This equates to 8,836 predicted values per data set per prediction method.
 
-Figure~\ref{Fig:glimpse_predcons} exemplary shows the true and predicted consumption values of consumer 011 on October 27, 2017. The naive benchmark model just follows the true consumption shifted by one time step (i.e. 15 minutes). This fits generally good as long as there are no sudden jumps in the household's energy consumption. Spikes in energy consumption, as occurred in the 15 minutes before 07:30 and 08.30 respectively in this example, necessarily lead to two periods of high errors of the naive predictor: First, once the jump to a high consumption level occurs and the naive predictor remains at the previous low level, and second, once the consumption suddenly returns to the low "baseline" consumption level and the naive predictor lags behind at the high level of the previous period. In such situations, the LASSO and LSTM models are more suitable. Even though, they underestimate the jumps in energy consumption, they do not lag behind as much as the naive predictor and, generally, have the ability to anticipate movements. However, the exemplary glimpse onto the predicted consumption values of consumer 011 already reveal that also the sophisticated prediction models lack the ability to accurately predict sudden movements in the energy consumption and tend to overestimate low consumption levels and underestimate spiking energy consumption.
+Figure~\ref{Fig:glimpse_predcons} exemplary shows the true and predicted consumption values of consumer 011 on October 27, 2017. The naive benchmark model just follows the true consumption shifted by one time step (i.e. 15 minutes). This fits the true values generally good, as long as there are no sudden jumps in the household's energy consumption. Spikes in energy consumption, as in this example one occurred in the 15 minutes before 07:30 and 08.30 respectively, necessarily lead to two periods with high errors of the naive predictor: First, once the jump to a high consumption level occurs and the naive predictor remains at the previous low level, and second, once the consumption suddenly returns to the low "baseline" consumption level and the naive predictor lags behind at the high level of the previous period. In such situations, the LASSO and LSTM models are more accurate. Even though, they underestimate the jumps in energy consumption, they do not lag behind as much as the naive predictor and, generally, have the ability to anticipate movements. However, the exemplary glimpse onto the predicted consumption values of consumer 011 already reveals that also the sophisticated prediction models lack the ability to accurately predict sudden movements in the energy consumption and tend to overestimate low consumption levels and underestimate spiking energy consumption.
 %
 \begin{figure}[htbp]
     \centering
@@ -27,7 +27,8 @@ Figure~\ref{Fig:glimpse_predcons} exemplary shows the true and predicted consump
     \label{Fig:glimpse_predcons}
 \end{figure}
 %
-Systematically analyzing the total over- and underestimation of the different prediction models on each consumer data set confirms this impression. Figure~\ref{Fig:overunderestimation} displays the total sum of over- and underestimation errors of each prediction model per data set. As one would expect, the naive benchmark model consistently over- and underestimated by the same amount per data set. The reason for this is, that the sum of over- and underestimation errors only depends on the amplitude of the jumps in the case of the naive predictor. Thus, overestimation errors occur in the same frequency and magnitude as underestimation errors. The LASSO model achieved overall lower total sums of errors than the benchmark model. Moreover, the sum of underestimation errors is higher across the data sets than the sum of overestimation errors. This points towards a general tendency of underestimating sudden increases in energy consumption by the LASSO model. The LSTM model on the other hand shows a much higher variability in the sum of over- and underestimation errors. By tendency, the overestimation errors of the LSTM model were smaller than those of the LASSO and benchmark models. Nevertheless, the underestimation is much more pronounced in the LSTM model. Especially, some data sets stand out regarding the high sum of underestimation errors. This points towards a much higher heterogeneity in the suitability of the LSTM model to predict consumption values depending on the energy consumption pattern of the specific data set. The LASSO model on the other hand seems to be more equally well suited for all data sets and their particular consumption patterns.
+
+Systematically analyzing the total over- and underestimation of the different prediction models on each consumer data set confirms this impression. Figure~\ref{Fig:overunderestimation} displays the total sum of over- and underestimation errors of each prediction method per data set. As one would expect, the naive benchmark model consistently over- and underestimated by the same amount per data set. The reason for that is, that the sum of over- and underestimation errors only depends on the amplitude of the jumps in the case of the naive predictor. Thus, overestimation errors occur in the same frequency and magnitude as underestimation errors. The LASSO model achieved overall lower total sums of errors than the benchmark model. Moreover, the sum of underestimation errors is higher across the data sets than the sum of overestimation errors. This points towards a general tendency of underestimating sudden increases in energy consumption by the LASSO model. The LSTM model on the other hand shows a much higher variability in the sum of over- and underestimation errors. By tendency, the overestimation errors of the LSTM model were smaller than those of the LASSO and benchmark models. Nevertheless, the underestimation is much more pronounced in the case of the LSTM model. Especially, some data sets stand out regarding the high sum of underestimation errors. This points towards a much higher heterogeneity in the suitability of the LSTM model to predict consumption values depending on the energy consumption pattern of the specific data set. The LASSO model on the other hand seems to be more equally well suited for all data sets and their particular consumption patterns.
 %
 \begin{figure}
     \centering
@@ -38,7 +39,8 @@ Systematically analyzing the total over- and underestimation of the different pr
     \label{Fig:overunderestimation}
 \end{figure}
 %
-The average performance of the three prediction models across all 82 data sets is shown in Table~\ref{Tab:avg_errormeasures}. As can be seen, LASSO and LSTM outperform the benchmark model according to MAE, RMSE, MAPE, and MASE by around 10 \%. Interestingly, due to the heavy penalty NRMSE puts on comparably large prediction errors, both sophisticated prediction methods perform worse according to NRMSE. A detailed analysis, however, reveals that this result is mainly driven, by extremely bad NRMSE scores of LSTM and LASSO on merely two of the 82 data sets. As can be seen in Figure~\ref{Fig:heatmapNRMSE}, the predictions on consumer data sets 027 and 076 have a particularly high NRMSE compared to all other data sets. However, this pattern is not present when using RMSE as error measure.\footnote{The heatmaps of MAE, MAPE, and MASE scores can be found in Appendix~\ref{App:Figures:heatmaps}.}
+
+The average performance of the three prediction models across all 82 data sets is shown in Table~\ref{Tab:avg_errormeasures}. As can be seen, LASSO and LSTM outperform the benchmark model according to MAE, RMSE, MAPE, and MASE by around 10 \%. Interestingly, due to the heavy penalty NRMSE puts on comparably large prediction errors, both sophisticated prediction methods perform worse according to NRMSE. A detailed analysis, however, reveals that this result is mainly driven, by extremely bad NRMSE scores for LSTM and LASSO on merely two of the 82 data sets. As can be seen in Figure~\ref{Fig:heatmapNRMSE}, the predictions on consumer data sets 027 and 076 have a particularly high NRMSE compared to all other data sets. However, this pattern is not present when using RMSE as error measure.\footnote{The heatmaps of MAE, MAPE, and MASE scores can be found in Appendix~\hyperlink{AppA4:Figures:heatmaps}{A4}. Note, that the MASE score of the benchmark model must be exactly one as the MASE is defined as the mean absolute error absolute to the MAE of the naive predictor (see Equation~\ref{Eq:naivepred}).}
 %
 \begingroup\catcode`"=9
 \begin{table}[ht]
@@ -62,7 +64,8 @@ The average performance of the three prediction models across all 82 data sets i
 \end{table}
 \endgroup
 %
-Overall, the LASSO model performed best with the lowest MAE, RMSE, MAPE, and MASE socres. However, with a MAPE of 24.43 \% it achieved a worse score in this study than in the implementation of \citet{Li:2017}, who achieved a score of 20.06 \%. Note, that the MASE score of the benchmark model must be exactly one as the MASE is defined as the mean absolute error absolute to the MAE of the naive predictor (see Equation~\ref{Eq:naivepred}).
+
+Overall, the LASSO model performed best with the lowest MAE, RMSE, MAPE, and MASE scores. However, with a MAPE of 24.43 \% it achieved a worse score in this study than in the implementation of \citet{Li:2017}, who achieved a score of 20.06 \%.
 %
 \begin{figure}[htbp]
  \centering
@@ -90,7 +93,6 @@ Overall, the LASSO model performed best with the lowest MAE, RMSE, MAPE, and MAS
 
 %%%%%%%%%%%
 \subsubsection{Production data}
-
 
 
 
