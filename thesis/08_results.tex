@@ -57,7 +57,7 @@ The average performance of the three prediction models across all 81 data sets i
     respect all,
     late after line=\\,
     table foot=\hline \hline]
-    {thesis/tables/avg_errorMeasures.csv}{}%
+    {thesis/tables/avg_errorMeasures_c.csv}{}%
     {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii}}%
     \caption[Mean of error measures for all 82 consumer data sets]{Mean of error measures for the prediction of energy consumption across all 82 consumer data sets. \quantnet\href{ }{}}
     \label{Tab:avg_errormeasures}
@@ -79,8 +79,6 @@ The average performance of the three prediction models across all 81 data sets i
 %
 
 Further investigating the prediction errors of the forecasts on consumer 027 exposes that the high NRMSE score is driven by merely one observations: Between 24.11.2017 11:30 and 11:45 the energy consumption falls below 3 $\times$ $10^{-6}$. Due to this true value which is very close to zero, the relative squared error $e_t = \left(\frac{\widehat{x}_t-x_t}{x_t}\right)^2$ explodes (see Appendix~\hyperlink{AppA4:Figures:erroranalysis}{A4}). This single extreme relative error pushes the NRMSE of the LSTM predictions to the staggering value of $\text{NRMSE}_{c027}=2383.46$. The same is true for MAPE, although not as extreme. Based on this insight, it is reasonable to reevaluate the average performance of the prediction methods using the median instead of the mean. Calculating the median error measures for all predictions on the consumer data sets eliminates the distortion by outliers. Thus, Table~\ref{Tab:median_errormeasures} shows the same error measures as Table~\ref{Tab:avg_errormeasures} but uses the median instead of the mean to summarize the models performance across all consumer data sets.
-
-
 %
 \begingroup\catcode`"=9
 \begin{table}[ht]
@@ -104,7 +102,6 @@ Further investigating the prediction errors of the forecasts on consumer 027 exp
 \end{table}
 \endgroup
 %
-
 
 Overall, the LASSO model performed best with the lowest median MAE, RMSE, MAPE, NRMSE, and MASE scores. With a median MAPE across the 81 consumer datasets of 17.38 \%, it achieved a even better score in this study than in the implementation of \citet{Li:2017}, who achieved a score of 20.06 \%. The superior performance of the LASSO model is also clearly visible in Figure~\ref{Fig:boxplots_errormeasures}. Additionally noteworthy here are the differences in the IQR of the error measures between the prediction methods. Both, the LASSO as well as the LSTM model, have error measures with a smaller IQR across the consumer data sets than the benchmark model. Furthermore, even though the LASSO error measures consistently have the lowest median of all three prediction models, the IQR of the relative error measures MAPE and NRMSE is very similar between LASSO and LSTM.
 %
@@ -156,6 +153,30 @@ Analyzing the over- and underestimation errors of each prediction method on each
     \caption[Sum of total over- and underestimation errors per prosumer data set]{Sum of total over- and underestimation errors of energy production per prosumer data set and prediction model. \quantnet\href{}{}}
     \label{Fig:overunderestimation}
 \end{figure}
+%
+
+%
+\begingroup\catcode`"=9
+\begin{table}[ht]
+{\footnotesize
+    \csvreader[centered tabular=l|SSS,
+    before reading=\sisetup{round-mode=places,round-precision=2,round-integer-to-decimal},
+    filter not strcmp={\thecsvinputline}{1},
+    table head=
+    \hline\hline
+     \multicolumn{1} {l}{\textbf{Model}} & \multicolumn{1} {|c}{\textbf{MAE}} & \multicolumn{1} {c}{\textbf{RMSE}} & \multicolumn{1} {c}{\textbf{MASE}}\\
+    \hline,
+    no head,
+    separator=comma,
+    respect all,
+    late after line=\\,
+    table foot=\hline \hline]
+    {thesis/tables/avg_errorMeasures_p.csv}{}%
+    {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv}}%
+    \caption[Median of error measures for all 82 consumer data sets]{Median of error measures for the prediction of energy consumption across all 82 consumer data sets. \quantnet\href{ }{}}
+    \label{Tab:median_errormeasures}
+\end{table}
+\endgroup
 %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
