@@ -22,6 +22,30 @@
 \end{table}
 
 
+\subsection*{\hypertarget{AppB2:Tables:avg_errM_wMedian}{B2} Prediction model performance across consumer data sets} \label{AppB2:Tables:avg_errM_wMedian}
+
+\begingroup\catcode`"=9
+\begin{table}[ht]
+{\footnotesize
+    \csvreader[centered tabular=l|SSSSSSS,
+    before reading=\sisetup{round-mode=places,round-precision=2,round-integer-to-decimal},
+    filter not strcmp={\thecsvinputline}{1},
+    table head=
+    \hline\hline
+     \multicolumn{1} {l}{\textbf{Model}} & \multicolumn{1} {|c}{\textbf{MAE}} & \multicolumn{1} {c}{\textbf{RMSE}} & \multicolumn{1} {c}{\textbf{MAPE}} & \multicolumn{1} {c}{\textbf{MdAPE}} & \multicolumn{1} {c}{\textbf{NRMSE}} & \multicolumn{1} {c}{\textbf{NRMdSE}} & \multicolumn{1} {c}{\textbf{MASE}}\\
+    \hline,
+    no head,
+    separator=comma,
+    respect all,
+    late after line=\\,
+    table foot=\hline \hline]
+    {thesis/tables/avg_errorMeasures_corrected.csv}{}%
+    {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii & \csvcolviii & \csvcolix}}%
+    \caption[Mean of error measures across all 82 consumer data sets]{Mean of error measures for the prediction of energy consumption across all 82 consumer data sets including the median absolute percentage error (MdAPE) and normalized root median squared error (NRMdSE). \quantnet\href{ }{}}
+\end{table}
+\endgroup
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
