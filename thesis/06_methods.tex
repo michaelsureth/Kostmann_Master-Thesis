@@ -78,7 +78,7 @@ The learning in machine learning refers in the case of neural networks to adjust
     L\left(y, \widehat{y}\right)=\text{MAE}=\frac{1}{N}\sum_{i=1}^N\left|\widehat{y}_i-y_i\right|
 \end{equation}
 %
-The simplest method to optimize the model parameters is to compute the derivative of the loss function with respect to each parameter in the model and change each parameters in a fixed-size step in the direction of the negative gradient \citep{Graves:2013}. This method is called gradient descent. Thereby the prediction error is "backpropagated" through the network to update the parameters. This is repeated in each iteration until the model converges to a value of the loss function that cannot be further improved.
+The simplest method to optimize the model parameters is to compute the derivative of the loss function with respect to each parameter in the model and change each parameters in a fixed-size step in the direction of the negative gradient \citep{Graves:2013}. This method is called gradient descent. Thereby the prediction error is ``backpropagated" through the network to update the parameters. This is repeated in each iteration until the model converges to a value of the loss function that cannot be further improved.
 
 
 
@@ -134,7 +134,7 @@ To overcome the vanishing gradient problem, \citet{Hochreiter:1997} developed LS
 where $\sigma$ is the sigmoid activation function $\sigma(z)=\frac{1}{1+e^{-z}}$, $W$ denotes the weight matrices that are intuitively labeled ($ix$ for the weight matrix of gate $i_t$ multiplied with the input $x_t$ etc.), and $b$ denotes the bias vectors.\footnote{Sometimes, the gates are titled input, output, and forget gate. However, as \citet{chollet:2018} put it:
 \vspace{0.75\dimexpr-\topsep-\partopsep}
 \begin{quote}
-    "[T]hese interpretations don’t mean much, because what these [gates] actually do is determined by the contents of the weights parameterizing them; and the weights are learned in an end-to-end fashion, starting over with each training round, making it impossible to credit this or that operation with a specific purpose" (p. 193).
+    ``[T]hese interpretations don’t mean much, because what these [gates] actually do is determined by the contents of the weights parameterizing them; and the weights are learned in an end-to-end fashion, starting over with each training round, making it impossible to credit this or that operation with a specific purpose" (p. 193).
 \end{quote}\vspace{\dimexpr-\topsep-\partopsep}
 }
 
@@ -275,7 +275,7 @@ The approach proposed by \citet{Li:2017} is based on a linear autoregressive mod
     y_{t+1}=\beta_0+\sum_{i=0}^I\beta_iy_{t-i}+\varepsilon_t,
 \end{equation}
 %
-where the future demand $y_{t+1}$ depends linearly only historical data $y_{t-i}$ plus a random Gaussian noise $\varepsilon_t$, with $\beta_i$ being the coefficient for lag-order $i$. In the following, the vector $\left[y_t, y_{t-1}, \dots, y_{t-I}\right]^T$ is written as $\vec{x_t}$. Using the model in Equation~\ref{Eq:ARmodel} for prediction is achieved by estimating the vector $\widehat{\beta}$ such that the sum of squared errors is minimal. However, as the OLS estimator
+where the future demand $y_{t+1}$ depends linearly only historical data $y_{t-i}$ plus a random Gaussian noise $\varepsilon_t$, with $\beta_i$ being the coefficient for lag-order $i$. In the following, vector $\left[y_t, y_{t-1}, \dots, y_{t-I}\right]^T$ is written as $\vec{x_t}$. Using the model in Equation~\ref{Eq:ARmodel} for prediction is achieved by estimating the vector $\widehat{\beta}$ such that the sum of squared errors is minimal. However, as the OLS estimator
 %
 \begin{equation} \label{Eq:betaOLS}
     \widehat{\vec{\beta}}_{\text{OLS}}=\argmin_{\vec{\beta}}\left\lVert(\vec{y}-\vec{X}\vec{\beta}\right\rVert^2_2
