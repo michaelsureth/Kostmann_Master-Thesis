@@ -45,6 +45,52 @@ The average performance of the three prediction models across all 81 data sets i
 \begingroup\catcode`"=9
 \begin{table}[ht]
 {\footnotesize
+    \csvreader[centered tabular=l|SSSSS,
+    before reading=\sisetup{round-mode=places,round-precision=2,round-integer-to-decimal},
+    filter not strcmp={\thecsvinputline}{1},
+    table head=
+    \hline\hline
+     \multicolumn{1} {l}{\textbf{Model}} & \multicolumn{1} {|c}{\textbf{MAE}} & \multicolumn{1} {c}{\textbf{RMSE}} & \multicolumn{1} {c}{\textbf{MAPE}} & \multicolumn{1} {c}{\textbf{NRMSE}} & \multicolumn{1} {c}{\textbf{MASE}}\\
+    \hline,
+    no head,
+    separator=comma,
+    respect all,
+    late after line=\\,
+    table foot=\hline \hline]
+    {thesis/tables/avg_errorMeasures.csv}{}%
+    {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii}}%
+    \caption[Average error measures across all 82 consumer data sets]{Average error measures for the prediction of energy consumption across all 82 consumer data sets. \quantnet\href{ }{}}
+    \label{Tab:avg_errormeasures}
+\end{table}
+\endgroup
+%
+%
+\begingroup\catcode`"=9
+\begin{table}[ht]
+{\footnotesize
+    \csvreader[centered tabular=l|SSSSS,
+    before reading=\sisetup{round-mode=places,round-precision=2,round-integer-to-decimal},
+    filter not strcmp={\thecsvinputline}{1},
+    table head=
+    \hline\hline
+     \multicolumn{1} {l}{\textbf{Model}} & \multicolumn{1} {|c}{\textbf{MAE}} & \multicolumn{1} {c}{\textbf{RMSE}} & \multicolumn{1} {c}{\textbf{MAPE}} & \multicolumn{1} {c}{\textbf{NRMSE}} & \multicolumn{1} {c}{\textbf{MASE}}\\
+    \hline,
+    no head,
+    separator=comma,
+    respect all,
+    late after line=\\,
+    table foot=\hline \hline]
+    {thesis/tables/median_errorMeasures.csv}{}%
+    {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii}}%
+    \caption[Average error measures across all 82 consumer data sets]{Average error measures for the prediction of energy consumption across all 82 consumer data sets. \quantnet\href{ }{}}
+    \label{Tab:avg_errormeasures}
+\end{table}
+\endgroup
+%
+%
+\begingroup\catcode`"=9
+\begin{table}[ht]
+{\footnotesize
     \csvreader[centered tabular=l|SSSSSSS,
     before reading=\sisetup{round-mode=places,round-precision=2,round-integer-to-decimal},
     filter not strcmp={\thecsvinputline}{1},
