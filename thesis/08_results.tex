@@ -115,7 +115,7 @@ Overall, the LASSO model performed best with the lowest median MAE, RMSE, MAPE, 
     
     \includegraphics[width=.5\textwidth-5pt]{thesis/graphs/evaluation/c_boxplot_RMSE.pdf}
     \includegraphics[width=.5\textwidth-5pt]{thesis/graphs/evaluation/c_boxplot_NRMSE.pdf} \\
-    \caption[Boxplots of MAE, MAPE, RMSE, and NRMSE scores across 82 consumer data sets]{Boxplots of MAE, MAPE, RMSE, and NRMSE scores across 82 consumer data sets for the three different prediction models (the upper 3 \%-quantile of the error measures is cut off for better readability). \quantnet\href{}{}}
+    \caption[Boxplots of MAE, MAPE, RMSE, and NRMSE scores across consumer data sets]{Boxplots of MAE, MAPE, RMSE, and NRMSE scores across 82 consumer data sets for the three different prediction models (the upper 3 \%-quantile of the error measures is cut off for better readability). \quantnet\href{}{}}
     \label{Fig:boxplots_errormeasures}
 \end{figure}
 %
@@ -136,15 +136,18 @@ Interestingly, there are some consumer data sets with apparently much harder to 
 
 The performance of the prediction models was tested on a quarter of the available data. That is, the prediction models were fitted on the production values from 01.01.2017~00:00 to 30.09.2017~00:00 which is equivalent to 131,040 data points per data set. For all 12 prosumer data sets, the models were fitted separately resulting in as many distinct LASSO and LSTM prediction models. The fitted models were then used to make energy production predictions in 15-minute intervals for each household individually on the data from 01.10.2017~00:00 to 01.01.2018~00:00. This equates to 8,836 predicted values per data set per prediction method.
 
-Figure~\ref{Fig:glimpse_predcons} exemplary shows the true and predicted consumption values of consumer 011 on October 27, 2017. The naive benchmark model just follows the true consumption shifted by one time step (i.e. 15 minutes). This fits the true values generally good, as long as there are no sudden jumps in the household's energy consumption. Spikes in energy consumption, as in this example one occurred in the 15 minutes before 07:30 and 08.30 respectively, necessarily lead to two periods with high errors of the naive predictor: First, once the jump to a high consumption level occurs and the naive predictor remains at the previous low level, and second, once the consumption suddenly returns to the low "baseline" consumption level and the naive predictor lags behind at the high level of the previous period. In such situations, the LASSO and LSTM models are more accurate. Even though, they underestimate the jumps in energy consumption, they do not lag behind as much as the naive predictor and, generally, have the ability to anticipate movements. However, the exemplary glimpse onto the predicted consumption values of consumer 011 already reveals that also the sophisticated prediction models lack the ability to accurately predict sudden movements in the energy consumption and tend to overestimate low consumption levels and underestimate spiking energy consumption.
+Figure~\ref{Fig:glimpse_predprod} exemplary shows the true and predicted production values of prosumer 024 on December 23, 2017. The naive benchmark model just follows the true production shifted by one time step (i.e. 15 minutes). As in the consumption predictions, this fits the true values generally good, as long as there are no sudden jumps in the household's energy production. Jumps or sudden drops in energy production, as in this example one occurred in the 15 minutes before 06:00, necessarily lead to a period with high error of the naive predictor. In such situations, the LASSO model seems more accurate. Even though, it underestimates the jump in energy production, it does not lag behind as much as the naive predictor and, generally, has the ability to anticipate movements. The LSTM-based predictions, on the contrary, fit even worse than the naive predictor in this example. It follows small movements in the energy production time series almost not at all and lags behind the true values similarly to the naive predictor. Also, the LSTM model overestimates constantly in periods of zero production and does not follow at all the upward spike in energy production present in this exemplary snippet of the data.
 %
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth]{thesis/graphs/evaluation/p.pdf}
-    \caption[Exemplary 24 hours of true and predicted consumption values]{Exemplary 24 hours of true and predicted consumption values of consumer 011. \quantnet\href{}{}}
-    \label{Fig:glimpse_predcons}
+    \includegraphics[width=\textwidth]{thesis/graphs/evaluation/p024_pred_prod.pdf}
+    \caption[Exemplary 24 hours of true and predicted production values]{Exemplary 24 hours of true and predicted production values of prosumer 024. \quantnet\href{}{}}
+    \label{Fig:glimpse_predprod}
 \end{figure}
 %
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%   Market simulation   %%%
