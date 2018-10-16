@@ -35,7 +35,7 @@ Systematically analyzing the total over- and underestimation of the different pr
     \includegraphics[width=\textwidth]{thesis/graphs/evaluation/c_barplot_naive_overunderestimation.pdf}\\\vspace{.6cm}
     \includegraphics[width=\textwidth]{thesis/graphs/evaluation/c_barplot_LASSO_overunderestimation.pdf}\\\vspace{.6cm}
     \includegraphics[width=\textwidth]{thesis/graphs/evaluation/c_barplot_LSTM_overunderestimation.pdf}
-    \caption[Sum of total over- and underestimation errors per data set]{Sum of total over- and underestimation errors per data set and prediction model. \quantnet\href{}{}}
+    \caption[Sum of total over- and underestimation errors per consumer data set]{Sum of total over- and underestimation errors of energy consumption per consumer data set and prediction model. \quantnet\href{}{}}
     \label{Fig:overunderestimation}
 \end{figure}
 %
@@ -146,8 +146,17 @@ Figure~\ref{Fig:glimpse_predprod} exemplary shows the true and predicted product
 \end{figure}
 %
 
-
-
+Analyzing the over- and underestimation errors of each prediction method on each producer data sets shows the extreme tendency of the LSTM model to underestimate the production values. The LSTM's sum of underestimation errors is substantially larger for six out of twelve prosumer data sets and the sum of overestimation is substantially larger for one data set compared to the LASSO and benchmark model. This already indicates a much worse performance of LSTM on the production data.
+%
+\begin{figure}
+    \centering
+    \includegraphics[width=.5\textwidth]{thesis/graphs/evaluation/p_barplot_naive_overunderestimation.pdf}\\\vspace{.6cm}
+    \includegraphics[width=.5\textwidth]{thesis/graphs/evaluation/p_barplot_LASSO_overunderestimation.pdf}\\\vspace{.6cm}
+    \includegraphics[width=.5\textwidth]{thesis/graphs/evaluation/p_barplot_LSTM_overunderestimation.pdf}
+    \caption[Sum of total over- and underestimation errors per prosumer data set]{Sum of total over- and underestimation errors of energy production per prosumer data set and prediction model. \quantnet\href{}{}}
+    \label{Fig:overunderestimation}
+\end{figure}
+%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%   Market simulation   %%%
