@@ -180,29 +180,7 @@ The first impression is confirmed by the average of the error measures across th
 \endgroup
 %
 
-%
-\begingroup\catcode`"=9
-\begin{table}[ht]
-{\footnotesize
-    \csvreader[centered tabular=l|SSS,
-    before reading=\sisetup{round-mode=places,round-precision=2,round-integer-to-decimal},
-    filter not strcmp={\thecsvinputline}{1},
-    table head=
-    \hline\hline
-     \multicolumn{1} {l}{\textbf{Model}} & \multicolumn{1} {|c}{\textbf{MAE}} & \multicolumn{1} {c}{\textbf{RMSE}} & \multicolumn{1} {c}{\textbf{MASE}}\\
-    \hline,
-    no head,
-    separator=comma,
-    respect all,
-    late after line=\\,
-    table foot=\hline \hline]
-    {thesis/tables/median_errorMeasures_p.csv}{}%
-    {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv}}%
-    \caption[Median of error measures for all 12 prosumer data sets]{Median of error measures for the prediction of energy production across all 12 prosumer data sets. \quantnet\href{ }{}}
-    \label{Tab:avg_errormeasures_p}
-\end{table}
-\endgroup
-%
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%   Market simulation   %%%
