@@ -194,34 +194,47 @@ The market simulation used the market mechanism implemented by \citet{Mengelkamp
 %%%%%%%%%%%
 \subsubsection{Market outcomes in different supply scenarios}
 
+The difference between supply and demand for each trading period, the equilibrium price of each closed double auction, and the weighted average price -- called local energy market (LEM) price) -- is shown in Figure~\ref{Fig:marketoutcomes_true_balanced}. The LEM price is computed each trading period as the average of the auctions equilibrium price and the energy utilities energy price (28.69 EURct) weighted by the amount of kWh bought for the respective price. Therefore, in any trading period with higher demand than supply, the LEM price will be above the equilibrium price as the equilibrium price's upper limit is the utilities energy price of 28.69 $\frac{\text{EURct}}{\text{kWh}}$. All graphs depicting the market outcome shown in this section are results of the market simulation with true consumption values. The equivalent graphs for the market simulation with energy consumption values predicted by a LASSO model are shown in Appendix~\hyperlink{AppA6:Figures:marketsimulation_pred}{A6}. As the graphs contain only over-/undersupply and market prices, they are not majorly different when simulating the market mechanism with predicted consumption values (as long as the prediction accuracy is reasonably good). This is not the case for the energy cost that consumers have to bear, as is shown in the next section.
+
+As can be seen, the equilibrium price shown in the middle panel of Figure~\ref{Fig:marketoutcomes_true_balanced} moves roughly synchronous to the over-/undersupply shown in the upper panel. As there is by tendency more undersupply in the balanced scenario, the equilibrium price is in most trading periods close to its upper limit and the LEM price is almost always above the equilibrium price\footnote{Due to the fact, that four of the relevant prosumer data sets contained very large scale producers ($>$10 kWh per 15-minute interval) which dominated the remaining prosumers' production capacity substantially, it was not possible to construct a prosumer sample that better matched the market demand in the balanced supply scenario.}.
+%
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{thesis/graphs/marketsimulation/marketoutcome_true.pdf}
     \caption[Market outcomes simulated with balanced supply and true values]{Market outcomes per trading period simulated with true values and a balanced supply scenario. \quantnet\href{}{}}
     \label{Fig:marketoutcomes_true_balanced}
 \end{figure}
+%
 
+This is very much contrasted by the oversupply scenario. Here, the prosumers' energy supply surpasses the consumers' energy demand in the majority of trading periods. Accordingly, the equilibrium price in each auction is close to the lower limit of the energy utility's feed-in tariff of 12.31 $\frac{\text{EURct}}{\text{kWh}}$. Still, trading periods with undersupply lead to visible spikes in the equilibrium price which are, as expected, even more pronounced in the LEM price. In all other periods, the equilibrium price equals the LEM price as all demand is served by the prosumers and there is no energy purchased from the grid.
+%
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{thesis/graphs/marketsimulation/marketoutcome_true_oversupply.pdf}
     \caption[Market outcomes simulated with oversupply and true values]{Market outcomes per trading period simulated with true values and an oversupply scenario. \quantnet\href{}{}}
     \label{Fig:marketoutcomes_true_over}
 \end{figure}
+%
 
-
+The last market simulation is performed with a undersupply scenario. In this case, meeting expectations, the market outcomes are the opposite to the oversupply scenario. The equilibrium prices move in a band between 20 $\frac{\text{EURct}}{\text{kWh}}$ and the upper limit of 28.69 $\frac{\text{EURct}}{\text{kWh}}$. The LEM prices are higher in each period as the deficit in supply has to be compensated by energy purchases from the grid. Therefore, the more severe the undersupply, the more energy has to be purchased from the grid, and the higher is the LEM price above the equilibrium price.
+%
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{thesis/graphs/marketsimulation/marketoutcome_true_undersupply.pdf}
     \caption[Market outcomes simulated with undersupply and true values]{Market outcomes per trading period simulated with true values and an undersupply scenario. \quantnet\href{}{}}
     \label{Fig:marketoutcomes_true_under}
 \end{figure}
+%
 
-
+In summary, one can conclude that the market outcomes are the more favourable to consumers the more locally produced energy is offered by prosumers. Assuming the specific market mechanism of closed double auctions and the zero-intelligence bidding behaviour of market participants, oversupply reduces the LEM prices substantially leading to savings on the consumer side. On the other hand, prosumers will favor undersupply in the market as they profit from the high equilibrium prices while still being able to sell their surplus energy generation at the feed-in tariff without a loss compared to no LEM. Table~\ref{Tab:simulationresults} summarizes these results.
 
 
 %%%%%%%%%%%
 \subsubsection{Loss to consumers due to prediction errors}
 
+To assess the adverse effect of prediction errors on the market outcomes, the LASSO-predicted energy consumption values per 15 minute interval were used. The prediction of the model served as basis for the auction bids. After the true consumption in the respective trading period was observed, payments to correct over- or underestimation errors were settled. That is, if a consumer bid with a higher amount than actually consumed, it still bought the full bid amount from the prosumers but had to sell the surplus to the energy utility over the grid at the feed-in tariff. On the other hand, if a consumer bid with a lower amount than actually consumed, it bought the bid amount from the prosumers but had to purchase subsequently the surplus energy consumption form the grid at the energy utility's tariff. Thus, prediction errors are costly as the consumer always has to clear the order at less favourable conditions than the equilibrium price provides.
+
+Table~\ref{Tab:simulationresults} contrasts the results of the market simulation in different supply scenario in the case of true and predicted
 %
 \begingroup\catcode`"=9
 \begin{table}[ht]
