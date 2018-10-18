@@ -195,10 +195,11 @@ Overall, it becomes clear that the chosen prediction methods do not forecast ene
 {\footnotesize
     \csvreader[centered tabular=l|SSSSSSSSSS,
     before reading=\sisetup{round-mode=places,round-precision=2,round-integer-to-decimal},
-    filter not strcmp={\thecsvinputline}{1},
+    filter expr={
+      test{\ifnumgreater{\thecsvinputline}{2}}},
     table head=
     \hline\hline
-     \multicolumn{1} {l}{\textbf{Scenario}} & \multicolumn{1} {|c}{\textbf{Oversupply}} & \multicolumn{1} {c}{\textbf{LEM price}} & \multicolumn{1} {c}{\textbf{Revenue (true values)}} & \multicolumn{1} {c}{\textbf{Revenue (predicted values)}} & \multicolumn{1} {c}{\textbf{Cost (true values)}} & \multicolumn{1} {c}{\textbf{Cost (predicted values)}} & \multicolumn{1} {c}{\textbf{Cost (no LEM)}} & \multicolumn{1} {c}{\textbf{Loss due to prediction errors}} & \multicolumn{1} {c}{\textbf{Savings due to LEM}}\\
+     \multicolumn{1} {l}{\textbf{Mean}} & \multicolumn{1} {|c}{\textbf{Balanced supply}} & \multicolumn{1} {c}{\textbf{Oversupply}} & \multicolumn{1} {c}{\textbf{Undersupply}}\\
     \hline,
     no head,
     separator=comma,
@@ -214,6 +215,7 @@ Overall, it becomes clear that the chosen prediction methods do not forecast ene
 %
 
 %& \csvcolvi & \csvcolvii & \csvcolviii & \csvcolxi & \csvcolx & \csvcolxi
+%& \multicolumn{1} {c}{\textbf{LEM price}} & \multicolumn{1} {c}{\textbf{Revenue (true values)}} & \multicolumn{1} {c}{\textbf{Revenue (predicted values)}} & \multicolumn{1} {c}{\textbf{Cost (true values)}} & \multicolumn{1} {c}{\textbf{Cost (predicted values)}} & \multicolumn{1} {c}{\textbf{Cost (no LEM)}} & \multicolumn{1} {c}{\textbf{Loss due to prediction errors}} & \multicolumn{1} {c}{\textbf{Savings due to LEM}}
 
 %%%%%%%%%%%
 \subsubsection{True consumption and production values}
