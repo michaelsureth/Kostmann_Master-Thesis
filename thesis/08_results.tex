@@ -189,7 +189,7 @@ Overall, it becomes clear that the chosen prediction methods do not forecast ene
 
 \subsection{Evaluation of the market simulation}\label{Sec:Results;Subsec:Simulation}
 
-Appendix~\hyperlink{AppA5:Figures:producer_all}{A5}
+The market simulation used the market mechanism implemented by \citet{Mengelkamp:2018a} in a smart contract to assess the impact of prediction errors on market outcomes. The data sets used for this comprised 88 consumers and 12 prosumers. To evaluate different supply scenario, the market simulation was conducted three times with varying prosumers included. The three scenarios consisted of a market simulation with balanced energy supply and demand, a simulation with severe oversupply and a simulation with severe undersupply. To avoid extreme and unusual market outcomes over the time period of the simulation, two prosumers (prosumer 031 and 086) with high production levels, but long periods of no energy production in the simulation period where not included as energy supplier in the market simulation (see Appendix~\hyperlink{AppA5:Figures:producer_all}{A5}). The remaining prosumers were in- or excluded according to the desired supply scenario. That is, the under supply scenario comprised prosumer 019, 024, 026, 072, 075, and 089, the balanced supply scenario additionally included prosumer 030, and the oversupply scenario additionally included prosumer 083 and 084.
 
 %%%%%%%%%%%
 \subsubsection{Market outcomes in different supply scenarios}
@@ -251,10 +251,10 @@ Appendix~\hyperlink{AppA5:Figures:producer_all}{A5}
 %
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth]{thesis/graphs/marketsimulation/totalenergycost2.pdf}
-    \includegraphics[width=\textwidth]{thesis/graphs/marketsimulation/totalenergycost_oversupply2.pdf}
-    \includegraphics[width=\textwidth]{thesis/graphs/marketsimulation/totalenergycost_undersupply2.pdf}
-    \caption[Total energy cost to consumers in different supply scenarios]{Total energy cost to consumers in case of no LEM, LEM with true values, and LEM with predicted values in three different supply scenarios. \quantnet\href{}{}}
+    \includegraphics[width=\textwidth]{thesis/graphs/marketsimulation/totalenergycost.pdf}\\\vspace{.6cm}
+    \includegraphics[width=\textwidth]{thesis/graphs/marketsimulation/totalenergycost_oversupply.pdf}\\\vspace{.6cm}
+    \includegraphics[width=\textwidth]{thesis/graphs/marketsimulation/totalenergycost_undersupply.pdf}
+    \caption[Total energy cost to consumers in different supply scenarios]{Total energy cost to consumers from 01.10.2018 to 31.12.2017 in case of no LEM, LEM with true values, and LEM with predicted values in three different supply scenarios. \quantnet\href{}{}}
     \label{Fig:total_energycost}
 \end{figure}
 %
