@@ -189,6 +189,34 @@ Overall, it becomes clear that the chosen prediction methods do not forecast ene
 
 \subsection{Evaluation of the market simulation}\label{Sec:Results;Subsec:Simulation}
 
+
+
+%%%%%%%%%%%
+\subsubsection{True consumption and production values}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{thesis/graphs/marketsimulation/marketoutcome_true.pdf}
+    \caption[Market outcomes per trading period simulated with balanced supply]{Market outcomes per trading period simulated with true values and a balanced supply scenario. \quantnet\href{}{}}
+    \label{Fig:marketoutcomes_true_balanced}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{thesis/graphs/marketsimulation/marketoutcome_true_oversupply.pdf}
+    \caption[Market outcomes per trading period simulated with balanced supply]{Market outcomes per trading period simulated with true values and an oversupply scenario. \quantnet\href{}{}}
+    \label{Fig:marketoutcomes_true_over}
+\end{figure}
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{thesis/graphs/marketsimulation/marketoutcome_true_undersupply.pdf}
+    \caption[Market outcomes per trading period simulated with balanced supply]{Market outcomes per trading period simulated with true values and an undersupply scenario. \quantnet\href{}{}}
+    \label{Fig:marketoutcomes_true_under}
+\end{figure}
+
+
 %
 \begingroup\catcode`"=9
 \begin{table}[ht]
@@ -208,17 +236,12 @@ Overall, it becomes clear that the chosen prediction methods do not forecast ene
     table foot=\hline \hline]
     {thesis/tables/average_outcomes.csv}{}%
     {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv}}%
-    \caption[Average of error measures for all 12 prosumer data sets]{Average of error measures for the prediction of energy production across all 12 prosumer data sets. \quantnet\href{ }{}}
-    \label{Tab:avg_errormeasures_p}
+    \caption[Market simulation results for different supply scenarios]{Average results of market simulation for three different supply scenarios. Prices are averaged across all trading periods. Revenues and costs for the whole simulation period are averaged across all prosumers and consumers respectively. \quantnet\href{ }{}}
+    \label{Tab:simulationresults}
 \end{table}
 \endgroup
 %
 
-%& \csvcolvi & \csvcolvii & \csvcolviii & \csvcolxi & \csvcolx & \csvcolxi
-%& \multicolumn{1} {c}{\textbf{LEM price}} & \multicolumn{1} {c}{\textbf{Revenue (true values)}} & \multicolumn{1} {c}{\textbf{Revenue (predicted values)}} & \multicolumn{1} {c}{\textbf{Cost (true values)}} & \multicolumn{1} {c}{\textbf{Cost (predicted values)}} & \multicolumn{1} {c}{\textbf{Cost (no LEM)}} & \multicolumn{1} {c}{\textbf{Loss due to prediction errors}} & \multicolumn{1} {c}{\textbf{Savings due to LEM}}
-
-%%%%%%%%%%%
-\subsubsection{True consumption and production values}
 
 
 
