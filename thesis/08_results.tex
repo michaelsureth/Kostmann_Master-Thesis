@@ -193,12 +193,12 @@ Overall, it becomes clear that the chosen prediction methods do not forecast ene
 \begingroup\catcode`"=9
 \begin{table}[ht]
 {\footnotesize
-    \csvreader[centered tabular=l|SSS,
+    \csvreader[centered tabular=l|SSSSSSSSSS,
     before reading=\sisetup{round-mode=places,round-precision=2,round-integer-to-decimal},
     filter not strcmp={\thecsvinputline}{1},
     table head=
     \hline\hline
-     \multicolumn{1} {l}{\textbf{Model}} & \multicolumn{1} {|c}{\textbf{MAE}} & \multicolumn{1} {c}{\textbf{RMSE}} & \multicolumn{1} {c}{\textbf{MASE}}\\
+     \multicolumn{1} {l}{\textbf{Scenario}} & \multicolumn{1} {|c}{\textbf{Oversupply}} & \multicolumn{1} {c}{\textbf{LEM price}} & \multicolumn{1} {c}{\textbf{Revenue (true values)}} & \multicolumn{1} {c}{\textbf{Revenue (predicted values)}} & \multicolumn{1} {c}{\textbf{Cost (true values)}} & \multicolumn{1} {c}{\textbf{Cost (predicted values)}} & \multicolumn{1} {c}{\textbf{Cost (no LEM)}} & \multicolumn{1} {c}{\textbf{Loss due to prediction errors}} & \multicolumn{1} {c}{\textbf{Savings due to LEM}}\\
     \hline,
     no head,
     separator=comma,
@@ -212,6 +212,8 @@ Overall, it becomes clear that the chosen prediction methods do not forecast ene
 \end{table}
 \endgroup
 %
+
+%& \csvcolvi & \csvcolvii & \csvcolviii & \csvcolxi & \csvcolx & \csvcolxi
 
 %%%%%%%%%%%
 \subsubsection{True consumption and production values}
