@@ -239,13 +239,14 @@ Table~\ref{Tab:simulationresults} contrasts the results of the market simulation
 \begingroup\catcode`"=9
 \begin{table}[ht]
 {\footnotesize
-    \csvreader[centered tabular=l|SSSSSSSSSS,
+    \csvreader[centered tabular=l|SSSSSS,
     before reading=\sisetup{round-mode=places,round-precision=2,round-integer-to-decimal},
     filter expr={
       test{\ifnumgreater{\thecsvinputline}{2}}},
     table head=
     \hline\hline
-     \multicolumn{1} {l}{\textbf{Mean}} & \multicolumn{1} {|c}{\textbf{Balanced supply}} & \multicolumn{1} {c}{\textbf{Oversupply}} & \multicolumn{1} {c}{\textbf{Undersupply}}\\
+     \multirow{2}{2em}{\textbf{Mean}} & \multicolumn{2} {|c}{\textbf{Balanced supply}} & \multicolumn{2} {c}{\textbf{Oversupply}} & \multicolumn{2} {c}{\textbf{Undersupply}}\\
+     & \multicolumn{1} {c}{\textbf{true}} & \multicolumn{1} {c}{\textbf{pred.}} & \multicolumn{1} {c}{\textbf{true}} & \multicolumn{1} {c}{\textbf{pred.}} & \multicolumn{1} {c}{\textbf{true}} & \multicolumn{1} {c}{\textbf{pred.}}\\
     \hline,
     no head,
     separator=comma,
@@ -253,7 +254,7 @@ Table~\ref{Tab:simulationresults} contrasts the results of the market simulation
     late after line=\\,
     table foot=\hline \hline]
     {thesis/tables/average_outcomes.csv}{}%
-    {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv}}%
+    {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii & \csvcolviii}}%
     \caption[Market simulation results for different supply scenarios]{Average results of market simulation for three different supply scenarios. Prices are averaged across all trading periods. Revenues and costs for the whole simulation period are averaged across all prosumers and consumers respectively. \quantnet\href{ }{}}
     \label{Tab:simulationresults}
 \end{table}
