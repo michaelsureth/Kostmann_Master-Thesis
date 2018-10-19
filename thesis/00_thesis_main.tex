@@ -9,37 +9,42 @@
 % Literature reference style
 \usepackage[authoryear]{natbib}
 \usepackage[bf]{caption}
+% Display URLs correctly
 \usepackage{url}
 % Code display
 \usepackage[outputdir=build]{minted}
 \usepackage{xcolor}
 % Import csv-files for tables
 \usepackage{csvsimple}
-% To round numbers
+% Round numbers (in tables)
 \usepackage{siunitx}
-% For displaying sideways figures (landscape mode)
+% Display sideways figures (landscape mode)
 \usepackage{rotating}
-% For enforcing line breaks
+% Enforce line breaks
 \usepackage[breakall]{truncate}
 % Align decimal points in tables
 \usepackage{dcolumn}
 \newcolumntype{.}{D{.}{.}{-1}}
 % Align footnotes (no indent of first line)
 \usepackage[bottom,flushmargin,hang,multiple]{footmisc}
-% For writing pseudo code
+% Write pseudo code
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{etoolbox}
 \usepackage{tabularx}
-% For using tables with cells over multiple rows and columns
+% Create tables with cells over multiple rows and columns
 \usepackage{multirow, multicol}
-% For including appendix sections in the TOC
+% Include appendix sections in the TOC
 \usepackage[toc]{appendix}
-% To control behaviour of floating graphics, tables etc.
+% Control behaviour of floating graphics, tables etc.
 \usepackage{float}
-% For creating hyperlinks in cross references
+% Create hyperlinks in cross references (for tables etc.)
 \usepackage{hyperref}
-
+% Correctly print "tilde" character
+\usepackage{textcomp}
+\newcommand{\textapprox}{\raisebox{0.5ex}{\texttildelow}}
+% Widow and orphan control (single lines at start or bottom of page)
+\usepackage[all]{nowidow}
 
 % -----------------------------
 % --- user-defined commands ---
