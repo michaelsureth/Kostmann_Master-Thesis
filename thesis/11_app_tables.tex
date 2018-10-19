@@ -3,9 +3,11 @@
 
 \subsection*{\hypertarget{AppB1:Tables:totalcons}{B1} Summary statistics of total energy consumption and production} \label{AppB1:Tables:totalcons}
 
+\begingroup\catcode`"=9
 \begin{table}[ht]
 {\footnotesize
-    \csvreader[centered tabular=l|......,
+    \csvreader[centered tabular=l|SSSSSS,
+    before reading=\sisetup{round-mode=places,round-precision=2,round-integer-to-decimal},
     filter not strcmp ={\thecsvinputline}{1},
     table head=
     \hline\hline
@@ -17,9 +19,10 @@
     late after line=\\,
     table foot= \hline \hline]
     {thesis/tables/summarystats_total.csv}{}%
-    {\csvcoli & \csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii}}%
+    {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii & \csvcolviii}}%
     \caption[Summary statistics of households' total consumption and production in 2017]{Summary statistics of households' total consumption and production in 2017. \quantnet\href{ }{BLEMdescStatEnergy}}
 \end{table}
+\endgroup
 
 
 \subsection*{\hypertarget{AppB2:Tables:avg_errM_wMedian}{B2} Prediction model performance across consumer data sets} \label{AppB2:Tables:avg_errM_wMedian}
