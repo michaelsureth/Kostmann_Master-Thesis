@@ -257,7 +257,7 @@ In summary, one can conclude that the market outcomes are the more favourable to
 
 To assess the adverse effect of prediction errors on the market outcomes, the LASSO-predicted energy consumption values per 15 minute interval were used. The prediction of the model served as basis for the auction bids. After the true consumption in the respective trading period was observed, payments to correct over- or underestimation errors were settled. That is, if a consumer bid with a higher amount than actually consumed, it still bought the full bid amount from the prosumers but had to sell the surplus to the energy utility over the grid at the feed-in tariff. On the other hand, if a consumer bid with a lower amount than actually consumed, it bought the bid amount from the prosumers but had to purchase subsequently the surplus energy consumption form the grid at the energy utility's tariff. Thus, prediction errors are costly as the consumer always has to clear the order at less favourable conditions than the equilibrium price provides.
 
-Table~\ref{Tab:simulationresults} contrasts the results of the market simulation in different supply scenarios in the case of true and predicted consumption values. The equilibrium and LEM prices almost do not differ in all three scenarios wether the true or predicted consumption values are used. Also, the average total revenue over the three month simulation period of the prosumers is largely unchanged. What differs, however, is the cost for consumers. 
+Table~\ref{Tab:simulationresults} contrasts the results of the market simulation in different supply scenarios in the case of true and predicted consumption values. The equilibrium and LEM prices almost do not differ in all three scenarios wether the true or predicted consumption values are used. Also, the average total revenue over the three month simulation period of the prosumers is largely unchanged. What differs, however, is the cost for consumers. The cost without LEM is on average across all consumers smaller when using predicted consumption values. This is most likely due to the LASSO model's tendency to underestimate and because correction payments for the prediction errors are not factored into this number (otherwise there would be no difference between true and predicted in all columns of the last table row). The average total cost for electricity consumption in the whole simulation period is with LEM higher when using predicted consumption values. This is due to the above-mentioned need to settle prediction errors at unfavourable terms.
 %
 \begingroup\catcode`"=9
 \begin{table}[ht]
@@ -285,6 +285,7 @@ Table~\ref{Tab:simulationresults} contrasts the results of the market simulation
 \endgroup
 %
 
+The 
 %
 \begingroup\catcode`"=9
 \begin{table}[ht]
