@@ -1,7 +1,7 @@
 
 \section{Results}\label{Sec:Results}
 
-The results will be presented in two parts: First, the forecasting accuracy of the prediction models is evaluated and presented. Second, the results of the market simulation -- which is run once with the true consumption and production values and once with the predicted values -- are reported.
+The results will be presented in two parts: First, the forecasting accuracy of the prediction models is evaluated and presented. Second, the results of the market simulation -- which is run once with the true consumption and production values and once with the predicted values iin three different supply scenarios-- are reported.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -18,7 +18,7 @@ Three prediction methods where used to forecast the energy consumption of 88 con
 
 The performance of the prediction models was tested on a quarter of the available data. That is, the prediction models were fitted on the consumption values from 01.01.2017~00:00 to 30.09.2017~00:00 which is equivalent to 131,040 data points per data set. For all 88 consumer data sets, the models were fitted separately resulting in as many distinct LASSO and LSTM prediction models. The fitted models were then used to make energy consumption predictions in 15-minute intervals for each household individually on the data from 01.10.2017~00:00 to 01.01.2018~00:00. This equates to 8,836 predicted values per data set per prediction method.
 
-Figure~\ref{Fig:glimpse_predcons} exemplary shows the true and predicted consumption values of consumer 011 on October 27, 2017. The naive benchmark model just follows the true consumption shifted by one time step (i.e. 15 minutes). This fits the true values generally good, as long as there are no sudden jumps in the household's energy consumption. Spikes in energy consumption, as in this example one occurred in the 15 minutes before 07:30 and 08.30 respectively, necessarily lead to two periods with high errors of the naive predictor: First, once the jump to a high consumption level occurs and the naive predictor remains at the previous low level, and second, once the consumption suddenly returns to the low ``baseline" consumption level and the naive predictor lags behind at the high level of the previous period. In such situations, the LASSO and LSTM models are more accurate. Even though, they underestimate the jumps in energy consumption, they do not lag behind as much as the naive predictor and, generally, have the ability to anticipate movements. However, the exemplary glimpse onto the predicted consumption values of consumer 011 already reveals that also the sophisticated prediction models lack the ability to accurately predict sudden movements in the energy consumption and tend to overestimate low consumption levels and underestimate spiking energy consumption.
+Figure~\ref{Fig:glimpse_predcons} exemplary shows the true and predicted consumption values of consumer 011 on October 27, 2017. The na\"ive benchmark model just follows the true consumption shifted by one time step (i.e. 15 minutes). This fits the true values generally good, as long as there are no sudden jumps in the household's energy consumption. Spikes in energy consumption, as in this example one occurred in the 15 minutes before 07:30 and 08.30 respectively, necessarily lead to two periods with high errors of the na\"ive predictor: First, once the jump to a high consumption level occurs and the na\"ive predictor remains at the previous low level, and second, once the consumption suddenly returns to the low ``baseline" consumption level and the na\"ive predictor lags behind at the high level of the previous period. In such situations, the LASSO and LSTM models are more accurate. Even though, they underestimate the jumps in energy consumption, they do not lag behind as much as the na\"ive predictor and, generally, have the ability to anticipate movements. However, the exemplary glimpse onto the predicted consumption values of consumer~011 already reveals that also the sophisticated prediction models lack the ability to accurately predict sudden movements in the energy consumption and tend to overestimate low consumption levels and underestimate spikes in energy consumption.
 %
 \begin{figure}[htbp]
     \centering
@@ -28,7 +28,7 @@ Figure~\ref{Fig:glimpse_predcons} exemplary shows the true and predicted consump
 \end{figure}
 %
 
-Systematically analyzing the total over- and underestimation of the different prediction models on each consumer data set confirms this impression. Figure~\ref{Fig:overunderestimation} displays the total sum of over- and underestimation errors of each prediction method per data set. As one would expect, the naive benchmark model consistently over- and underestimated by the same amount per data set. The reason for that is, that the sum of over- and underestimation errors only depends on the amplitude of the jumps in the case of the naive predictor. Thus, overestimation errors occur in the same frequency and magnitude as underestimation errors. The LASSO model achieved overall lower total sums of errors than the benchmark model. Moreover, the sum of underestimation errors is higher across the data sets than the sum of overestimation errors. This points towards a general tendency of underestimating sudden increases in energy consumption by the LASSO model. The LSTM model on the other hand shows a much higher variability in the sums of over- and underestimation errors. By tendency, the overestimation errors of the LSTM model were smaller than those of the LASSO and benchmark models. Nevertheless, the underestimation is much more pronounced in the case of the LSTM model. Especially, some data sets stand out regarding the high sum of underestimation errors. This points towards a much higher heterogeneity in the suitability of the LSTM model to predict consumption values depending on the energy consumption pattern of the specific data set. The LASSO model on the other hand seems to be more equally well suited for all data sets and their particular consumption patterns.
+Systematically analyzing the total over- and underestimation of the different prediction models on each consumer data set confirms this impression. Figure~\ref{Fig:overunderestimation} displays the total sum of over- and underestimation errors of each prediction method per data set. As one would expect, the na\"ive benchmark model consistently over- and underestimated by the same amount per data set. The reason for that is, that the sum of over- and underestimation errors only depends on the amplitude of the spikes in energy consumption. Thus, overestimation errors occur in the same frequency and magnitude as underestimation errors. The LASSO model achieved overall lower total sums of errors than the benchmark model. Moreover, the sum of underestimation errors is higher across the data sets than the sum of overestimation errors. This points towards a general tendency of underestimating sudden increases in energy consumption by the LASSO model. The LSTM model on the other hand shows a much higher variability in the sums of over- and underestimation errors. By tendency, the overestimation errors of the LSTM model were smaller than those of the LASSO and benchmark models. Nevertheless, the underestimation is much more pronounced in the case of the LSTM model. Especially, some data sets stand out regarding the high sum of underestimation errors. This points towards a much higher heterogeneity in the suitability of the LSTM model to predict consumption values depending on the energy consumption pattern of the specific data set. The LASSO model on the other hand seems to be more equally well suited for all data sets and their particular consumption patterns.
 %
 \begin{figure}
     \centering
@@ -38,9 +38,9 @@ Systematically analyzing the total over- and underestimation of the different pr
     \caption[Sum of total over- and underestimation errors per consumer data set]{Sum of total over- and underestimation errors of energy consumption per consumer data set and prediction model. \quantnet\href{}{}}
     \label{Fig:overunderestimation}
 \end{figure}
-%
+% 
 
-The average performance of the three prediction models across all 88 data sets is shown in Table~\ref{Tab:avg_errormeasures}. As can be seen, LASSO and LSTM consistently outperform the benchmark model according to MAE, RMSE, MAPE, and MASE\footnote{Note, that the MASE score of the benchmark model must be exactly one as the MASE is defined as the mean absolute error absolute to the MAE of the naive predictor (see Equation~\ref{Eq:naivepred}).}. Interestingly, due to the heavy penalty NRMSE puts on comparably large prediction errors, both sophisticated prediction methods, however, perform worse according to NRMSE. A detailed analysis of this unexpected result reveals that it is mainly driven by an extremely bad NRMSE score for LSTM and LASSO on merely one out of the 88 data sets. As can be seen in Figure~\ref{Fig:heatmaps}, the predictions on consumer data set 027 have a particularly high NRMSE (and MAPE) compared to all other data sets. However, this pattern is not present in the absolute error measures.
+The average performance of the three prediction models across all 88 data sets is shown in Table~\ref{Tab:avg_errormeasures}. As can be seen, LASSO and LSTM consistently outperform the benchmark model according to MAE, RMSE, MAPE, and MASE\footnote{Note that the MASE score of the benchmark model must be exactly 1 as the MASE is defined as the mean absolute error absolute to the MAE of the na\"ive predictor (see Equation~\ref{Eq:naivepred}).}. Interestingly, due to the heavy penalty NRMSE puts on comparably large prediction errors, both sophisticated prediction methods, however, perform worse according to NRMSE. A detailed analysis of this unexpected result reveals that it is mainly driven by an extremely bad NRMSE score for LSTM and LASSO on merely one out of the 88 data sets. As can be seen in Figure~\ref{Fig:heatmaps}, the predictions on consumer data set 027 have a particularly high NRMSE (and MAPE) compared to all other data sets. However, this pattern is not present in the absolute error measures.
 %
 \begingroup\catcode`"=9
 \begin{table}[ht]
@@ -78,7 +78,7 @@ The average performance of the three prediction models across all 88 data sets i
 \end{figure}
 %
 
-Further investigating the prediction errors of the forecasts on consumer 027 exposes that the high NRMSE score is driven by merely one observations: Between 24.11.2017 11:30 and 11:45 the energy consumption falls below 3 $\times$ $10^{-6}$. Due to this true value which is very close to zero, the relative squared error $e_t = \left(\frac{\widehat{x}_t-x_t}{x_t}\right)^2$ explodes (see Appendix~\hyperlink{AppA4:Figures:erroranalysis}{A4}). This single extreme relative error pushes the NRMSE of the LSTM predictions to the staggering value of $\text{NRMSE}_{c027}=2383.46$. The same is true for MAPE, although not as extreme. Based on this insight, it is reasonable to reevaluate the average performance of the prediction methods using the median instead of the mean. Calculating the median error measures for all predictions on the consumer data sets eliminates the distortion by outliers. Thus, Table~\ref{Tab:median_errormeasures} shows the same error measures as Table~\ref{Tab:avg_errormeasures} but uses the median instead of the mean to summarize the models performance across all consumer data sets.
+Further investigating the prediction errors of the forecasts on consumer 027 exposes that the high NRMSE score is driven by merely one observations: Between 24.11.2017 11:30 and 11:45 the energy consumption falls below 3 $\times$ $10^{-6}$. Due to this true value which is very close to zero, the relative squared error $e_t = \left(\frac{\widehat{x}_t-x_t}{x_t}\right)^2$ is extremely high (see Appendix~\hyperlink{AppA4:Figures:erroranalysis}{A4}). This single extreme relative error pushes the NRMSE of the LSTM predictions to the staggering value of $\text{NRMSE}_{c027}=2383.46$. The same is true for MAPE, although not as extreme. Based on this insight, it is reasonable to reevaluate the average performance of the prediction methods using the median instead of the mean. Calculating the median error measures for all predictions on the consumer data sets eliminates the distortion by outliers. Thus, Table~\ref{Tab:median_errormeasures} shows the same error measures as Table~\ref{Tab:avg_errormeasures} but uses the median instead of the mean to summarize the models performance across all consumer data sets.
 %
 \begingroup\catcode`"=9
 \begin{table}[ht]
@@ -103,7 +103,7 @@ Further investigating the prediction errors of the forecasts on consumer 027 exp
 \endgroup
 %
 
-Overall, the LASSO model performed best with the lowest median MAE, RMSE, MAPE, NRMSE, and MASE scores. With a median MAPE across the 88 consumer datasets of 17.38 \%, it achieved a even better score in this study than in the implementation of \citet{Li:2017}, who achieved a score of 20.06 \%. The superior performance of the LASSO model is also clearly visible in Figure~\ref{Fig:boxplots_errormeasures}. Additionally noteworthy here are the differences in the IQR of the error measures between the prediction methods. Both, the LASSO as well as the LSTM model, have error measures with a smaller IQR across the consumer data sets than the benchmark model. Furthermore, even though the LASSO error measures consistently have the lowest median of all three prediction models, the IQR of the relative error measures MAPE and NRMSE is very similar between LASSO and LSTM.
+Overall, the LASSO model performed best with the lowest median MAE, RMSE, MAPE, NRMSE, and MASE scores. With a median MAPE across the 88 consumer datasets of 17.38~\%, it achieved a even better score in this study than in the implementation of \citet{Li:2017}, who achieved a score of 20.06~\%. The superior performance of the LASSO model is also clearly visible in Figure~\ref{Fig:boxplots_errormeasures}. Additionally noteworthy here are the differences in the IQR of the error measures between the prediction methods. Both, the LASSO as well as the LSTM model, have error measures with a smaller IQR across the consumer data sets than the benchmark model. Furthermore, even though the LASSO error measures consistently have the lowest median of all three prediction models, the IQR of the relative error measures MAPE and NRMSE is very similar between LASSO and LSTM.
 %
 \begin{figure}
     \centering
@@ -112,12 +112,14 @@ Overall, the LASSO model performed best with the lowest median MAE, RMSE, MAPE, 
     
     \includegraphics[width=.5\textwidth-5pt]{thesis/graphs/evaluation/c_boxplot_RMSE.pdf}
     \includegraphics[width=.5\textwidth-5pt]{thesis/graphs/evaluation/c_boxplot_NRMSE.pdf} \\
-    \caption[Boxplots of MAE, MAPE, RMSE, and NRMSE scores across consumer data sets]{Boxplots of MAE, MAPE, RMSE, and NRMSE scores across 82 consumer data sets for the three different prediction models (the upper 3 \%-quantile of the error measures is cut off for better readability). \quantnet\href{}{}}
+    \caption[Boxplots of MAE, MAPE, RMSE, and NRMSE scores across consumer data sets]{Boxplots of MAE, MAPE, RMSE, and NRMSE scores across 82 consumer data sets for the three different prediction models (the upper 3~\%-quantile of the error measures is cut off for better readability). \quantnet\href{}{}}
     \label{Fig:boxplots_errormeasures}
 \end{figure}
 %
 
-Interestingly, there are some consumer data sets with apparently much harder to predict consumption patterns than the other data sets which becomes visible by the outliers of the MAPE and NRMSE boxplots but also by the heatmaps displayed in Figure~\ref{Fig:heatmaps}. Unfortunately, the heatmaps of the relative error measures MAPE and NRMSE are dominated by the very high values for consumer 027. An alternative way to calculate those error measures according to \citet{Hyndman:2006} to avoid very skewed NRMSE or MAPE distribution in the presence of values close to zero is to use the median instead of the mean error. Thus, the mean absolute percentage error becomes the median absolute percentage error (MdAPE) and the normalized root mean squared error becomes the normalized root median squared error (NRMdSE). Taking consumer 027 as an example, the difference becomes clear: The normalized root mean squared error is $\text{NRMSE}_{c027}=2383.46$, while the normalized root \emph{median} squared error is only $\text{NRMdSE}_{c027}=33.43$ (which is still comparatively high). The same holds true for MAPE and MdAPE\footnote{The average MdAPE and NRMdSE across all consumer data sets in comparison to MAPE and NRMSE are presented in Appendix~\hyperlink{AppB2:Tables:avg_errM_wMedian}{B2}.}. Accordingly, the heatmaps for MdAPE and NRMdSE are shown in Figure~\ref{Fig:heatmaps_median}. They confirm that there is a wide variation in the performance of the same prediction methods on the same kind of data but from different households. Therefore, apparently, there is no ``one-size-fits-all'' approach for households' very short-term energy consumption forecasting. Nevertheless, the LASSO model performed best overall. Hence, the predictions on the last quarter of the data produced by the fitted LASSO model for each consumer data set will be used for the evaluation of the market simulation.
+Interestingly, there are some consumer data sets with apparently much harder to predict consumption patterns than the other data sets which becomes visible by the outliers of the MAPE and NRMSE boxplots and, also, by the heatmaps displayed in Figure~\ref{Fig:heatmaps}. Unfortunately, the heatmaps of the relative error measures MAPE and NRMSE are dominated by the very high values for consumer 027. An alternative way to calculate those error measures according to \citet{Hyndman:2006} to avoid very skewed NRMSE or MAPE distribution in the presence of values close to zero is to use the median instead of the mean error. Thus, the mean absolute percentage error becomes the median absolute percentage error (MdAPE) and the normalized root mean squared error becomes the normalized root median squared error (NRMdSE). Taking consumer 027 as an example, the difference becomes clear: The normalized root mean squared error is $\text{NRMSE}_{c027}=2383.46$, while the normalized root \emph{median} squared error is only $\text{NRMdSE}_{c027}=33.43$ (which is still comparatively high). The same holds true for MAPE and MdAPE\footnote{The average MdAPE and NRMdSE across all consumer data sets in comparison to MAPE and NRMSE are presented in Appendix~\hyperlink{AppB2:Tables:avg_errM_wMedian}{B2}.}. Accordingly, the heatmaps for MdAPE and NRMdSE are shown in Figure~\ref{Fig:heatmaps_median}. They confirm that there is a wide variation in the performance of the same prediction methods on the same kind of data but from different households. Therefore, apparently, there is no ``one-size-fits-all'' approach for households' very short-term energy consumption forecasting.
+
+Nevertheless, it is obvious that the LASSO model performed best overall. Hence, the predictions on the last quarter of the data produced by the fitted LASSO model for each consumer data set will be used for the evaluation of the following market simulation.
 %
 \begin{figure}[htbp]
  \centering
@@ -128,12 +130,14 @@ Interestingly, there are some consumer data sets with apparently much harder to 
 \end{figure}
 %
 
+
+
 %%%%%%%%%%%
 \subsubsection{Production data}
 
 The performance of the prediction models was tested on a quarter of the available data. That is, the prediction models were fitted on the production values from 01.01.2017~00:00 to 30.09.2017 00:00 which is equivalent to 131,040 data points per data set. For all 12 prosumer data sets, the models were fitted separately resulting in as many distinct LASSO and LSTM prediction models. The fitted models were then used to make energy production predictions in 15-minute intervals for each household individually on the data from 01.10.2017~00:00 to 01.01.2018~00:00. This equates to 8,836 predicted values per data set per prediction method.
 
-Figure~\ref{Fig:glimpse_predprod} exemplary shows the true and predicted production values of prosumer 024 on December 23, 2017. The naive benchmark model just follows the true production shifted by one time step (i.e. 15 minutes). As in the consumption predictions, this fits the true values generally good, as long as there are no sudden jumps in the household's energy production. Jumps or sudden drops in energy production, as in this example one occurred in the 15 minutes before 06:00, necessarily lead to a period with high error of the naive predictor. In such situations, the LASSO model seems more accurate. Even though, it underestimates the jump in energy production, it does not lag behind as much as the naive predictor and, generally, has the ability to anticipate movements. The LSTM-based predictions, on the contrary, fit even worse than the naive predictor in this example. It follows small movements in the energy production time series almost not at all and lags behind the true values similarly to the naive predictor. Also, the LSTM model overestimates constantly in periods of zero production and does not follow at all the upward spike in energy production present in this exemplary snippet of the data.
+Figure~\ref{Fig:glimpse_predprod} exemplary shows the true and predicted production values of prosumer 024 on December 23, 2017. The na\"ive benchmark model just follows the true production shifted by one time step (i.e. 15 minutes). As in the consumption predictions, this fits the true values generally good, as long as there are no sudden spikes in the household's energy production. Spikes or sudden drops in energy production -- as in this example one occurred in the 15 minutes before 06:00 -- necessarily lead to a period with high error of the na\"ive predictor. In such situations, the LASSO model seems more accurate. Even though, it underestimates the spike in energy production in this example, it does not lag behind as much as the na\"ive predictor and, generally, has the ability to anticipate movements. The LSTM-based predictions, on the contrary, fit even worse than the na\"ive predictor in this example. They almost do not at all follow small movements in the energy production time series and lag behind the true values similarly to the na\"ive predictor. Also, the LSTM model overestimates constantly in periods of zero production and does not follow the upward spike in energy production present in this exemplary snippet of the data.
 %
 \begin{figure}[htbp]
     \centering
@@ -143,7 +147,7 @@ Figure~\ref{Fig:glimpse_predprod} exemplary shows the true and predicted product
 \end{figure}
 %
 
-Analyzing the over- and underestimation errors of each prediction method on each producer data sets shows the extreme tendency of the LSTM model to underestimate the production values. The LSTM's sum of underestimation errors is substantially larger for six out of twelve prosumer data sets and the sum of overestimation is substantially larger for one data set compared to the LASSO and benchmark model. This already indicates a much worse performance of LSTM on the production data.
+Analyzing the over- and underestimation errors of each prediction method on each producer data sets shows the extreme tendency of the LSTM model to underestimate the production values. The LSTM's sum of underestimation errors is substantially larger for six out of twelve prosumer data sets and the sum of overestimation is substantially larger for one data set compared to the LASSO and benchmark model. This already indicates a much worse performance of LSTM than LASSO or the na\"ive predictor on the production data.
 %
 \begin{figure}
     \centering
@@ -155,7 +159,7 @@ Analyzing the over- and underestimation errors of each prediction method on each
 \end{figure}
 %
 
-The first impression is confirmed by the average of the error measures across the 12 prosumer data sets shown in Table~\ref{Tab:avg_errormeasures_p}. The LSTM model performs on average much worse than the LASSO and the benchmark model according to MAE, RMSE, and MASE\footnote{Computing the median across the 12 prosumer data sets gives the same qualitative results, although the performance differences are not as extreme (see Appendix~\hyperlink{AppB3:Tables:medain_errM_prod}{B3}).}. MAPE and NRMSE cannot be computed as all production time series contain zero values. As can be seen in Equation~\ref{Eq:MAPE} and Equation~\ref{Eq:NRMSE}, MAPE and NRMSE are not defined if the true value $x_t$ equals zero which is why they cannot be computed for the predictions on production data.
+The first impression is confirmed by the average of the error measures across the 12 prosumer data sets shown in Table~\ref{Tab:avg_errormeasures_p}. The LSTM model performs on average much worse than the LASSO and the benchmark model according to MAE, RMSE, and MASE. Computing the median across the 12 prosumer data sets gives the same qualitative results, although the performance differences are not as extreme (see Appendix~\hyperlink{AppB3:Tables:medain_errM_prod}{B3}). MAPE and NRMSE cannot be computed as all production time series contain zero values\footnote{As can be seen in Equation~\ref{Eq:MAPE} and Equation~\ref{Eq:NRMSE}, MAPE and NRMSE are not defined if the true value $x_t$ equals zero which is why they cannot be computed for the predictions on production data.}.
 %
 \begingroup\catcode`"=9
 \begin{table}[ht]
@@ -180,29 +184,6 @@ The first impression is confirmed by the average of the error measures across th
 \endgroup
 %
 
-%
-\begingroup\catcode`"=9
-\begin{table}[ht]
-{\footnotesize
-    \csvreader[centered tabular=l|SSS,
-    before reading=\sisetup{round-mode=places,round-precision=2,round-integer-to-decimal},
-    filter not strcmp={\thecsvinputline}{1},
-    table head=
-    \hline\hline
-     \multicolumn{1} {l}{\textbf{Model}} & \multicolumn{1} {c}{\textbf{MAE}} & \multicolumn{1} {c}{\textbf{RMSE}} & \multicolumn{1} {c}{\textbf{MASE}}\\
-    \hline,
-    no head,
-    separator=comma,
-    respect all,
-    late after line=\\,
-    table foot=\hline \hline]
-    {thesis/tables/avg_errorMeasures_p.csv}{}%
-    {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv}}%
-    \caption[Average of error measures for all 12 prosumer data sets]{Average of error measures for the prediction of energy production across all 12 prosumer data sets. \quantnet\href{ }{}}
-    \label{Tab:avg_errormeasures_p}
-\end{table}
-\endgroup
-%
 Overall, it becomes clear that the chosen prediction methods do not forecast energy production of the given prosumer data sets very well. In the case of the LSTM model, this may be due to the hyperparameter tuning being performed on a consumer data set. Moreover, the production data contains much more jumps and discontinuities than the consumption data, which aggravates the prediction task. Due to the unsatisfying performance of the prediction methods on the production data, only the predicted consumption values and the true production values will be used for the market simulation.
 
 
@@ -212,14 +193,14 @@ Overall, it becomes clear that the chosen prediction methods do not forecast ene
 
 \subsection{Evaluation of the market simulation}\label{Sec:Results;Subsec:Simulation}
 
-The market simulation used the market mechanism implemented by \citet{Mengelkamp:2018a} in a smart contract to assess the impact of prediction errors on market outcomes. The data sets used for this comprised 88 consumers and 12 prosumers. To evaluate different supply scenario, the market simulation was conducted three times with varying prosumers included. The three scenarios consisted of a market simulation with balanced energy supply and demand, a simulation with severe oversupply and a simulation with severe undersupply. To avoid extreme and unusual market outcomes over the time period of the simulation, two prosumers (prosumer 031 and 086) with high production levels, but long periods of no energy production in the simulation period where not included as energy supplier in the market simulation (see Appendix~\hyperlink{AppA5:Figures:producer_all}{A5}). The remaining prosumers were in- or excluded according to the desired supply scenario. That is, the under supply scenario comprised prosumer 019, 024, 026, 072, 075, and 089, the balanced supply scenario additionally included prosumer 030, and the oversupply scenario additionally included prosumer 083 and 084.
+The market simulation used the market mechanism implemented by \citet{Mengelkamp:2018a} in a smart contract to assess the impact of prediction errors on market outcomes. The data sets used for this comprised 88 consumers and 12 prosumers. To evaluate different supply scenario, the market simulation was conducted three times with a varying number of prosumers included. The three scenarios consisted of a market simulation with balanced energy supply and demand, a simulation with severe oversupply and a simulation with severe undersupply. To avoid extreme and unusual market outcomes over the time period of the simulation, two prosumers (prosumer 031 and 086) with high production levels, but long periods of no energy production in the simulation period where not included as energy supplier in the market (see Appendix~\hyperlink{AppA5:Figures:producer_all}{A5}). The remaining prosumers were in- or excluded according to the desired supply scenario. That is, the undersupply scenario comprised prosumer 019, 024, 026, 072, 075, and 089, the balanced supply scenario additionally included prosumer 030, and the oversupply scenario additionally included prosumer 083 and 084.
 
 %%%%%%%%%%%
 \subsubsection{Market outcomes in different supply scenarios}
 
-The difference between supply and demand for each trading period, the equilibrium price of each closed double auction, and the weighted average price -- called local energy market (LEM) price) -- is shown in Figure~\ref{Fig:marketoutcomes_true_balanced}. The LEM price is computed each trading period as the average of the auctions equilibrium price and the energy utilities energy price (28.69 EURct) weighted by the amount of kWh bought for the respective price. Therefore, in any trading period with higher demand than supply, the LEM price will be above the equilibrium price as the equilibrium price's upper limit is the utilities energy price of 28.69 $\frac{\text{EURct}}{\text{kWh}}$. All graphs depicting the market outcome shown in this section are results of the market simulation with true consumption values. The equivalent graphs for the market simulation with energy consumption values predicted by a LASSO model are shown in Appendix~\hyperlink{AppA6:Figures:marketsimulation_pred}{A6}. As the graphs contain only over-/undersupply and market prices, they are not majorly different when simulating the market mechanism with predicted consumption values (as long as the prediction accuracy is reasonably good). This is not the case for the energy cost that consumers have to bear, as is shown in the next section.
+The difference between supply and demand for each trading period, the equilibrium price of each closed double auction, and the weighted average price -- called local energy market (LEM) price -- is shown in Figure~\ref{Fig:marketoutcomes_true_balanced}. The LEM price is computed in each trading period as the average of the auctions equilibrium price and the energy utilities energy price (28.69 $\frac{\text{EURct}}{\text{kWh}}$) weighted by the amount of kWh bought for the respective price. Therefore, in any trading period with higher demand than supply, the LEM price will be above the equilibrium price as the equilibrium price's upper limit is the utilities energy price of 28.69 $\frac{\text{EURct}}{\text{kWh}}$. All graphs depicting the market outcome shown in this section are results of the market simulation with true consumption values. The equivalent graphs for the market simulation with energy consumption values predicted by a LASSO model are shown in Appendix~\hyperlink{AppA6:Figures:marketsimulation_pred}{A6}. As the graphs contain only over-/undersupply and market prices, they are not substantially different when simulating the market mechanism with predicted consumption values (as the prediction accuracy is reasonably good). Though, this is not the case for the energy cost that consumers have to bear, as is shown in the next section.
 
-As can be seen, the equilibrium price shown in the middle panel of Figure~\ref{Fig:marketoutcomes_true_balanced} moves roughly synchronous to the over-/undersupply shown in the upper panel. As there is by tendency more undersupply in the balanced scenario, the equilibrium price is in most trading periods close to its upper limit and the LEM price is almost always above the equilibrium price\footnote{Due to the fact, that four of the relevant prosumer data sets contained very large scale producers ($>$10 kWh per 15-minute interval) which dominated the remaining prosumers' production capacity substantially, it was not possible to construct a prosumer sample that better matched the market demand in the balanced supply scenario.}.
+As can be seen, the equilibrium price shown in the middle panel of Figure~\ref{Fig:marketoutcomes_true_balanced} moves roughly synchronous to the over-/undersupply shown in the upper panel. As there is by tendency more undersupply in the balanced scenario, the equilibrium price is in most trading periods close to its upper limit and the LEM price is almost always above the equilibrium price\footnote{Due to the fact, that four of the relevant prosumer data sets are from producers with large capacities ($>$10 kWh per 15-minute interval) which dominated the remaining prosumers' production capacity substantially (see also Appendix~\hyperlink{AppA5:Figures:producer_all}{A5}), it was not possible to construct a prosumer sample that better matched the market demand in the balanced supply scenario.}.
 %
 \begin{figure}[htbp]
     \centering
@@ -239,7 +220,7 @@ This is very much contrasted by the oversupply scenario. Here, the prosumers' en
 \end{figure}
 %
 
-The last market simulation is performed with a undersupply scenario. In this case, meeting expectations, the market outcomes are the opposite to the oversupply scenario. The equilibrium prices move in a band between 20 $\frac{\text{EURct}}{\text{kWh}}$ and the upper limit of 28.69 $\frac{\text{EURct}}{\text{kWh}}$. The LEM prices are higher in each period as the deficit in supply has to be compensated by energy purchases from the grid. Therefore, the more severe the undersupply, the more energy has to be purchased from the grid, and the higher is the LEM price above the equilibrium price.
+The last market simulation is performed with a undersupply scenario. In this case, meeting expectations, the market outcomes are the opposite to the oversupply scenario. The equilibrium prices move in a band between 20 $\frac{\text{EURct}}{\text{kWh}}$ and the upper limit of 28.69 $\frac{\text{EURct}}{\text{kWh}}$. The LEM prices are even higher in each period as the deficit in supply has to be compensated by energy purchases from the grid. This means, the more severe the undersupply, the more energy has to be purchased from the grid, and the higher is the LEM price above the equilibrium price.
 %
 \begin{figure}[htbp]
     \centering
@@ -249,7 +230,7 @@ The last market simulation is performed with a undersupply scenario. In this cas
 \end{figure}
 %
 
-In summary, one can conclude that the market outcomes are the more favourable to consumers the more locally produced energy is offered by prosumers. Assuming the specific market mechanism of closed double auctions and the zero-intelligence bidding behaviour of market participants, oversupply reduces the LEM prices substantially leading to savings on the consumer side. On the other hand, prosumers will favor undersupply in the market as they profit from the high equilibrium prices while still being able to sell their surplus energy generation at the feed-in tariff without a loss compared to no LEM. Table~\ref{Tab:simulationresults} summarizes these results.
+In summary, one can conclude that the market outcomes are the more favourable to consumers, the more locally produced energy is offered by prosumers. Assuming the specific market mechanism of closed double auctions and the zero-intelligence bidding behaviour of market participants, oversupply reduces the LEM prices substantially leading to savings on the consumer side. On the other hand, prosumers will favor undersupply in the market as they profit from the high equilibrium prices while still being able to sell their surplus energy generation at the feed-in tariff without a loss compared to no LEM. Table~\ref{Tab:simulationresults} summarizes these results.
 
 
 %%%%%%%%%%%
@@ -257,7 +238,7 @@ In summary, one can conclude that the market outcomes are the more favourable to
 
 To assess the adverse effect of prediction errors on the market outcomes, the LASSO-predicted energy consumption values per 15 minute interval were used. The prediction of the model served as basis for the auction bids. After the true consumption in the respective trading period was observed, payments to correct over- or underestimation errors were settled. That is, if a consumer bid with a higher amount than actually consumed, it still bought the full bid amount from the prosumers but had to sell the surplus to the energy utility over the grid at the feed-in tariff. On the other hand, if a consumer bid with a lower amount than actually consumed, it bought the bid amount from the prosumers but had to purchase subsequently the surplus energy consumption form the grid at the energy utility's tariff. Thus, prediction errors are costly as the consumer always has to clear the order at less favourable conditions than the equilibrium price provides.
 
-Table~\ref{Tab:simulationresults} contrasts the results of the market simulation in different supply scenarios in the case of true and predicted consumption values. The equilibrium and LEM prices almost do not differ in all three scenarios wether the true or predicted consumption values are used. Also, the average total revenue over the three month simulation period of the prosumers is largely unchanged. What differs, however, is the cost for consumers. The cost without LEM is on average across all consumers smaller when using predicted consumption values. This is most likely due to the LASSO model's tendency to underestimate and because correction payments for the prediction errors are not factored into this number (otherwise there would be no difference between true and predicted in all columns of the last table row). The average total cost for electricity consumption in the whole simulation period is with LEM higher when using predicted consumption values. This is due to the above-mentioned need to settle prediction errors at unfavourable terms.
+Table~\ref{Tab:simulationresults} contrasts the results of the market simulation with true consumption values with the results of the market simulation with predicted values in three different supply scenarios. The equilibrium and LEM prices almost do not differ within the three scenarios whether the true or predicted consumption values are used. However, the prices between the scenarios differ substantially as was already indicated by Figures~\ref{Fig:marketoutcomes_true_balanced}, \ref{Fig:marketoutcomes_true_over}, and \ref{Fig:marketoutcomes_true_under}. Furthermore, the average total revenue over the three month simulation period of the prosumers is largely unaffected by the use of true or predicted values. What differs, however, is the cost for consumers. The cost without LEM is on average across all consumers smaller when using predicted consumption values. This is most likely due to the LASSO model's tendency to underestimate and because correction payments for the prediction errors are not factored into this number (otherwise there would be no difference between true and predicted in all columns of the last table row). The average total cost for electricity consumption in the whole simulation period is with LEM higher when using predicted consumption values. This is due to the above-mentioned need to settle prediction errors at unfavourable terms.
 %
 \begingroup\catcode`"=9
 \begin{table}[ht]
@@ -285,7 +266,7 @@ Table~\ref{Tab:simulationresults} contrasts the results of the market simulation
 \endgroup
 %
 
-The 
+The percentage loss induced by prediction errors is shown in Table~\ref{Tab:lossresults}. Depending on the supply scenario it ranges between abound 5 and 14~\%. This numbers have to be judged relative to the savings that are brought to consumers by the introduction of a LEM. It turns out, that in the balanced supply scenario, the savings due to the LEM are almost completely offset by the loss due to prediction errors. As consumers profit more from a LEM the more oversupplied the local market is, and thus, the lower the equilibrium prices are, this is not the case in the oversupply scenario. Here, the savings are substantial and amount to about 130~\% which is almost ten times more than the percentage loss due to the prediction errors. The problem of the market mechanism at hand and, especially, the settlement handling of prediction errors, becomes very apparent in the undersupply scenario. Here, the savings due to the LEM are more than offset by the loss due to prediction errors. Consequently, consumers would be better off to not participate in the LEM and, therefore, to not rely on imprecise predictions which make costly adjustment payments necessary.
 %
 \begingroup\catcode`"=9
 \begin{table}[ht]
@@ -310,6 +291,7 @@ The
 \endgroup
 %
 
+This result is more differentiated visible in Figure~\ref{Fig:total_energycost} as well. The figure shows for each supply scenario, for each consumer, the total energy cost over the whole simulation period in (1) no LEM, in (2) a LEM with the use of predicted consumption values, and in (3) a LEM with the use of true consumption values. For each supply scenario the lower panel shows the percentage loss due to not participating in the LEM and the loss due to participating and using predicted consumption values compared to participating and using true consumption values. In the balanced scenario there are some consumer who would make a loss due to the participation in the LEM and relying on predicted values. For them, the loss due to no LEM (yellow bar) is smaller than the loss due to prediction errors (green bar). However, there are also 56 out of 88 consumer (\textapprox 64~\%) which profit from the participation in the LEM despite the costs induced by prediction errors. Due to the much lower equilibrium prices in the oversupply scenario, the LEM participation, here, is despite prediction errors profitable for all consumers. However, even in this scenario, the savings for the consumers are diminished by more than 10~\% which is quite substantial. On the contrary, in the undersupply scenario, the loss due to the prediction errors leaves the participation in the LEM for almost all consumers unprofitable. Merely three consumers would profit and have lower costs in a LEM despite prediction errors than without a LEM.
 %
 \begin{figure}[htbp]
     \centering
@@ -321,68 +303,65 @@ The
 \end{figure}
 %
 
-
-
-%%%%%%%%%%%
-%\subsubsection{Predicted consumption and true production values}
+Overall, it becomes clear that prediction errors significantly lower the economic profitability for consumers that is often argued to be the main advantage of LEMs. This is especially true in LEM where locally produced energy is undersupplied.
 
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{itemize}
+% \begin{itemize}
 
-    \item Organize material and present results.
+%     \item Organize material and present results.
 
-    \item Use tables, figures (but prefer visual presentation):
-        \begin{itemize}
-            \item Tables and figures should supplement (and not duplicate) the
-                text.
+%     \item Use tables, figures (but prefer visual presentation):
+%         \begin{itemize}
+%             \item Tables and figures should supplement (and not duplicate) the
+%                 text.
 
-            \item Tables and figures should be provided with
-            legends.\\
-                {\it Figure~\ref{Fig:Resids} shows how to include and reference
-                graphics. The graphic must be labelled before. Files must be in
-                \texttt{.eps} format.}
+%             \item Tables and figures should be provided with
+%             legends.\\
+%                 {\it Figure~\ref{Fig:Resids} shows how to include and reference
+%                 graphics. The graphic must be labelled before. Files must be in
+%                 \texttt{.eps} format.}
 
-                \begin{figure}[ht]
-                \begin{center}
-                    \includegraphics[scale=0.5,angle=0]{thesis/figures/graph.pdf}
-                    \caption{Estimated residuals from model XXX. ...}
-                    \label{Fig:Resids}
-                \end{center}
-                \end{figure}
+%                 \begin{figure}[ht]
+%                 \begin{center}
+%                     \includegraphics[scale=0.5,angle=0]{thesis/figures/graph.pdf}
+%                     \caption{Estimated residuals from model XXX. ...}
+%                     \label{Fig:Resids}
+%                 \end{center}
+%                 \end{figure}
 
-            \item Tables and graphics may appear in the text or in
-                the appendix, especially if there are many simulation results
-                tabulated, but is also depends on the study and number of tables resp.
-                figures. The key graphs and tables must appear in
-                the text!
-        \end{itemize}
+%             \item Tables and graphics may appear in the text or in
+%                 the appendix, especially if there are many simulation results
+%                 tabulated, but is also depends on the study and number of tables resp.
+%                 figures. The key graphs and tables must appear in
+%                 the text!
+%         \end{itemize}
 
-    \item Latex is really good at rendering formulas:\\
-        {\it Equation (\ref{Eq:SpecDens}) represents the ACs of a stationary
-        stochastic process:
-        \begin{equation}
-            f_y(\lambda) = (2\pi)^{-1} \sum_{j=-\infty}^{\infty}
-                           \gamma_j e^{-i\lambda j}
-                         =(2\pi)^{-1}\left(\gamma_0 + 2 \sum_{j=1}^{\infty}
-        \gamma_j \cos(\lambda j)\right)
-                                        \label{Eq:SpecDens}
-        \end{equation}
-        where $i=\sqrt{-1}$ is the imaginary unit, $\lambda \in [-\pi,
-        \pi]$ is the frequency and the $\gamma_j$ are the autocovariances
-        of $y_t$.}
+%     \item Latex is really good at rendering formulas:\\
+%         {\it Equation (\ref{Eq:SpecDens}) represents the ACs of a stationary
+%         stochastic process:
+%         \begin{equation}
+%             f_y(\lambda) = (2\pi)^{-1} \sum_{j=-\infty}^{\infty}
+%                           \gamma_j e^{-i\lambda j}
+%                          =(2\pi)^{-1}\left(\gamma_0 + 2 \sum_{j=1}^{\infty}
+%         \gamma_j \cos(\lambda j)\right)
+%                                         \label{Eq:SpecDens}
+%         \end{equation}
+%         where $i=\sqrt{-1}$ is the imaginary unit, $\lambda \in [-\pi,
+%         \pi]$ is the frequency and the $\gamma_j$ are the autocovariances
+%         of $y_t$.}
 
-\newpage
+% \newpage
 
-    \item Discuss results:
-        \begin{itemize}
-            \item Do the results support or do they contradict economic theory ?
-            \item What does the reader learn from the results?
-            \item Try to give an intuition for your results.
-            \item Provide robustness checks.
-            \item Compare to previous research.
-        \end{itemize}
-\end{itemize}
+%     \item Discuss results:
+%         \begin{itemize}
+%             \item Do the results support or do they contradict economic theory ?
+%             \item What does the reader learn from the results?
+%             \item Try to give an intuition for your results.
+%             \item Provide robustness checks.
+%             \item Compare to previous research.
+%         \end{itemize}
+% \end{itemize}
