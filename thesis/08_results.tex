@@ -257,7 +257,7 @@ In summary, one can conclude that the market outcomes are the more favourable to
 
 To assess the adverse effect of prediction errors on the market outcomes, the LASSO-predicted energy consumption values per 15 minute interval were used. The prediction of the model served as basis for the auction bids. After the true consumption in the respective trading period was observed, payments to correct over- or underestimation errors were settled. That is, if a consumer bid with a higher amount than actually consumed, it still bought the full bid amount from the prosumers but had to sell the surplus to the energy utility over the grid at the feed-in tariff. On the other hand, if a consumer bid with a lower amount than actually consumed, it bought the bid amount from the prosumers but had to purchase subsequently the surplus energy consumption form the grid at the energy utility's tariff. Thus, prediction errors are costly as the consumer always has to clear the order at less favourable conditions than the equilibrium price provides.
 
-Table~\ref{Tab:simulationresults} contrasts the results of the market simulation in different supply scenario in the case of true and predicted
+Table~\ref{Tab:simulationresults} contrasts the results of the market simulation in different supply scenarios in the case of true and predicted consumption values. The equilibrium and LEM prices almost do not differ in all three scenarios wether the true or predicted consumption values are used. Also, the average total revenue over the three month simulation period of the prosumers is largely unchanged. What differs, however, is the cost for consumers. 
 %
 \begingroup\catcode`"=9
 \begin{table}[ht]
@@ -289,7 +289,7 @@ Table~\ref{Tab:simulationresults} contrasts the results of the market simulation
 \begingroup\catcode`"=9
 \begin{table}[ht]
 {\footnotesize
-    \csvreader[centered tabular=l|SSSSSS,
+    \csvreader[centered tabular=l|SSS,
     before reading=\sisetup{round-mode=places,round-precision=2,round-integer-to-decimal},
     filter not strcmp={\thecsvinputline}{1},
     table head=
@@ -303,7 +303,7 @@ Table~\ref{Tab:simulationresults} contrasts the results of the market simulation
     table foot=\hline \hline]
     {thesis/tables/loss_outcomes.csv}{}%
     {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv}}%
-    \caption[Market simulation results for different supply scenarios]{Average results of market simulation for three different supply scenarios. Prices are averaged across all trading periods. Revenues and costs for the whole simulation period are averaged across all prosumers and consumers respectively. \quantnet\href{ }{}}
+    \caption[Savings due to LEM and loss due to prediction errors]{Average savings for consumer due to LEM and average loss for consumers due to prediction errors in LEM. \quantnet\href{ }{}}
     \label{Tab:lossresults}
 \end{table}
 \endgroup
