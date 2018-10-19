@@ -50,7 +50,7 @@ The average performance of the three prediction models across all 88 data sets i
     filter not strcmp={\thecsvinputline}{1},
     table head=
     \hline\hline
-     \multicolumn{1} {l}{\textbf{Model}} & \multicolumn{1} {|c}{\textbf{MAE}} & \multicolumn{1} {c}{\textbf{RMSE}} & \multicolumn{1} {c}{\textbf{MAPE}} & \multicolumn{1} {c}{\textbf{NRMSE}} & \multicolumn{1} {c}{\textbf{MASE}}\\
+     \multicolumn{1} {l}{\textbf{Model}} & \multicolumn{1} {c}{\textbf{MAE}} & \multicolumn{1} {c}{\textbf{RMSE}} & \multicolumn{1} {c}{\textbf{MAPE}} & \multicolumn{1} {c}{\textbf{NRMSE}} & \multicolumn{1} {c}{\textbf{MASE}}\\
     \hline,
     no head,
     separator=comma,
@@ -88,7 +88,7 @@ Further investigating the prediction errors of the forecasts on consumer 027 exp
     filter not strcmp={\thecsvinputline}{1},
     table head=
     \hline\hline
-     \multicolumn{1} {l}{\textbf{Model}} & \multicolumn{1} {|c}{\textbf{MAE}} & \multicolumn{1} {c}{\textbf{RMSE}} & \multicolumn{1} {c}{\textbf{MAPE}} & \multicolumn{1} {c}{\textbf{NRMSE}} & \multicolumn{1} {c}{\textbf{MASE}}\\
+     \multicolumn{1} {l}{\textbf{Model}} & \multicolumn{1} {c}{\textbf{MAE}} & \multicolumn{1} {c}{\textbf{RMSE}} & \multicolumn{1} {c}{\textbf{MAPE}} & \multicolumn{1} {c}{\textbf{NRMSE}} & \multicolumn{1} {c}{\textbf{MASE}}\\
     \hline,
     no head,
     separator=comma,
@@ -165,7 +165,7 @@ The first impression is confirmed by the average of the error measures across th
     filter not strcmp={\thecsvinputline}{1},
     table head=
     \hline\hline
-     \multicolumn{1} {l}{\textbf{Model}} & \multicolumn{1} {|c}{\textbf{MAE}} & \multicolumn{1} {c}{\textbf{RMSE}} & \multicolumn{1} {c}{\textbf{MASE}}\\
+     \multicolumn{1} {l}{\textbf{Model}} & \multicolumn{1} {c}{\textbf{MAE}} & \multicolumn{1} {c}{\textbf{RMSE}} & \multicolumn{1} {c}{\textbf{MASE}}\\
     \hline,
     no head,
     separator=comma,
@@ -180,6 +180,29 @@ The first impression is confirmed by the average of the error measures across th
 \endgroup
 %
 
+%
+\begingroup\catcode`"=9
+\begin{table}[ht]
+{\footnotesize
+    \csvreader[centered tabular=l|SSS,
+    before reading=\sisetup{round-mode=places,round-precision=2,round-integer-to-decimal},
+    filter not strcmp={\thecsvinputline}{1},
+    table head=
+    \hline\hline
+     \multicolumn{1} {l}{\textbf{Model}} & \multicolumn{1} {c}{\textbf{MAE}} & \multicolumn{1} {c}{\textbf{RMSE}} & \multicolumn{1} {c}{\textbf{MASE}}\\
+    \hline,
+    no head,
+    separator=comma,
+    respect all,
+    late after line=\\,
+    table foot=\hline \hline]
+    {thesis/tables/avg_errorMeasures_p.csv}{}%
+    {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv}}%
+    \caption[Average of error measures for all 12 prosumer data sets]{Average of error measures for the prediction of energy production across all 12 prosumer data sets. \quantnet\href{ }{}}
+    \label{Tab:avg_errormeasures_p}
+\end{table}
+\endgroup
+%
 Overall, it becomes clear that the chosen prediction methods do not forecast energy production of the given prosumer data sets very well. In the case of the LSTM model, this may be due to the hyperparameter tuning being performed on a consumer data set. Moreover, the production data contains much more jumps and discontinuities than the consumption data, which aggravates the prediction task. Due to the unsatisfying performance of the prediction methods on the production data, only the predicted consumption values and the true production values will be used for the market simulation.
 
 
@@ -241,12 +264,13 @@ Table~\ref{Tab:simulationresults} contrasts the results of the market simulation
 {\footnotesize
     \csvreader[centered tabular=l|SSSSSS,
     before reading=\sisetup{round-mode=places,round-precision=2,round-integer-to-decimal},
-    filter expr={
-      test{\ifnumgreater{\thecsvinputline}{2}}},
+     filter not strcmp={\thecsvinputline}{1},
+     %filter expr={
+      %test{\ifnumgreater{\thecsvinputline}{2}}},
     table head=
     \hline\hline
-     \multirow{2}{2em}{\textbf{Mean}} & \multicolumn{2} {|c}{\textbf{Balanced supply}} & \multicolumn{2} {c}{\textbf{Oversupply}} & \multicolumn{2} {c}{\textbf{Undersupply}}\\
-     & \multicolumn{1} {c}{\textbf{true}} & \multicolumn{1} {c}{\textbf{pred.}} & \multicolumn{1} {c}{\textbf{true}} & \multicolumn{1} {c}{\textbf{pred.}} & \multicolumn{1} {c}{\textbf{true}} & \multicolumn{1} {c}{\textbf{pred.}}\\
+     \multirow{2}{2em}{\textbf{Mean}} & \multicolumn{2} {c}{\textbf{Balanced supply}} & \multicolumn{2} {c}{\textbf{Oversupply}} & \multicolumn{2} {c}{\textbf{Undersupply}}\\
+     & \multicolumn{1} {c}{\textbf{true}} & \multicolumn{1} {c}{\textbf{predicted}} & \multicolumn{1} {c}{\textbf{true}} & \multicolumn{1} {c}{\textbf{predicted}} & \multicolumn{1} {c}{\textbf{true}} & \multicolumn{1} {c}{\textbf{predicted}}\\
     \hline,
     no head,
     separator=comma,
@@ -261,6 +285,29 @@ Table~\ref{Tab:simulationresults} contrasts the results of the market simulation
 \endgroup
 %
 
+%
+\begingroup\catcode`"=9
+\begin{table}[ht]
+{\footnotesize
+    \csvreader[centered tabular=l|SSSSSS,
+    before reading=\sisetup{round-mode=places,round-precision=2,round-integer-to-decimal},
+    filter not strcmp={\thecsvinputline}{1},
+    table head=
+    \hline\hline
+     \multicolumn{1} {l}{\textbf{Mean}} & \multicolumn{1} {c}{\textbf{Balanced supply}} & \multicolumn{1} {c}{\textbf{Oversupply}} & \multicolumn{1} {c}{\textbf{Undersupply}}\\
+    \hline,
+    no head,
+    separator=comma,
+    respect all,
+    late after line=\\,
+    table foot=\hline \hline]
+    {thesis/tables/loss_outcomes.csv}{}%
+    {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv}}%
+    \caption[Market simulation results for different supply scenarios]{Average results of market simulation for three different supply scenarios. Prices are averaged across all trading periods. Revenues and costs for the whole simulation period are averaged across all prosumers and consumers respectively. \quantnet\href{ }{}}
+    \label{Tab:lossresults}
+\end{table}
+\endgroup
+%
 
 %
 \begin{figure}[htbp]
