@@ -35,7 +35,7 @@ Systematically analyzing the total over- and underestimation of the different pr
     \includegraphics[width=\textwidth]{thesis/graphs/evaluation/c_barplot_naive_overunderestimation.pdf}\\\vspace{.6cm}
     \includegraphics[width=\textwidth]{thesis/graphs/evaluation/c_barplot_LASSO_overunderestimation.pdf}\\\vspace{.6cm}
     \includegraphics[width=\textwidth]{thesis/graphs/evaluation/c_barplot_LSTM_overunderestimation.pdf}
-    \caption[Sum of total over- and underestimation errors per consumer data set]{Sum of total over- and underestimation errors of energy consumption per consumer data set and prediction model. \quantnet\href{}{}}
+    \caption[Sum of total over- and underestimation errors per consumer data set]{Sum of total over- and underestimation errors of energy consumption per consumer data set and prediction model. \quantnet\href{ }{BLEMplotPredErrors}}
     \label{Fig:overunderestimation}
 \end{figure}
 % 
@@ -59,7 +59,7 @@ The average performance of the three prediction models across all 88 data sets i
     table foot=\hline \hline]
     {thesis/tables/avg_errorMeasures_c.csv}{}%
     {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii}}%
-    \caption[Mean of error measures for all 82 consumer data sets]{Mean of error measures for the prediction of energy consumption across all 82 consumer data sets. \quantnet\href{ }{}}
+    \caption[Mean of error measures for all 82 consumer data sets]{Mean of error measures for the prediction of energy consumption across all 82 consumer data sets. \quantnet\href{ }{BLEMevaluateEnergyPreds}}
     \label{Tab:avg_errormeasures}
 \end{table}
 \endgroup
@@ -73,7 +73,7 @@ The average performance of the three prediction models across all 88 data sets i
  \includegraphics[width=\textwidth]{thesis/graphs/evaluation/c_heatmap_RMSE.pdf}
  \includegraphics[width=\textwidth]{thesis/graphs/evaluation/c_heatmap_NRMSE.pdf}
  \includegraphics[width=\textwidth]{thesis/graphs/evaluation/c_heatmap_MASE.pdf}
-\caption[Heatmaps of all error measures for consumption values]{Heatmap of MAE, MAPE, RMSE, NRMSE, and MASE scores for the prediction of consumption values per consumer data set. \quantnet\href{ }{}}
+\caption[Heatmaps of all error measures for consumption values]{Heatmap of MAE, MAPE, RMSE, NRMSE, and MASE scores for the prediction of consumption values per consumer data set. \quantnet\href{ }{BLEMevaluateEnergyPreds}}
 \label{Fig:heatmaps}
 \end{figure}
 %
@@ -97,7 +97,7 @@ Further investigating the prediction errors of the forecasts on consumer 027 exp
     table foot=\hline \hline]
     {thesis/tables/median_errorMeasures.csv}{}%
     {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii}}%
-    \caption[Median of error measures for all 82 consumer data sets]{Median of error measures for the prediction of energy consumption across all 82 consumer data sets. \quantnet\href{ }{}}
+    \caption[Median of error measures for all 82 consumer data sets]{Median of error measures for the prediction of energy consumption across all 82 consumer data sets. \quantnet\href{ }{BLEMevaluateEnergyPreds}}
     \label{Tab:median_errormeasures}
 \end{table}
 \endgroup
@@ -112,7 +112,7 @@ Overall, the LASSO model performed best with the lowest median MAE, RMSE, MAPE, 
     
     \includegraphics[width=.5\textwidth-5pt]{thesis/graphs/evaluation/c_boxplot_RMSE.pdf}
     \includegraphics[width=.5\textwidth-5pt]{thesis/graphs/evaluation/c_boxplot_NRMSE.pdf} \\
-    \caption[Boxplots of MAE, MAPE, RMSE, and NRMSE scores across consumer data sets]{Boxplots of MAE, MAPE, RMSE, and NRMSE scores across 82 consumer data sets for the three different prediction models (the upper 3~\%-quantile of the error measures is cut off for better readability). \quantnet\href{}{}}
+    \caption[Boxplots of MAE, MAPE, RMSE, and NRMSE scores across consumer data sets]{Boxplots of MAE, MAPE, RMSE, and NRMSE scores across 82 consumer data sets for the three different prediction models (the upper 3~\%-quantile of the error measures is cut off for better readability). \quantnet\href{}{BLEMevaluateEnergyPreds}}
     \label{Fig:boxplots_errormeasures}
 \end{figure}
 %
@@ -125,7 +125,7 @@ Nevertheless, it is obvious that the LASSO model performed best overall. Hence, 
  \centering
  \includegraphics[width=\textwidth]{thesis/graphs/evaluation/c_heatmap_MdAPE.pdf}
  \includegraphics[width=\textwidth]{thesis/graphs/evaluation/c_heatmap_NRMdSE.pdf}
-\caption[Heatmaps of MdAPE and NRMdSE for consumption values]{Heatmap of MdAPE and NRMdSE scores for the prediction of consumption values per consumer data set. \quantnet\href{ }{}}
+\caption[Heatmaps of MdAPE and NRMdSE for consumption values]{Heatmap of MdAPE and NRMdSE scores for the prediction of consumption values per consumer data set. \quantnet\href{ }{BLEMevaluateEnergyPreds}}
 \label{Fig:heatmaps_median}
 \end{figure}
 %
@@ -142,7 +142,7 @@ Figure~\ref{Fig:glimpse_predprod} exemplary shows the true and predicted product
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{thesis/graphs/evaluation/p024_pred_prod.pdf}
-    \caption[Exemplary 24 hours of true and predicted production values]{Exemplary 24 hours of true and predicted production values of prosumer 024. \quantnet\href{}{}}
+    \caption[Exemplary 24 hours of true and predicted production values]{Exemplary 24 hours of true and predicted production values of prosumer 024. \quantnet\href{}{BLEMplotEnergyPreds}}
     \label{Fig:glimpse_predprod}
 \end{figure}
 %
@@ -154,7 +154,7 @@ Analyzing the over- and underestimation errors of each prediction method on each
     \includegraphics[width=.5\textwidth]{thesis/graphs/evaluation/p_barplot_naive_overunderestimation.pdf}\\\vspace{.6cm}
     \includegraphics[width=.5\textwidth]{thesis/graphs/evaluation/p_barplot_LASSO_overunderestimation.pdf}\\\vspace{.6cm}
     \includegraphics[width=.5\textwidth]{thesis/graphs/evaluation/p_barplot_LSTM_overunderestimation.pdf}
-    \caption[Sum of total over- and underestimation errors per prosumer data set]{Sum of total over- and underestimation errors of energy production per prosumer data set and prediction model. \quantnet\href{}{}}
+    \caption[Sum of total over- and underestimation errors per prosumer data set]{Sum of total over- and underestimation errors of energy production per prosumer data set and prediction model. \quantnet\href{}{BLEMplotPredErrors}}
     \label{Fig:overunderestimation_p}
 \end{figure}
 %
@@ -178,7 +178,7 @@ The first impression is confirmed by the average of the error measures across th
     table foot=\hline \hline]
     {thesis/tables/avg_errorMeasures_p.csv}{}%
     {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv}}%
-    \caption[Average of error measures for all 12 prosumer data sets]{Average of error measures for the prediction of energy production across all 12 prosumer data sets. \quantnet\href{ }{}}
+    \caption[Average of error measures for all 12 prosumer data sets]{Average of error measures for the prediction of energy production across all 12 prosumer data sets. \quantnet\href{ }{BLEMevaluateEnergyPreds}}
     \label{Tab:avg_errormeasures_p}
 \end{table}
 \endgroup
@@ -205,7 +205,7 @@ As can be seen, the equilibrium price shown in the middle panel of Figure~\ref{F
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{thesis/graphs/marketsimulation/marketoutcome_true.pdf}
-    \caption[Market outcomes simulated with balanced supply and true values]{Market outcomes per trading period simulated with true values and a balanced supply scenario. \quantnet\href{}{}}
+    \caption[Market outcomes simulated with balanced supply and true values]{Market outcomes per trading period simulated with true values and a balanced supply scenario. \quantnet\href{}{BLEMmarketSimulation}}
     \label{Fig:marketoutcomes_true_balanced}
 \end{figure}
 %
@@ -215,7 +215,7 @@ This is very much contrasted by the oversupply scenario. Here, the prosumers' en
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{thesis/graphs/marketsimulation/marketoutcome_true_oversupply.pdf}
-    \caption[Market outcomes simulated with oversupply and true values]{Market outcomes per trading period simulated with true values and an oversupply scenario. \quantnet\href{}{}}
+    \caption[Market outcomes simulated with oversupply and true values]{Market outcomes per trading period simulated with true values and an oversupply scenario. \quantnet\href{}{BLEMmarketSimulation}}
     \label{Fig:marketoutcomes_true_over}
 \end{figure}
 %
@@ -225,7 +225,7 @@ The last market simulation is performed with a undersupply scenario. In this cas
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{thesis/graphs/marketsimulation/marketoutcome_true_undersupply.pdf}
-    \caption[Market outcomes simulated with undersupply and true values]{Market outcomes per trading period simulated with true values and an undersupply scenario. \quantnet\href{}{}}
+    \caption[Market outcomes simulated with undersupply and true values]{Market outcomes per trading period simulated with true values and an undersupply scenario. \quantnet\href{}{BLEMmarketSimulation}}
     \label{Fig:marketoutcomes_true_under}
 \end{figure}
 %
@@ -260,7 +260,7 @@ Table~\ref{Tab:simulationresults} contrasts the results of the market simulation
     table foot=\hline \hline]
     {thesis/tables/average_outcomes.csv}{}%
     {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii & \csvcolviii}}%
-    \caption[Market simulation results for different supply scenarios]{Average results of market simulation for three different supply scenarios. Prices are averaged across all trading periods. Revenues and costs for the whole simulation period are averaged across all prosumers and consumers respectively. \quantnet\href{ }{}}
+    \caption[Market simulation results for different supply scenarios]{Average results of market simulation for three different supply scenarios. Prices are averaged across all trading periods. Revenues and costs for the whole simulation period are averaged across all prosumers and consumers respectively. \quantnet\href{ }{BLEMevaluateMarketSim}}
     \label{Tab:simulationresults}
 \end{table}
 \endgroup
@@ -285,7 +285,7 @@ The percentage loss induced by prediction errors is shown in Table~\ref{Tab:loss
     table foot=\hline \hline]
     {thesis/tables/loss_outcomes.csv}{}%
     {\csvcolii & \csvcoliii & \csvcoliv & \csvcolv}}%
-    \caption[Savings due to LEM and loss due to prediction errors]{Average savings for consumer due to LEM and average loss for consumers due to prediction errors in LEM. \quantnet\href{ }{}}
+    \caption[Savings due to LEM and loss due to prediction errors]{Average savings for consumer due to LEM and average loss for consumers due to prediction errors in LEM. \quantnet\href{ }{BLEMevaluateMarketSim}}
     \label{Tab:lossresults}
 \end{table}
 \endgroup
@@ -298,7 +298,7 @@ This result is more differentiated visible in Figure~\ref{Fig:total_energycost} 
     \includegraphics[width=\textwidth]{thesis/graphs/marketsimulation/totalenergycost.pdf}\\\vspace{.6cm}
     \includegraphics[width=\textwidth]{thesis/graphs/marketsimulation/totalenergycost_oversupply.pdf}\\\vspace{.6cm}
     \includegraphics[width=\textwidth]{thesis/graphs/marketsimulation/totalenergycost_undersupply.pdf}
-    \caption[Total energy cost to consumers in different supply scenarios]{Total energy cost to consumers from 01.10.2018 to 31.12.2017 in case of no LEM, LEM with true values, and LEM with predicted values in three different supply scenarios. \quantnet\href{}{}}
+    \caption[Total energy cost to consumers in different supply scenarios]{Total energy cost to consumers from 01.10.2018 to 31.12.2017 in case of no LEM, LEM with true values, and LEM with predicted values in three different supply scenarios. \quantnet\href{}{BLEMevaluateMarketSim}}
     \label{Fig:total_energycost}
 \end{figure}
 %
