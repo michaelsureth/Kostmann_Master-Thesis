@@ -9,6 +9,14 @@
 
 \subsection{Summary of present research}\label{Sec:Conclusion;Subsec:Summary}
 
+The present research aimed to evaluate, first, the prediction accuracy for household energy consumption and production using state-of-the-art forecasting techniques. Second, to assess the effect of prediction errors in a market simulation using the market mechanism implemented by \citet{Mengelkamp:2018a} in a smart contract on a blockchain. And lastly, to infer the implications of the results for the future design of blockchain-based local energy markets.
+
+For this purpose, first, the performance of two forecasting techniques, which were already successfully applied in previous research, was assessed. A LSTM recurring neural network and a LASSO regression model were fitted on 9 months of consumption respectively production data of German households recorded by smart meters in 3-minute intervals. These models were then used to predict energy consumption respectively production in 15-minute resolution one-step ahead for three months. The predictions were evaluated using several error measures and compared to a benchmark model (na\"ive persistenc model). The LASSO model yielded the best results with an average MAPE across all consumer data sets of \textapprox17~\% and was subsequently used to make predictions for the succeeding market simulation. As all prediction models failed to produce satisfactory predictions on the production data, the market simulation used only true production values.
+
+Secondly, the market mechanism by \citet{Mengelkamp:2018a} was used to assess the effect of prediction errors on market outcomes in three different supply scenarios. The evaluation revealed that in a balanced supply and demand scenario the settlement cost due to prediction errors almost completely offset savings introduced by the participation in the local energy market. In an undersupply scenario, the cost due to prediction errors even surpassed the savings and made market participation uneconomical. Only in a scenario with substantial oversupply, the savings brought to consumers by the participation in the local energy market compensated the cost of prediction errors completely.
+
+This problem would be only diminished but not eliminated by more accurate forecasts. Moreover, it seems unlikely that the performance of prediction models can be greatly improved without including a range of behavioural variables (as done by \citet{Kong:2018}) -- which still would not compensate for the unpredictability of human behaviour. Thus, thirdly, further possible adjustments necessary for future blockchain-based local energy markets were discussed. These mainly include adjustments to the market mechanism, which can be two-fold:
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%
