@@ -166,7 +166,7 @@ FUNCTION {write.url}
     { "\harvardurl{" URL * "}" * write$ newline$ 
      lastchecked empty$
        { skip$ }
-       { "[Accessed on: " lastchecked * "]" * write$ newline$ }
+       { "[accessed on: " lastchecked * "]." * write$ newline$ }
        if$
     }
   if$

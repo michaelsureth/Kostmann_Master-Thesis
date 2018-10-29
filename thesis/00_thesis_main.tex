@@ -123,6 +123,8 @@ breaklines, linenos}
 \setminted[java]{style=friendly, bgcolor=friendlybg,
 breaklines, linenos}
 
+
+
 % ----------------------------------
 % --- additional global settings ---
 % ----------------------------------
@@ -187,7 +189,7 @@ breaklines, linenos}
 \pagestyle{plain}
 \pagenumbering{roman}   % define page number in roman style
 \setcounter{page}{1}    % start page numbering
-\input{thesis/03_abstract.tex}
+\input{thesis/02_abstract.tex}
 
 
 
@@ -205,7 +207,7 @@ breaklines, linenos}
 \newpage
 \addcontentsline{toc}{section}{List of Abbreviations}
 \ohead[]{LIST OF ABBREVIATIONS}
-\input{thesis/04_abbreviations.tex}
+\input{thesis/03_abbreviations.tex}
 
 
 
@@ -235,19 +237,19 @@ breaklines, linenos}
 \pagestyle{plain}
 \setcounter{page}{1}    % start page numbering anew
 \pagenumbering{arabic}  % page numbers in arabic style
-\input{thesis/05_intro.tex}
+\input{thesis/04_intro.tex}
 
 \newpage
-\input{thesis/06_methods.tex}
+\input{thesis/05_methods.tex}
 
 \newpage
-\input{thesis/07_data.tex}
+\input{thesis/06_data.tex}
 
 \newpage
-\input{thesis/08_results.tex}
+\input{thesis/07_results.tex}
 
 £\newpage
-\input{thesis/09_conclusion.tex}
+\input{thesis/08_conclusion.tex}
 
 
 
@@ -256,7 +258,7 @@ breaklines, linenos}
 % -----------------------
 \newpage
 \phantomsection\addcontentsline{toc}{section}{Acknowledgement}
-\input{thesis/02_acknowledgement.tex}
+\input{thesis/09_acknowledgement.tex}
 
 
 
@@ -264,9 +266,11 @@ breaklines, linenos}
 % --- literature ---
 % ------------------
 \newpage
-\phantomsection\addcontentsline{toc}{section}{References}
-\bibliography{thesis/99_literature.bib}
-
+\begingroup
+    \spacing{1}
+    \phantomsection\addcontentsline{toc}{section}{References}
+    \bibliography{thesis/10_literature.bib}
+\endgroup
 
 
 % ----------------
@@ -278,19 +282,18 @@ breaklines, linenos}
 % figures
 \renewcommand\thefigure{A\arabic{figure}}
 \setcounter{figure}{0}
-\input{thesis/10_app_figures.tex}
+\input{thesis/11_app_figures.tex}
 
 % tables
 \newpage
 \renewcommand\thetable{B\arabic{figure}}
 \setcounter{figure}{1}
-\input{thesis/11_app_tables.tex}
+\input{thesis/12_app_tables.tex}
 
 % code
 \newpage
-\input{thesis/12_app_code.tex}
+\input{thesis/13_app_code.tex}
 \end{appendices}
-
 
 
 
@@ -300,7 +303,9 @@ breaklines, linenos}
 
 \newpage
 \thispagestyle{empty}
-\input{thesis/13_authorship.tex}
+\input{thesis/14_authorship.tex}
 
 
 \end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
