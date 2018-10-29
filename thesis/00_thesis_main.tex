@@ -180,21 +180,13 @@ breaklines, linenos}
 
 
 
-% ------------------------------------
-% --- frontmatter: Acknowledgement ---
-% ------------------------------------
-\newpage
-\pagestyle{plain}
-\pagenumbering{roman}   % define page number in roman style
-\setcounter{page}{1}    % start page numbering
-\input{thesis/02_acknowledgement.tex}
-
-
-
 % -----------------------------
 % --- frontmatter: Abstract ---
 % -----------------------------
 \newpage
+\pagestyle{plain}
+\pagenumbering{roman}   % define page number in roman style
+\setcounter{page}{1}    % start page numbering
 \input{thesis/03_abstract.tex}
 
 
@@ -256,6 +248,14 @@ breaklines, linenos}
 
 £\newpage
 \input{thesis/09_conclusion.tex}
+
+
+
+% -----------------------
+% --- Acknowledgement ---
+% -----------------------
+\newpage
+\input{thesis/02_acknowledgement.tex}
 
 
 
