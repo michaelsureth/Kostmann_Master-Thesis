@@ -62,6 +62,14 @@
 % define arg min with underscored argument
 \DeclareMathOperator*{\argmin}{\arg\min}
 
+% enable "short" URLs without https:// or www part
+\newcommand\rurl[1]{%
+  \href{https://#1}{\nolinkurl{#1}}%
+}
+
+% Hyphenation of new words
+\hyphenation{block-chain}
+
 % --------------------------
 % --- layout definitions ---
 % --------------------------
