@@ -26,14 +26,8 @@ import com.github.scribejava.core.utils.StreamUtils;
 
 import flexjson.JSONDeserializer;
 
-/**
- * Client for the Discovergy API
- */
 public class DiscovergyApiClient {
 
-	/**
-	 * Unique client id
-	 */
 	private final String clientId;
 
 	private final DiscovergyApi api;
