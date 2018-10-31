@@ -26,7 +26,7 @@
 \begin{figure}[H]
         \includegraphics[width=\textwidth-0.85cm]{thesis/graphs/timeseries/p012_prod&cons.pdf}\vspace{0.3cm}
         \includegraphics[width=\textwidth-0.85cm]{thesis/graphs/timeseries/p015_prod&cons.pdf}
-        \caption[Prosumer data sets excluded due to peculiarities in the consumption patterns]{Prosumer data sets excluded due to peculiarities in the consumption patterns. \quantnet\href{https://github.com/QuantLet/BLEM/tree/master/BLEMplotEnergyData}{BLEMplotEnergyData}}
+        \caption[Prosumer data sets excluded due to peculiarities in the production patterns]{Prosumer data sets excluded due to peculiarities in the production patterns. \quantnet\href{https://github.com/QuantLet/BLEM/tree/master/BLEMplotEnergyData}{BLEMplotEnergyData}}
 \end{figure}
 \end{centering}
 
@@ -51,7 +51,18 @@
 \end{centering}
 
 
-\subsection*{\hypertarget{AppA5:Figures:producer_all}{A5} Overview of prosumers' energy production time series}\label{AppA5:Figures:producer_all}
+\subsection*{\hypertarget{AppA5:Figures:heatmaps_p}{A5} Error evaluation of predictions on production data}\label{AppA5:Figures:heatmaps_p}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{thesis/graphs/evaluation/p_heatmap_MAE.pdf}
+    \includegraphics[width=\textwidth]{thesis/graphs/evaluation/p_heatmap_RMSE.pdf}
+    \includegraphics[width=\textwidth]{thesis/graphs/evaluation/p_heatmap_MASE.pdf}
+    \caption[Heatmaps of error measures for production values]{Heatmaps of MAE, RMSE, and MASE scores for the prediction of production values per prosumer data set. \quantnet\href{https://github.com/QuantLet/BLEM/tree/master/BLEMevaluateEnergyPreds}{BLEMevaluateEnergyPreds}}
+\end{figure}
+
+
+\subsection*{\hypertarget{AppA6:Figures:producer_all}{A6} Overview of prosumers' energy production time series}\label{AppA6:Figures:producer_all}
 
 \begin{figure}[H]
     \centering
@@ -61,7 +72,7 @@
 
 
 \newpage
-\subsection*{\hypertarget{AppA6:Figures:marketsimulation_pred}{A6} Market simulation with predicted values}\label{AppA6:Figures:marketsimulation_pred}
+\subsection*{\hypertarget{AppA7:Figures:marketsimulation_pred}{A7} Market simulation with predicted values}\label{AppA7:Figures:marketsimulation_pred}
 
 \begin{figure}[H]
     \centering
