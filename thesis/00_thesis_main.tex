@@ -38,13 +38,13 @@
 \usepackage[toc]{appendix}
 % Control behaviour of floating graphics, tables etc.
 \usepackage{float}
-% Create hyperlinks in cross references (for tables etc.)
-\usepackage{hyperref}
 % Correctly print "tilde" character
 \usepackage{textcomp}
 \newcommand{\textapprox}{\raisebox{0.5ex}{\texttildelow}}
 % Widow and orphan control (single lines at start or bottom of page)
 \usepackage[all]{nowidow}
+% Create hyperlinks in cross references (for tables etc.)
+\usepackage[hidelinks]{hyperref}
 
 % -----------------------------
 % --- user-defined commands ---
@@ -212,10 +212,10 @@ breaklines, linenos}
 % ---------------------
 % --- Abbreviations ---
 % ---------------------
-% \newpage
-% \addcontentsline{toc}{section}{List of Abbreviations}
-% \ohead[]{LIST OF ABBREVIATIONS}
-% \input{thesis/03_abbreviations.tex}
+\newpage
+\addcontentsline{toc}{section}{List of Abbreviations}
+\ohead[]{LIST OF ABBREVIATIONS}
+\input{thesis/03_abbreviations.tex}
 
 
 

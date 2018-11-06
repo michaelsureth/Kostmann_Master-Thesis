@@ -14,7 +14,8 @@ Based on an extensive literature review which is very briefly summarized in Sect
 
 \noindent Based on these criteria two forecasting techniques were selected for the prediction task at hand. As short-term energy forecasting techniques are commonly categorized into statistical and machine learning (or artificial intelligence) methods \citep{Bansal:2015,Diagne:2013,Gan:2017}, one method of each category was chosen: Long short-term memory recurrent neural network (LSTM RNN) adapted from the procedure outlined by \citet{Shi:2017} and sparse autoregressive LASSO as developed and implemented by \citet{Li:2017}.
 
-Before these two methods are explained in detail, the benchmark model, that serves as a baseline for the assessment of the prediction methods, is presented next. Thereafter, the two prediction methods are elaborated. Lastly, the implementation of the market simulation is explained.
+Before these two methods are explained in detail, the benchmark model, that serves as a baseline for the assessment of the prediction methods, is presented in Section~\ref{Sec:Method;Subsec:Benchmark}. Thereafter, the two prediction methods are elaborated in Section~\ref{Sec:Method;Subsec:LSTM} and \ref{Sec:Method;Subsec:LASSO}. The error measures used to quantify the performance of the forecasting models are presented in Section~\ref{Sec:Method;Subsec:Error} and, lastly, the implementation of the market simulation is explained in Section~\ref{Sec:Method;Subsec:Market}.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -23,13 +24,13 @@ Before these two methods are explained in detail, the benchmark model, that serv
 
 \subsection{Benchmark model} \label{Sec:Method;Subsec:Benchmark}
 
-Benchmark models serve as a trivial baseline to assess the relative improvement of a sophisticated model \citep{Meer:2018}. According to \citet{Pinson:2012}, a benchmark model should serve as a reference, need few computational resources to be estimated, and be model-free. A sophisticated forecasting method is only worth implementing if it can significantly outperform a trivial benchmark model \citep{Diagne:2013}. A frequent benchmark model used for deterministic forecasts is the simple persistence model \citep{Meer:2018}. This model assumes that the conditions at time $t$ persist at least up to the period of forecasting interest at time $t+h$. In energy forecasting, this na\"ive model is surprisingly well suited to forecast very short time periods of a few seconds or minutes \citep{Pinson:2012} and, thus, often harder to beat than it might seem. Here, the persistence model is defined as
+Benchmark models serve as a trivial baseline to assess the relative improvement of a sophisticated model \citep{Meer:2018}. According to \citet{Pinson:2012}, a benchmark model should serve as a reference, need few computational resources to be estimated, and be model-free. A sophisticated forecasting method is only worth implementing if it can significantly outperform a trivial benchmark model \citep{Diagne:2013}. A frequent benchmark model used for deterministic forecasts is the simple persistence model \citep{Meer:2018}. This model assumes that the conditions at time $t$ persist at least up to the period of forecasting interest at time $t+h$. In energy forecasting, this na\"ive model is surprisingly well suited to forecast very short time periods of a few seconds or minutes \citep{Pinson:2012} and, thus, often harder to beat than it might seem. The persistence model is defined as
 %
 \begin{equation} \label{Eq:naivepred}
 \widehat{x}_{t+1}=x_t.
 \end{equation}
 
-There are several other benchmark models commonly used in energy load forecasting. Most of them are, in contrast to the persistence model, more sophisticated benchmarks, such as the Holt-Winters-Taylor (HTW) exponential smoothing method \citep[see, e.g.,][]{Arora:2016}. Further sophisticated benchmark models are the Vanilla benchmark \citep{hong:2010}, and the popular ARMA method \citep{Box:1990}. However, as the forecasting task at hand serves the specific use case of being an input for the bidding process in a blockchain-based local energy market, the improvement of the forecasting model over a benchmark model is of secondary importance. The task here is not so much to establish the quality of a forecasting model per se as to assess whether the available and most promising forecasting techniques can deliver accurate enough results for the use case explained above. Hence, only the persistence model will serve as a benchmark to the forecasting techniques presented next. The more relevant test of the forecasting models' accuracy will be explained in Section~\ref{Sec:Method;Subsec:Market}.
+There are several other benchmark models commonly used in energy load forecasting. Most of them are, in contrast to the persistence model, more sophisticated benchmarks, such as the Holt-Winters-Taylor (HTW) exponential smoothing method \citep[see, e.g.,][]{Arora:2016}. Further sophisticated benchmark models are the Vanilla benchmark \citep{hong:2010}, and the popular ARMA method \citep{Box:1990}. However, as the forecasting task at hand serves the specific use case of being an input for the bidding process in a blockchain-based LEM, the improvement of the forecasting model over a benchmark model is of secondary importance. The task here is not so much to establish the quality of a forecasting model per se as to assess whether the available and most promising forecasting techniques can deliver accurate enough results for the use case explained above. Hence, in the present research, only the persistence model served as a benchmark for the forecasting techniques presented in Section~\ref{Sec:Method;Subsec:LSTM} and \ref{Sec:Method;Subsec:LASSO}.
 
 
 
@@ -39,12 +40,12 @@ There are several other benchmark models commonly used in energy load forecastin
 
 \subsection{Machine learning based forecasting approach} \label{Sec:Method;Subsec:LSTM}
 
-The first sophisticated forecasting technique that is employed to produce as accurate as possible predictions for the blockchain-based LEM is a machine learning algorithm. Even though being applied very successfully in a wide range of tasks, such as speech recognition \citep{Graves:2013} or anomaly detection in time series \citep{Malhotra:2015}, long short-term memory (LSTM) neural networks have been introduced only very recently in load forecasting studies \citep[e.g.,][]{Kong:2018,Shi:2017,Gan:2017,Chen:2018}. Compared to previous attempts using machine learning techniques, the applications of LSTM neural networks for load forecasting have been much more successful \citep{Kong:2018,Shi:2017}. This is most likely due to the high effectiveness of recurrent neural networks for sequence learning. LSTM neural networks are a nadvanced architecture of recurrent neural networks that are particularly well suited to learn long sequences or time series due to their ability to retain information over many time steps \citep{Chollet:2018}. The next three sections explain the basic working principles of the chosen machine learning approach and are based on \citet{Chollet:2018}, \citet{Lipton:2015}, and \citet{Gan:2017}.
+The first sophisticated forecasting technique that was employed in the present research to produce as accurate as possible predictions for the blockchain-based LEM is a machine learning algorithm. Even though being applied very successfully in a wide range of tasks, such as speech recognition \citep{Graves:2013} or anomaly detection in time series \citep{Malhotra:2015}, long short-term memory (LSTM) recurrent neural networks (RNN) have been introduced only very recently in load forecasting studies \citep[e.g.,][]{Kong:2018,Shi:2017,Gan:2017,Chen:2018}. Still, compared to previous attempts using machine learning techniques, the applications of LSTM RNN for load forecasting have been much more successful \citep{Kong:2018,Shi:2017}. This is most likely due to the high effectiveness of RNN for sequence learning. LSTM RNN are an advanced architecture of RNN that are particularly well suited to learn long sequences or time series due to their ability to retain information over many time steps \citep{Chollet:2018}. The next three sections explain the basic working principles of the chosen machine learning approach and are based on \citet{Chollet:2018}, \citet{Lipton:2015}, and \citet{Gan:2017}.
 
 
 
 %%%%%%%%%%%
-\subsubsection{Basic functioning of neural networks}
+\subsubsection{Long short-term memory recurrent neural network}
 
 To understand the full advantage that LSTM recurrent neural networks have over other machine learning techniques for time series learning, it is useful to take a step back and recapitulate the basic functioning of a so-called feedforward neural network. Neural networks do not need any strong assumptions about their functional form, such as traditional time series models (e.g., ARMA). Still, they are universal approximators for finite input \citep{Hornik:1989} and, therefore, especially well suited for the prediction of such volatile time series as energy consumption or production. The most basic building blocks of any neural network are three types of layers: an input layer, one or more hidden layer(s), and an output layer. Each layer consists of one or more units (sometimes called neurons). Each unit in a layer takes in an input, applies a transformation to this input, and outputs it to the next layer (see Figure~\ref{Fig:simpleNN}). Formally, this can be written as
 %
@@ -82,8 +83,8 @@ The simplest method to optimize the model parameters is to compute the derivativ
 
 
 
-%%%%%%%%%%%
-\subsubsection{Recurrent neural networks}
+% %%%%%%%%%%%
+% \subsubsection{Recurrent neural networks}
 
 Unfortunately, feedforward neural networks are not particularly well-suited for time series learning \citep{Chollet:2018}. This is because simple neural networks, such as the one described above, do not have an internal state that could retain a memory of previously processed input. That is, to learn a sequence or time series, a feedforward neural network would always need the complete time series as a single input. It cannot retain a memory of something learned in a previous chunk of the time series to apply it to the next chunk that is fed into the model. This problem is tackled by recurrent neural networks.
 
@@ -118,8 +119,8 @@ The cyclical structure of an RNN unit can be unrolled across time (see Figure~\r
 
 
 
-%%%%%%%%%%%
-\subsubsection{Long short-term memory units}
+% %%%%%%%%%%%
+% \subsubsection{Long short-term memory units}
 
 To overcome the vanishing gradient problem, \citet{Hochreiter:1997} developed LSTM units. LSTM units extend RNN units by an additional state. This state can retain information for as long as needed. In which step this additional state is updated and in which state the information it retains is used in the transformation of the input is controlled by three so-called gates\footnote{In their original specification, \citet{Hochreiter:1997} included only two gates. However, as this LSTM specification was still prone to the vanishing gradient problem under some circumstances, \citet{Gers:2000} extended it by a third gate.}. These three gates again have the form of a simple RNN cell. Formally, the gates can be written as (following the notation of \citet{Lipton:2015}\footnote{\cites{Lipton:2015} notation uses $h_{t-1}$ instead of $s_{t-1}$. The notation used here ($s_{t-1}$) accounts for the modern LSTM architecture with peephole connections. For more information see \cite{Gers:2002}.})
 %
