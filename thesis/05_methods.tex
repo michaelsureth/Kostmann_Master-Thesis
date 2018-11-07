@@ -215,7 +215,7 @@ As it turned out, a deeper model architecture of multiple layers did not increas
     \indent recurrent dropout rate: $0$\\
     \indent batch size: $32$\\
     \indent number of input data points: $3,360$\\
-    \indent number of training samples\footnote{Each sample consists of an array of the dimensions batch size $\times$ input data points $\times$ input features, i.e., 32$\times$3,360$\times$3. Thus, the number of training samples has to be multiplied by the batch size and the number of data points that are aggregated for each prediction (i.e., 5) to get the total length of data points covered in the training process: 700$\times$32$\times$5=112,000 data points. This is equivalent to the time period from 01.01.2017~00:00 to 22.08.2017~09:03.}: $700$ \\
+    \indent number of training samples\footnote{Each sample consists of an array of the dimensions batch size $\times$ input data points $\times$ input features, i.e., 32$\times$3,360$\times$3. Thus, the number of training samples has to be multiplied by the batch size and the number of data points that are aggregated for each prediction (i.e., 5) to get the total length of data points covered in the training process: 700 $\times$ 32 $\times$ 5 = 112,000 data points. This is equivalent to the time period from 01.01.2017~00:00 to 22.08.2017~09:03.}: $700$ \\
     \indent number of validation samples: $96$}
 \end{multicols}
 
@@ -426,7 +426,7 @@ and
 %%%%%%%%%%%
 \subsubsection{Further error measures}
 
-To overcome the shortage of an undefined fraction in the presence of zero values in the case of MAPE and NRMSE, the mean absolute scaled error (MASE) was proposed by \citet{Hyndman:2006}. According to them, MASE is applicable even if the time series includes a great number of zero values (e.g., night-time PV energy production) and, as further advantage, MASE does not put a heavier penalty on positive errors as MAPE does. To compute MASE, MAE is normalized with the in-sample mean absolute error of the persistence model forecast \citep{Hyndman:2006}:
+To overcome the shortage of an undefined fraction in the presence of zero values in the case of MAPE and NRMSE, the mean absolute scaled error (MASE) was proposed by \citet{Hyndman:2006}. According to them, MASE is applicable even if the time series includes a great number of zero values (e.g., night-time photovoltaic energy production) and, as further advantage, MASE does not put a heavier penalty on positive errors as MAPE does. To compute MASE, MAE is normalized with the in-sample mean absolute error of the persistence model forecast \citep{Hyndman:2006}:
 %
 \begin{equation} \label{Eq:MASE}
 \text{MASE}=\frac{\text{MAE}}{\frac{1}{n-1}\sum_{t=2}^N\left|x_t-x_{t-1}\right|}.
